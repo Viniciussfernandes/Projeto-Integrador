@@ -37,15 +37,6 @@ public class CRUD extends Municipios {
 
    protected static List<Municipios> CRUD = new ArrayList<>();
    
-   public static boolean Create(int codigoIBGE, String nome, String microregiao,
-           String sigla, String regiao, double area, int populacao, int domicilios,
-           double IDHGeral, double RendaMedia, double RendaNominal, double PEADia,
-           double IDHEducacao, double IDHLongevidade){
-        
-       
-       
-   }
-   
    public static void Reader(String strpath) throws ParseException{
        try(BufferedReader br = new BufferedReader(new FileReader(strpath))) {
            String itemCsv = br.readLine();
