@@ -1,4 +1,7 @@
 ## Comandos GitHub
+- Logar no usuário\
+git config --global user.name "John Doe"\
+git config --global user.email johndoe@example.com
 - Colocar o codigo no repositorio \
 git init \
 git add . \
