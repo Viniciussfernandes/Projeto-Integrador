@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author kayque de freitas <kayquefreitas08@gmail.com>
+ * @author Willian Junior <willianjunior.c.f@gmail.com>
  */
 public class Program extends Application {
     
