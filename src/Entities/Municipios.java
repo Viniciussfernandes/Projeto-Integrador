@@ -31,8 +31,8 @@ public class Municipios {
     private String sigla;
     private String regiao;
     private Double area;
-    private Integer populacao;
-    private Integer domicilios;
+    private Double populacao;
+    private Double domicilios;
     private Double Densidade;
     private Double PIBTotal;
     private Double PIBpC;
@@ -49,7 +49,7 @@ public class Municipios {
     public Municipios() {
     }
 
-    public Municipios(Integer codigoIBGE, String nome, String microregiao, String sigla, String regiao, Double area, Integer populacao, Integer domicilios, Double Densidade, Double PIBTotal, Double PIBpC, Double IDHGeral, String ClassIDHG, Double RendaMedia, Double RendaNominal, Double PEADia, Double IDHEducacao, String ClassIDHE, Double IDHLongevidade, String ClassIDHL) {
+    public Municipios(Integer codigoIBGE, String nome, String microregiao, String sigla, String regiao, Double area, Double populacao, Double domicilios, Double PIBTotal, Double IDHGeral, Double RendaMedia, Double RendaNominal, Double PEADia, Double IDHEducacao, Double IDHLongevidade) {
         this.codigoIBGE = codigoIBGE;
         this.nome = nome;
         this.microregiao = microregiao;
@@ -58,20 +58,15 @@ public class Municipios {
         this.area = area;
         this.populacao = populacao;
         this.domicilios = domicilios;
-        this.Densidade = Densidade;
         this.PIBTotal = PIBTotal;
-        this.PIBpC = PIBpC;
         this.IDHGeral = IDHGeral;
-        this.ClassIDHG = ClassIDHG;
         this.RendaMedia = RendaMedia;
         this.RendaNominal = RendaNominal;
         this.PEADia = PEADia;
         this.IDHEducacao = IDHEducacao;
-        this.ClassIDHE = ClassIDHE;
         this.IDHLongevidade = IDHLongevidade;
-        this.ClassIDHL = ClassIDHL;
     }
-
+    
     public Integer getCodigoIBGE() {
         return codigoIBGE;
     }
@@ -120,19 +115,19 @@ public class Municipios {
         this.area = area;
     }
     
-    public Integer getPopulacao() {
+    public Double getPopulacao() {
         return populacao;
     }
     
-    public void setPopulacao(Integer populacao) {
+    public void setPopulacao(Double populacao) {
         this.populacao = populacao;
     }
     
-    public Integer getDomicilios() {
+    public Double getDomicilios() {
         return domicilios;
     }
 
-    public void setDomicilios(Integer domicilios) {
+    public void setDomicilios(Double domicilios) {
         this.domicilios = domicilios;
     }
 
