@@ -19,7 +19,6 @@
 package Services;
 
 import Entities.Municipios;
-import Services.Operacoes;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -38,6 +37,51 @@ public class CRUD extends Municipios {
 
    protected static List<Municipios> CRUD = new ArrayList<>();
    
+   public static void In() throws ParseException{
+       
+       String strpath = "C:\\Projeto Integrador\\In\\01.ProjetoIntegrador_BaseMunicipios_In.csv";
+       
+       File sourceFile = new File(strpath);
+       
+       try(BufferedReader br = new BufferedReader(new FileReader(sourceFile))) {
+           
+           String itemCsv = br.readLine();
+           
+           while(itemCsv != null){
+               
+               itemCsv = br.readLine();
+               
+               String[] fields = itemCsv.split(";");
+               
+               int codigoIBGE = Integer.parseInt(fields[0]);
+               String nome = fields[1];
+               String microregiao = fields[2];
+               String sigla = fields[3];
+               String regiao = fields[4];
+               double area = Double.parseDouble(fields[5].replace(",", "."));
+               double populacao = Double.parseDouble(fields[6].replace(",", "."));
+               double domicilios = Double.parseDouble(fields[7].replace(",", "."));
+               double PIBTotal = Double.parseDouble(fields[8].replace(",", "."));
+               double IDHGeral = Double.parseDouble(fields[9].replace(",", "."));
+               double RendaMedia = Double.parseDouble(fields[10].replace(",", "."));
+               double RendaNominal = Double.parseDouble(fields[11].replace(",", "."));
+               double PEADia = Double.parseDouble(fields[12].replace(",", "."));
+               double IDHEducacao = Double.parseDouble(fields[13].replace(",", "."));
+               double IDHLongevidade = Double.parseDouble(fields[14].replace(",", "."));
+               
+               Municipios mun = new Municipios(codigoIBGE, nome, microregiao, sigla,
+                    regiao, area, populacao, domicilios, PIBTotal, IDHGeral, RendaMedia,
+                      RendaNominal, PEADia, IDHEducacao, IDHLongevidade);
+               CRUD.add(mun);
+               
+               itemCsv = br.readLine();
+           }
+       }
+       catch(IOException e){
+       }
+       
+   } 
+      
    public static void Create(Municipios mun){
        
         double densidade = Operacoes.Densidade(mun.getPopulacao(), mun.getArea());
@@ -45,65 +89,34 @@ public class CRUD extends Municipios {
         String ClassIDH = Operacoes.ClassIDH(mun.getIDHGeral());
         String ClassIDHE = Operacoes.ClassIDH(mun.getIDHEducacao());
         String ClassIDHL = Operacoes.ClassIDH(mun.getIDHLongevidade());
-        
-        Municipios UpMun = new Municipios(mun.getCodigoIBGE(), mun.getNome(), mun.getMicroregiao(),
-                mun.getSigla(), mun.getRegiao(), mun.getArea(), mun.getPopulacao(), mun.getDomicilios(),
-                densidade, mun.getPIBTotal(), PIBpC, mun.getIDHGeral(), ClassIDH, mun.getRendaMedia(),
-                mun.getRendaNominal(), mun.getPEADia(), mun.getIDHEducacao(), ClassIDHE,
-                mun.getIDHLongevidade(), ClassIDHL);
-        
-        CRUD.add(UpMun);
    }
    
-   public static void Reader(String strpath) throws ParseException{
-       try(BufferedReader br = new BufferedReader(new FileReader(strpath))) {
-           String itemCsv = br.readLine();
-           
-           while(itemCsv != null){
-               String[] fields = itemCsv.split(",");
-               
-               int codigoIBGE = Integer.parseInt(fields[0]);
-               String nome = fields[1];
-               String microregiao = fields[2];
-               String sigla = fields[3];
-               String regiao = fields[4];
-               double area = Double.parseDouble(fields[5]);
-               int populacao = Integer.parseInt(fields[6]);
-               int domicilios = Integer.parseInt(fields[7]);
-               double densidade = Operacoes.Densidade(populacao, area);
-               double PIBTotal = Double.parseDouble(fields[8]);
-               double PIBpC = Operacoes.PIBpC(PIBTotal, populacao);
-               double IDHGeral = Double.parseDouble(fields[9]);
-               String ClassIDH = Operacoes.ClassIDH(IDHGeral);
-               double RendaMedia = Double.parseDouble(fields[10]);
-               double RendaNominal = Double.parseDouble(fields[11]);
-               double PEADia = Double.parseDouble(fields[12]);
-               double IDHEducacao = Double.parseDouble(fields[13]);
-               String ClassIDHE = Operacoes.ClassIDH(IDHEducacao);
-               double IDHLongevidade = Double.parseDouble(fields[14]);
-               String ClassIDHL = Operacoes.ClassIDH(IDHLongevidade);
-               
-               Municipios mun = new Municipios(codigoIBGE, nome, microregiao, sigla,
-                    regiao, area, populacao, domicilios, densidade, PIBTotal, PIBpC, IDHGeral,
-                       ClassIDH, RendaMedia, RendaNominal, PEADia, IDHEducacao, ClassIDHE,
-                       IDHLongevidade, ClassIDHL);
-               CRUD.add(mun);
-               
-               itemCsv = br.readLine();
-           }
+   public static void Reader(){
+       for(int i = 0; i < CRUD.size(); i++){
+           CRUD.get(i).getCodigoIBGE();
+           CRUD.get(i).getNome();
+           CRUD.get(i).getMicroregiao();
+           CRUD.get(i).getSigla();
+           CRUD.get(i).getRegiao();
+           CRUD.get(i).getArea();
+           CRUD.get(i).getPopulacao();
+           CRUD.get(i).getDomicilios();
+           CRUD.get(i).getPIBTotal();
+           CRUD.get(i).getIDHGeral();
+           CRUD.get(i).getRendaMedia();
+           CRUD.get(i).getRendaNominal();
+           CRUD.get(i).getPEADia();
+           CRUD.get(i).getClassIDHE();
+           CRUD.get(i).getClassIDHL();
        }
-       catch(IOException e){
-           System.out.println("Caminho invalido");
-       }
-       
    }
    
-   public static void UpdatePopulacao(int Index, int pop){
+   public static void UpdatePopulacao(int Index, double pop){
        CRUD.get(Index).setPopulacao(pop);
        CRUD.get(Index).setDensidade(Operacoes.Densidade(pop, CRUD.get(Index).getArea()));
    }
    
-   public static void UpdateDomicilios(int Index, int dom){
+   public static void UpdateDomicilios(int Index, double dom){
        CRUD.get(Index).setDomicilios(dom);
    }
    

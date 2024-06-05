@@ -25,11 +25,11 @@ package Services;
  */
 public class Operacoes {
     
-    public static double Densidade(Integer populacao, Double area){
+    public static double Densidade(Double populacao, Double area){
         return populacao / area;
     }
     
-    public static double PIBpC(Double PIBTotal, Integer populacao){
+    public static double PIBpC(Double PIBTotal, Double populacao){
         return PIBTotal / populacao;
     }
     
