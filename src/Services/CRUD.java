@@ -19,12 +19,14 @@
 package Services;
 
 import Entities.Municipios;
+import static Services.Validacao.cleanNumber;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -35,7 +37,7 @@ import java.util.List;
 
 public class CRUD extends Municipios {
 
-   protected static List<Municipios> CRUD = new ArrayList<>();
+   protected static List<Municipios> CSVIn = new ArrayList<>();
    
    public static void In() throws ParseException{
        
@@ -46,11 +48,11 @@ public class CRUD extends Municipios {
        try(BufferedReader br = new BufferedReader(new FileReader(sourceFile))) {
            
            String itemCsv = br.readLine();
+           itemCsv = br.readLine();
            
            while(itemCsv != null){
                
-               itemCsv = br.readLine();
-               
+               try{
                String[] fields = itemCsv.split(";");
                
                int codigoIBGE = Integer.parseInt(fields[0]);
@@ -58,102 +60,112 @@ public class CRUD extends Municipios {
                String microregiao = fields[2];
                String sigla = fields[3];
                String regiao = fields[4];
-               double area = Double.parseDouble(fields[5].replace(",", "."));
-               double populacao = Double.parseDouble(fields[6].replace(",", "."));
-               double domicilios = Double.parseDouble(fields[7].replace(",", "."));
-               double PIBTotal = Double.parseDouble(fields[8].replace(",", "."));
-               double IDHGeral = Double.parseDouble(fields[9].replace(",", "."));
-               double RendaMedia = Double.parseDouble(fields[10].replace(",", "."));
-               double RendaNominal = Double.parseDouble(fields[11].replace(",", "."));
-               double PEADia = Double.parseDouble(fields[12].replace(",", "."));
-               double IDHEducacao = Double.parseDouble(fields[13].replace(",", "."));
-               double IDHLongevidade = Double.parseDouble(fields[14].replace(",", "."));
+               double area = Double.parseDouble(cleanNumber(fields[5]));
+               double populacao = Double.parseDouble(cleanNumber(fields[6]));
+               double domicilios = Double.parseDouble(cleanNumber(fields[7]));
+               double PIBTotal = Double.parseDouble(cleanNumber(fields[8]));
+               double IDHGeral = Double.parseDouble(cleanNumber(fields[9]));
+               double RendaMedia = Double.parseDouble(cleanNumber(fields[10]));
+               double RendaNominal = Double.parseDouble(cleanNumber(fields[11]));
+               double PEADia = Double.parseDouble(cleanNumber(fields[12]));
+               double IDHEducacao = Double.parseDouble(cleanNumber(fields[13]));
+               double IDHLongevidade = Double.parseDouble(cleanNumber(fields[14]));
                
                Municipios mun = new Municipios(codigoIBGE, nome, microregiao, sigla,
                     regiao, area, populacao, domicilios, PIBTotal, IDHGeral, RendaMedia,
                       RendaNominal, PEADia, IDHEducacao, IDHLongevidade);
-               CRUD.add(mun);
+               CSVIn.add(mun);
                
                itemCsv = br.readLine();
-           }
+               
+               } catch (NumberFormatException e) {
+                   System.err.println("Erro ao converter número na linha: " + itemCsv);
+                   e.printStackTrace();
+               }
+            }
        }
+       
        catch(IOException e){
-       }
-       
-   } 
+               e.printStackTrace();
+               }
+       } 
       
-   public static void Create(Municipios mun){
+   public static void Create(){
        
-        double densidade = Operacoes.Densidade(mun.getPopulacao(), mun.getArea());
-        double PIBpC = Operacoes.PIBpC(mun.getPIBTotal(), mun.getPopulacao());
-        String ClassIDH = Operacoes.ClassIDH(mun.getIDHGeral());
-        String ClassIDHE = Operacoes.ClassIDH(mun.getIDHEducacao());
-        String ClassIDHL = Operacoes.ClassIDH(mun.getIDHLongevidade());
+       for (int i = 0; i < CSVIn.size(); i++) {
+           double densidade = Operacoes.Densidade(CSVIn.get(i).getPopulacao(), CSVIn.get(i).getArea());
+           double PIBpC = Operacoes.PIBpC(CSVIn.get(i).getPIBTotal(), CSVIn.get(i).getPopulacao());
+           String ClassIDH = Operacoes.ClassIDH(CSVIn.get(i).getIDHGeral());
+           String ClassIDHE = Operacoes.ClassIDH(CSVIn.get(i).getIDHEducacao());
+           String ClassIDHL = Operacoes.ClassIDH(CSVIn.get(i).getIDHLongevidade());
+           
+           CSVIn.get(i).setDensidade(densidade);
+           CSVIn.get(i).setPIBpC(PIBpC);
+           CSVIn.get(i).setClassIDHG(ClassIDH);
+           CSVIn.get(i).setClassIDHE(ClassIDHE);
+           CSVIn.get(i).setClassIDHL(ClassIDHL);
+       }
    }
    
+  /**
    public static void Reader(){
-       for(int i = 0; i < CRUD.size(); i++){
-           CRUD.get(i).getCodigoIBGE();
-           CRUD.get(i).getNome();
-           CRUD.get(i).getMicroregiao();
-           CRUD.get(i).getSigla();
-           CRUD.get(i).getRegiao();
-           CRUD.get(i).getArea();
-           CRUD.get(i).getPopulacao();
-           CRUD.get(i).getDomicilios();
-           CRUD.get(i).getPIBTotal();
-           CRUD.get(i).getIDHGeral();
-           CRUD.get(i).getRendaMedia();
-           CRUD.get(i).getRendaNominal();
-           CRUD.get(i).getPEADia();
-           CRUD.get(i).getClassIDHE();
-           CRUD.get(i).getClassIDHL();
+       for(int i = 0; i < CSVIn.size(); i++){
+           // Indeciso em como apresentar, quando fazer a tela, eu implemento
        }
-   }
+   }*/
+   
    
    public static void UpdatePopulacao(int Index, double pop){
-       CRUD.get(Index).setPopulacao(pop);
-       CRUD.get(Index).setDensidade(Operacoes.Densidade(pop, CRUD.get(Index).getArea()));
+       CSVIn.get(Index).setPopulacao(pop);
+       CSVIn.get(Index).setDensidade(Operacoes.Densidade(pop, CSVIn.get(Index).getArea()));
    }
    
    public static void UpdateDomicilios(int Index, double dom){
-       CRUD.get(Index).setDomicilios(dom);
+       CSVIn.get(Index).setDomicilios(dom);
    }
    
    public static void UpdatePIBTotal(int Index, double pib){
-       CRUD.get(Index).setPIBTotal(pib);
-       CRUD.get(Index).setPIBpC(Operacoes.PIBpC(pib, CRUD.get(Index).getPopulacao()));
+       CSVIn.get(Index).setPIBTotal(pib);
+       CSVIn.get(Index).setPIBpC(Operacoes.PIBpC(pib, CSVIn.get(Index).getPopulacao()));
    }
    
    public static void UpdateIDHG(int Index, double idh){
-       CRUD.get(Index).setIDHGeral(idh);
-       CRUD.get(Index).setClassIDHG(Operacoes.ClassIDH(idh));
+       CSVIn.get(Index).setIDHGeral(idh);
+       CSVIn.get(Index).setClassIDHG(Operacoes.ClassIDH(idh));
    }
    
    public static void UpdateRendaMedia(int Index, double rendM){
-       CRUD.get(Index).setRendaMedia(rendM);
+       CSVIn.get(Index).setRendaMedia(rendM);
    }
    
    public static void UpdateRendaNominal(int Index, double rendN){
-       CRUD.get(Index).setRendaNominal(rendN);
+       CSVIn.get(Index).setRendaNominal(rendN);
    }
    
    public static void UpdatePEADia(int Index, double pe){
-       CRUD.get(Index).setPEADia(pe);
+       CSVIn.get(Index).setPEADia(pe);
    }
    
    public static void UpdateIDHE(int Index, double idh){
-       CRUD.get(Index).setIDHEducacao(idh);
-       CRUD.get(Index).setClassIDHE(Operacoes.ClassIDH(idh));
+       CSVIn.get(Index).setIDHEducacao(idh);
+       CSVIn.get(Index).setClassIDHE(Operacoes.ClassIDH(idh));
    }
    
    public static void UpdateIDHL(int Index, double idh){
-       CRUD.get(Index).setIDHLongevidade(idh);
-       CRUD.get(Index).setClassIDHL(Operacoes.ClassIDH(idh));
+       CSVIn.get(Index).setIDHLongevidade(idh);
+       CSVIn.get(Index).setClassIDHL(Operacoes.ClassIDH(idh));
    }
    
-   public static void Delete(int index){
-       CRUD.remove(index);
-   } 
-    
+   
+   public static void Delete(String municipio, Integer codigoIBGE){
+       Iterator<Municipios> iterator = CSVIn.iterator();
+       while(iterator.hasNext()){
+           Municipios mun = iterator.next();
+           if(mun.getNome().equals(municipio)){
+               iterator.remove();
+           } else if(mun.getNome().equals(codigoIBGE)){
+               iterator.remove();
+           }
+       }
+   }
 }

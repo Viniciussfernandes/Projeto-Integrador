@@ -16,20 +16,29 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-import Services.CRUD;
-import java.text.ParseException;
-import java.util.Locale;
+package Entities;
 
 /**
+ *
  * @author Willian Junior <willianjunior.c.f@gmail.com>
- * @date 30/05/2024
- * @brief Class teste
+ * @date 05/06/2024
+ * @brief Class Perfil
  */
+public class Perfil {
 
-public class teste {
-    public static void main(String[] args) throws ParseException {
-        CRUD.In();
-        CRUD.Create();
-        System.out.println("");
+    private String nome;
+    private String CPF;
+
+    public Perfil(String nome, String CPF) {
+        this.nome = nome;
+        this.CPF = CPF;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCPF() {
+        return CPF;
     }
 }
