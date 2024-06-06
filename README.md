@@ -1,15 +1,24 @@
-# Projeto Integrador
-Nome do projeto: Densus
+## Comandos GitHub
+- Logar no usuário\
+git config --global user.name "John Doe"\
+git config --global user.email johndoe@example.com
+- Colocar o codigo no repositorio \
+git init \
+git add . \
+git commit -m "Mensagem explicativa" \
+git branch -M codigo-fonte \
+git remote add origin https://github.com/Viniciussfernandes/Projeto-Integrador \
+git push -u origin codigo-fonte
 
-Metodologia: SCRUM
-### Equipe
-Scrum master: 
-- Caio Cintra
+- Clonar repositorio para modificação\
+git clone https://github.com/Viniciussfernandes/Projeto-Integrador \
+git add . \
+git commit -m "Mensagem explicativa" \
+git push
 
-Equipe de desenvolvimento:
-- Davi Erick
-- Vinicius de Souza
-- Willian Junior
-### Objetivo
-Com o intuito de sermos avaliados para a formação da nota do PI, temos como objetivo a criação de um projeto que busca desenvolver um software, na linguagem Java Desktop, que auxilie o Instituto Brasileiro de Geografia e Estatística (IBGE) a automatizar o gerenciamento e controle das informações entregues pelos recenseadores da instituição, responsável direto pelo contato com o público na coleta dos dados da população, por meio das entrevistas realizadas durante o censo.\
-Para esse fim, estaremos usando dados ficticios através de uma CSV, Comma Separated Values, disponibilizado pela equipe docente do SENAI FATESG, os quais serão responsaveis pela nossa avaliação.
+- Resolver push rejeitado, a ideia é sincronizar o historico do repositorio com o da maquina\
+git pull origin (branch correspondente) --allow-unrelated-histories
+
+- Historico de commit \
+git log\
+git log --oneline
