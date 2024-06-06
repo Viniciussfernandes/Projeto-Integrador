@@ -33,22 +33,23 @@ public class Municipios {
     private Double area;
     private Double populacao;
     private Double domicilios;
-    private Double Densidade;
     private Double PIBTotal;
-    private Double PIBpC;
     private Double IDHGeral;
-    private String ClassIDHG;
     private Double RendaMedia;
     private Double RendaNominal;
     private Double PEADia;
     private Double IDHEducacao;
-    private String ClassIDHE;
     private Double IDHLongevidade;
+    
+    private Double Densidade;
+    private Double PIBpC;
+    private String ClassIDHG;
+    private String ClassIDHE;
     private String ClassIDHL;
 
     public Municipios() {
     }
-
+    
     public Municipios(Integer codigoIBGE, String nome, String microregiao, String sigla, String regiao, Double area, Double populacao, Double domicilios, Double PIBTotal, Double IDHGeral, Double RendaMedia, Double RendaNominal, Double PEADia, Double IDHEducacao, Double IDHLongevidade) {
         this.codigoIBGE = codigoIBGE;
         this.nome = nome;
@@ -66,166 +67,143 @@ public class Municipios {
         this.IDHEducacao = IDHEducacao;
         this.IDHLongevidade = IDHLongevidade;
     }
-    
+
     public Integer getCodigoIBGE() {
         return codigoIBGE;
     }
 
-    public void setCodigoIBGE(Integer codigoIBGE) {
-        this.codigoIBGE = codigoIBGE;
-    }
-    
     public String getNome() {
         return nome;
     }
-    
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    
+
     public String getMicroregiao() {
         return microregiao;
     }
 
-    public void setMicroregiao(String microregiao) {
-        this.microregiao = microregiao;
-    }
-    
     public String getSigla() {
         return sigla;
     }
-    
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
-    }
-    
+
     public String getRegiao() {
         return regiao;
     }
 
-    public void setRegiao(String regiao) {
-        this.regiao = regiao;
-    }
-    
     public Double getArea() {
         return area;
     }
 
-    public void setArea(Double area) {
-        this.area = area;
-    }
-    
     public Double getPopulacao() {
         return populacao;
     }
-    
-    public void setPopulacao(Double populacao) {
-        this.populacao = populacao;
-    }
-    
+
     public Double getDomicilios() {
         return domicilios;
     }
 
-    public void setDomicilios(Double domicilios) {
-        this.domicilios = domicilios;
-    }
-
-    public Double getDensidade() {
-        return Densidade;
-    }
-
-    public void setDensidade(Double Densidade) {
-        this.Densidade = Densidade;
-    }
-    
     public Double getPIBTotal() {
         return PIBTotal;
     }
 
-    public void setPIBTotal(Double PIBTotal) {
-        this.PIBTotal = PIBTotal;
-    }
-
-    public Double getPIBpC() {
-        return PIBpC;
-    }
-
-    public void setPIBpC(Double PIBpC) {
-        this.PIBpC = PIBpC;
-    }
-    
     public Double getIDHGeral() {
         return IDHGeral;
     }
-    
-    public void setIDHGeral(Double IDHGeral) {
-        this.IDHGeral = IDHGeral;
-    }
 
-    public String getClassIDHG() {
-        return ClassIDHG;
-    }
-
-    public void setClassIDHG(String ClassIDHG) {
-        this.ClassIDHG = ClassIDHG;
-    }
-    
     public Double getRendaMedia() {
         return RendaMedia;
-    }
-
-    public void setRendaMedia(Double RendaMedia) {
-        this.RendaMedia = RendaMedia;
     }
 
     public Double getRendaNominal() {
         return RendaNominal;
     }
 
-    public void setRendaNominal(Double RendaNominal) {
-        this.RendaNominal = RendaNominal;
-    }
-
     public Double getPEADia() {
         return PEADia;
     }
 
-    public void setPEADia(Double PEADia) {
-        this.PEADia = PEADia;
-    }
-
-    
     public Double getIDHEducacao() {
         return IDHEducacao;
     }
-    
-    public void setIDHEducacao(Double IDHEducacao) {
-        this.IDHEducacao = IDHEducacao;
+
+    public Double getIDHLongevidade() {
+        return IDHLongevidade;
+    }
+
+    public Double getDensidade() {
+        return Densidade;
+    }
+
+    public Double getPIBpC() {
+        return PIBpC;
+    }
+
+    public String getClassIDHG() {
+        return ClassIDHG;
     }
 
     public String getClassIDHE() {
         return ClassIDHE;
     }
 
-    public void setClassIDHE(String ClassIDHE) {
-        this.ClassIDHE = ClassIDHE;
-    }
-    
-    public Double getIDHLongevidade() {
-        return IDHLongevidade;
-    }
-    
-    public void setIDHLongevidade(Double IDHLongevidade) {
-        this.IDHLongevidade = IDHLongevidade;
-    }
-
     public String getClassIDHL() {
         return ClassIDHL;
     }
 
+    // Sets para a operação Create
+    public void setDensidade(Double Densidade) {
+        this.Densidade = Densidade;
+    }
+
+    public void setPIBpC(Double PIBpC) {
+        this.PIBpC = PIBpC;
+    }
+
+    public void setClassIDHG(String ClassIDHG) {
+        this.ClassIDHG = ClassIDHG;
+    }
+
+    public void setClassIDHE(String ClassIDHE) {
+        this.ClassIDHE = ClassIDHE;
+    }
+
     public void setClassIDHL(String ClassIDHL) {
         this.ClassIDHL = ClassIDHL;
+    }
+    
+    // Sets para a Operação Update
+    public void setPopulacao(Double populacao) {
+        this.populacao = populacao;
+    }
+
+    public void setDomicilios(Double domicilios) {
+        this.domicilios = domicilios;
+    }
+
+    public void setPIBTotal(Double PIBTotal) {
+        this.PIBTotal = PIBTotal;
+    }
+
+    public void setIDHGeral(Double IDHGeral) {
+        this.IDHGeral = IDHGeral;
+    }
+
+    public void setRendaMedia(Double RendaMedia) {
+        this.RendaMedia = RendaMedia;
+    }
+
+    public void setRendaNominal(Double RendaNominal) {
+        this.RendaNominal = RendaNominal;
+    }
+
+    public void setPEADia(Double PEADia) {
+        this.PEADia = PEADia;
+    }
+
+    public void setIDHEducacao(Double IDHEducacao) {
+        this.IDHEducacao = IDHEducacao;
+    }
+
+    public void setIDHLongevidade(Double IDHLongevidade) {
+        this.IDHLongevidade = IDHLongevidade;
     }
     
 }

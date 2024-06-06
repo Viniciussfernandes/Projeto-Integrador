@@ -17,5 +17,7 @@ import java.util.Locale;
 public class teste {
     public static void main(String[] args) throws ParseException {
         CRUD.In();
+        CRUD.Create();
+        System.out.println("");
     }
 }
