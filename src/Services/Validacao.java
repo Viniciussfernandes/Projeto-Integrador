@@ -35,32 +35,42 @@ public class Validacao {
     
     public static boolean validarCPF(String CPF){
         
-        if(CPF.length() < 11){
+        CPF = CPF.replaceAll("[^0-9]", "");
+        
+        if(CPF.length() > 11){
             return false;
-        }
+        } else if(CPF.matches("(\\d)\\1{10}")){
+            return false;
+        } else {
+            int soma = 0;
+            
+            for(int i = 0; i < 9; i++){
+                soma += Character.getNumericValue(CPF.charAt(i)) * (10 - i);
+            }
+            
+            int PrimeiroDigito = soma % 11;
+            PrimeiroDigito = 11 - PrimeiroDigito;
+            
+            if(PrimeiroDigito >= 10){
+                PrimeiroDigito = 0;
+            }
         
-        int sum = 0;
-        for(int i = 0; i <= 9; i++){
-            sum =+ Character.getNumericValue(CPF.charAt(i)) * (10 - i);
-        }
-        int PrimeiroDigito = sum % 11;
-        PrimeiroDigito -= 11;
-        if(PrimeiroDigito >= 10){
-            PrimeiroDigito = 0;
-        }
+            soma = 0;
+            
+            for(int i = 0; i < 10; i++){
+                soma += Character.getNumericValue(CPF.charAt(i)) * (11 - i);
+            }
+            
+            int SegundoDigito = soma % 11;
+            SegundoDigito = 11 - SegundoDigito;
+            
+            if(SegundoDigito >= 10){
+                SegundoDigito = 0;
+            }
         
-        sum = 0;
-        for(int i = 0; i <= 10; i++){
-            sum =+ Character.getNumericValue(CPF.charAt(i)) * (11 - i);
+            return PrimeiroDigito == Character.getNumericValue(CPF.charAt(9)) &&
+                    SegundoDigito == Character.getNumericValue(CPF.charAt(10));
         }
-        int SegundoDigito = sum % 11;
-        SegundoDigito -= 11;
-        if(SegundoDigito >= 10){
-            SegundoDigito = 0;
-        }
-        
-        return PrimeiroDigito == Character.getNumericValue(CPF.charAt(9)) &&
-                SegundoDigito == Character.getNumericValue(CPF.charAt(10));
         
     }
 }

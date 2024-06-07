@@ -21,9 +21,12 @@ package Services;
 import Entities.Municipios;
 import static Services.Validacao.cleanNumber;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -166,6 +169,44 @@ public class CRUD extends Municipios {
            } else if(mun.getNome().equals(codigoIBGE)){
                iterator.remove();
            }
+       }
+   }
+   
+   public static void Out(){
+       try(BufferedWriter bw = new BufferedWriter(new FileWriter
+        ("C:\\Projeto Integrador\\Out\\01.ProjetoIntegrador_BaseMunicipios_Out.csv", StandardCharsets.UTF_8))){
+           bw.write("Codigo IBGE" + ";" + "Municípios" + ";" + "Microregião" + ";" +
+                   "Estado" + ";" + "Região Geográfica" + ";" + "Área Km²" + ";" +
+                   "População" + ";" + "Densidade" + ";" + "Domicílios" + ";" + 
+                   "PIB Total (R$ mil)" + ";" + "PIB per Capita Total" + ";" +
+                   "IDH - Índice de Desenv. Humano" + ";" + "Classificação de IDH - Desenv. Humano" + ";" +
+                   "Renda Média" + ";" + "Renda Nominal" + ";" + "PEA Dia" + ";" +
+                   "IDH - Dimensão Educação" + ";" + "Classificação do IDH - Dimensão Educação" + ";" +
+                   "IDH - Dimensão Longevidade" + ";" + "Classificação do IDH - Dimensão Longevidade");
+           bw.newLine();
+           
+           for(Municipios out : CSVIn){
+               bw.write(out.getCodigoIBGE() + ";" + out.getNome() + ";" +
+                       out.getMicroregiao() + ";" + out.getSigla() + ";" +
+                       out.getRegiao() + ";" + String.format("%.2f", out.getArea()) + ";" +
+                       String.format("%.2f", out.getPopulacao()) + ";" +
+                       String.format("%.2f", out.getDensidade()) + ";" +
+                       String.format("%.2f", out.getDomicilios()) + ";" +
+                       String.format("%.2f", out.getPIBTotal()) + ";" +
+                       String.format("%.2f", out.getPIBpC()) + ";" +
+                       String.format("%.2f", out.getIDHGeral()) + ";" +
+                       out.getClassIDHG() + ";" +
+                       String.format("%.2f", out.getRendaMedia()) + ";" +
+                       String.format("%.2f", out.getRendaNominal()) + ";" +
+                       String.format("%.2f", out.getPEADia()) + ";" +
+                       String.format("%.2f", out.getIDHEducacao()) + ";" +
+                       out.getClassIDHE() + ";" +
+                       String.format("%.2f", out.getIDHLongevidade()) + ";" +
+                       out.getClassIDHL());
+               bw.newLine();
+           }
+       } catch(IOException e){
+           
        }
    }
 }
