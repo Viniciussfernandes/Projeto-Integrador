@@ -17,8 +17,10 @@
  */
 
 import Services.CRUD;
+import Services.Validacao;
 import java.text.ParseException;
 import java.util.Locale;
+import java.util.Scanner;
 
 /**
  * @author Willian Junior <willianjunior.c.f@gmail.com>
@@ -30,6 +32,6 @@ public class teste {
     public static void main(String[] args) throws ParseException {
         CRUD.In();
         CRUD.Create();
-        System.out.println("");
+        CRUD.Out();
     }
 }

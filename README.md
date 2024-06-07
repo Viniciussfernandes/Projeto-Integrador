@@ -2,6 +2,10 @@
 - Logar no usuário\
 git config --global user.name "John Doe"\
 git config --global user.email johndoe@example.com
+
+- Excluir informação no config
+git config --global --unset-all "user.mail"
+
 - Colocar o codigo no repositorio \
 git init \
 git add . \
