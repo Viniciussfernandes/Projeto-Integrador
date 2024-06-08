@@ -23,7 +23,8 @@ package Entities;
  * @date 30/05/2024
  * @brief Class Municipios
  */
-public class Municipios {
+
+public class Municipio {
     
     private Integer codigoIBGE;
     private String nome;
@@ -41,16 +42,18 @@ public class Municipios {
     private Double IDHEducacao;
     private Double IDHLongevidade;
     
+    // Variaveis calculadas
     private Double Densidade;
     private Double PIBpC;
     private String ClassIDHG;
     private String ClassIDHE;
     private String ClassIDHL;
 
-    public Municipios() {
+    public Municipio() {
     }
     
-    public Municipios(Integer codigoIBGE, String nome, String microregiao, String sigla, String regiao, Double area, Double populacao, Double domicilios, Double PIBTotal, Double IDHGeral, Double RendaMedia, Double RendaNominal, Double PEADia, Double IDHEducacao, Double IDHLongevidade) {
+    //Construtor com as variaveis fora as calculaveis
+    public Municipio(Integer codigoIBGE, String nome, String microregiao, String sigla, String regiao, Double area, Double populacao, Double domicilios, Double PIBTotal, Double IDHGeral, Double RendaMedia, Double RendaNominal, Double PEADia, Double IDHEducacao, Double IDHLongevidade) {
         this.codigoIBGE = codigoIBGE;
         this.nome = nome;
         this.microregiao = microregiao;
@@ -148,7 +151,7 @@ public class Municipios {
         return ClassIDHL;
     }
 
-    // Sets para a operaÃ§Ã£o Create
+    // Sets para a operação Create
     public void setDensidade(Double Densidade) {
         this.Densidade = Densidade;
     }
@@ -169,7 +172,7 @@ public class Municipios {
         this.ClassIDHL = ClassIDHL;
     }
     
-    // Sets para a OperaÃ§Ã£o Update
+    // Sets para a Operação Update
     public void setPopulacao(Double populacao) {
         this.populacao = populacao;
     }
@@ -205,5 +208,4 @@ public class Municipios {
     public void setIDHLongevidade(Double IDHLongevidade) {
         this.IDHLongevidade = IDHLongevidade;
     }
-    
 }

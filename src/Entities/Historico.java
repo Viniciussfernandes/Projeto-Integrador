@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 aluno
+ * Copyright (C) 2024 Willian Junior <willianjunior.c.f@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,15 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package Entities;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- *
- * @author aluno
+ * @author Willian Junior <willianjunior.c.f@gmail.com>
+ * @date 07/06/2024
+ * @brief Class Arquivos
  */
+
 public class Historico extends Perfil {
 
     public Historico(String nome, String CPF) {

@@ -18,7 +18,7 @@
 
 package Services;
 
-import Entities.Municipios;
+import Entities.Municipio;
 import static Services.CRUD.CSVIn;
 import static Services.Validacao.cleanNumber;
 import java.io.BufferedReader;
@@ -37,29 +37,38 @@ import java.text.ParseException;
  * @date 08/06/2024
  * @brief Class Arquivos
  */
+
 public class Arquivo {
 
+    // Metodo para ler o arquivo
     public static void In() throws ParseException{
-       
-       String strpath = "C:\\Projeto Integrador\\In\\01.ProjetoIntegrador_BaseMunicipios_In.csv";
-       
-       File sourceFile = new File(strpath);
-       /** Tive muito problemas com a acentua√ß√£o do arquivo lido e gerado, por isso pesquisei bastante e descobrir 
+       /** Tive muito problemas com a acentuaÁ„o do arquivo lido e gerado, por isso pesquisei bastante e descobrir 
         * que tenho que ver qual o encoding do arquivo que estou trabalhando e descobri que o arquivo .csv postado no classroom
         * esta como ANSI e acabei chegando nesse codigo abaixo
         */
          Charset encoding = Charset.forName("windows-1252");
          
-       try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sourceFile), encoding))) {
+       /** FileInputStream vai abrir o arquivo em um determinado endereÁo e o InputStreamReader
+        * vai especificar qual o enconding que irei utilizar, sendo o mesmo que o arquivo
+        * original, ANSI, logo apÛs o BufferedReader armazenara essa leitura.
+        */
+       try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(
+       "C:\\Projeto Integrador\\In\\01.ProjetoIntegrador_BaseMunicipios_In.csv"), encoding))) {
+           
+           /** A varivael itemCsv vai ser responsavel por ler a linha e uso 2 vezes
+            * para poder pular a primeira linha, pois a primeira È o titulo
+            */ 
            
            String itemCsv = br.readLine();
            itemCsv = br.readLine();
            
+           // Loop responsavel por ler todas as 247 linhas do .csv
            while(itemCsv != null){
                
-               try{
+               // Separo todos os Strings com .split usando ";" como parametro
                String[] fields = itemCsv.split(";");
                
+               // Esse bloco transformara os Strings em seus respectivos tipos
                int codigoIBGE = Integer.parseInt(fields[0]);
                String nome = fields[1];
                String microregiao = fields[2];
@@ -76,17 +85,14 @@ public class Arquivo {
                double IDHEducacao = Double.parseDouble(cleanNumber(fields[13]));
                double IDHLongevidade = Double.parseDouble(cleanNumber(fields[14]));
                
-               Municipios mun = new Municipios(codigoIBGE, nome, microregiao, sigla,
+               // Instanciando a classe para pÙr na lista CSVIn
+               Municipio mun = new Municipio(codigoIBGE, nome, microregiao, sigla,
                     regiao, area, populacao, domicilios, PIBTotal, IDHGeral, RendaMedia,
                       RendaNominal, PEADia, IDHEducacao, IDHLongevidade);
                CSVIn.add(mun);
                
+               //Assim passa para a proxima linha atÈ aparecer null
                itemCsv = br.readLine();
-               
-               } catch (NumberFormatException e) {
-                   System.err.println("Erro ao converter n√É¬∫mero na linha: " + itemCsv);
-                   e.printStackTrace();
-               }
             }
        }
        
@@ -95,21 +101,29 @@ public class Arquivo {
                }
        } 
       
-   public static void Out(){
+    // Metodo para exportar o arquivo
+    public static void Out(){
+        // Da mesma forma que eu defino um enconding para ler, especifico qual vai ser na hora de exportar
         Charset encoding = Charset.forName("windows-1252");
-       try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream
+        // Segue a mesma logica do In() so que com metodos para out
+        try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream
         ("C:\\Projeto Integrador\\Out\\01.ProjetoIntegrador_BaseMunicipios_Out.csv"), encoding))){
-           bw.write("C√≥digo IBGE" + ";" + "Munic√≠¬≠pios" + ";" + "Microregi√£o" + ";" +
-                   "Estado" + ";" + "Regi√£o Geogr√°fica" + ";" + "√Årea km¬≤" + ";" +
-                   "Popula√ß√£o" + ";" + "Densidade" + ";" + "Domic√≠lios" + ";" + 
+            // Para definir os titulos
+            bw.write("CÛdigo IBGE" + ";" + "MunicÌ≠pios" + ";" + "Microregi„o" + ";" +
+                   "Estado" + ";" + "Regi„o Geogr·fica" + ";" + "¡rea km≤" + ";" +
+                   "PopulaÁ„o" + ";" + "Densidade" + ";" + "DomicÌlios" + ";" + 
                    "PIB Total (R$ mil)" + ";" + "PIB per Capita Total" + ";" +
-                   "IDH - √çndice de Desenv. Humano" + ";" + "Classifica√ß√£o de IDH - Desenv. Humano" + ";" +
-                   "Renda M√©dia" + ";" + "Renda Nominal" + ";" + "PEA Dia" + ";" +
-                   "IDH - Dimens√ß√£o Educa√É¬ß√É¬£o" + ";" + "Classifica√ß√£o do IDH - Dimens√£o Educa√ß√£o" + ";" +
-                   "IDH - Dimens√ß√£o Longevidade" + ";" + "Classifica√ß√£o do IDH - Dimens√£o Longevidade");
+                   "IDH - Õndice de Desenv. Humano" + ";" + "ClassificaÁ„o de IDH - Desenv. Humano" + ";" +
+                   "Renda MÈdia" + ";" + "Renda Nominal" + ";" + "PEA Dia" + ";" +
+                   "IDH - DimensÁ„o Educa√ß√£o" + ";" + "ClassificaÁ„o do IDH - Dimens„o EducaÁ„o" + ";" +
+                   "IDH - DimensÁ„o Longevidade" + ";" + "ClassificaÁ„o do IDH - Dimens„o Longevidade");
            bw.newLine();
            
-           for(Municipios out : CSVIn){
+           // Loop que vai escrever cada linha
+           for(Municipio out : CSVIn){
+               /** Da mesma forma que eu separei a String usando ";" estarei usando
+                * para pular a celula ou para separar mesmo
+                */
                bw.write(out.getCodigoIBGE() + ";" + out.getNome() + ";" +
                        out.getMicroregiao() + ";" + out.getSigla() + ";" +
                        out.getRegiao() + ";" + String.format("%.2f", out.getArea()) + ";" +
@@ -133,5 +147,4 @@ public class Arquivo {
            
        }
    }
-    
 }

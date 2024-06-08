@@ -28,6 +28,7 @@ import static Services.CRUD.CSVIn;
 
 public class Operacao {
     
+    // Operações de acordo com o arquivo disponibilizado no classroom
     public static double Densidade(Double populacao, Double area){
         return populacao / area;
     }
@@ -36,9 +37,24 @@ public class Operacao {
         return PIBTotal / populacao;
     }
     
+    public static String classIDH(Double IDH){
+        if(IDH > 0.80){
+            return "Muito alto";
+        } else if(IDH > 0.70 && IDH <= 0.80){
+            return "Alto";
+        } else if(IDH > 0.55 && IDH <= 0.70){
+            return "Medio";
+        } else if(IDH < 0.55){
+            return "Baixo";
+        } else return "Não foi possivel calcular";
+    }
+    
+    // Metodos para a atividade do Ujeverson
     public static String melhorPIBpC(){
+        // Inicializando as variaveis fora do loop
         double maior = 0;
         int index = 0;
+        // Loop responsavel por varrer a lista para armazenar o maior PIBpc
         for(int i = 0; i < CSVIn.size(); i++){
             if(CSVIn.get(i).getPIBpC() > maior){
                 maior = CSVIn.get(i).getPIBpC();
@@ -55,6 +71,7 @@ public class Operacao {
                 ", Classificação: " + CSVIn.get(index).getClassIDHL();
     }
     
+    // Segue a mesma logica do que o de cima so que o pior PIBpC
     public static String piorPIBpC(){
         double menor = 0;
         int index = 0;
@@ -74,6 +91,7 @@ public class Operacao {
                 ", Classificação: " + CSVIn.get(index).getClassIDHL();
     }
     
+    // Segue a mesma logica so que com uma condição a mais
     public static String melhorPIBpCpiorIDHE(){
         double pib = 0;
         double idh = 0;
@@ -93,17 +111,5 @@ public class Operacao {
                 ", Classificação: " + CSVIn.get(index).getClassIDHE()+ 
                 "\nIDH - Dimensão Longevidade: " + CSVIn.get(index).getIDHLongevidade() +
                 ", Classificação: " + CSVIn.get(index).getClassIDHL();
-    }
-    
-    public static String classIDH(Double IDH){
-        if(IDH > 0.80){
-            return "Muito alto";
-        } else if(IDH > 0.70 && IDH <= 0.80){
-            return "Alto";
-        } else if(IDH > 0.55 && IDH <= 0.70){
-            return "Medio";
-        } else if(IDH < 0.55){
-            return "Baixo";
-        } else return "Não foi possivel calcular";
     }
 }

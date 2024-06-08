@@ -35,12 +35,6 @@ import java.util.Scanner;
 
 public class teste {
     public static void main(String[] args) throws ParseException {
-        Arquivo.In();
-        CRUD.Create();
-        System.out.println(Operacao.melhorPIBpC());
-        System.out.println("");
-        System.out.println(Operacao.piorPIBpC());
-        System.out.println("");
-        System.out.println(Operacao.melhorPIBpCpiorIDHE());
+        // Teste aqui
     }
 }

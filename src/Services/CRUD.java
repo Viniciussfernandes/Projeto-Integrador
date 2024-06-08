@@ -19,27 +19,8 @@
 package Services;
 
 import Entities.Historico;
-import Entities.Municipios;
-import Entities.Perfil;
-import static Services.Validacao.cleanNumber;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import Entities.Municipio;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -48,18 +29,22 @@ import java.util.List;
  * @brief Class CRUD
  */
 
-public class CRUD extends Municipios {
+public class CRUD extends Municipio {
 
-   protected static List<Municipios> CSVIn = new ArrayList<>();
+    // Lista para armazenar os dados das linhas
+   protected static List<Municipio> CSVIn = new ArrayList<>();
    
+   // Metodo para inserir as informações calculaveis
    public static void Create(){
        for (int i = 0; i < CSVIn.size(); i++) {
+           // Calculando com base no que tem no CSVIn
            double densidade = Operacao.Densidade(CSVIn.get(i).getPopulacao(), CSVIn.get(i).getArea());
            double PIBpC = Operacao.PIBpC(CSVIn.get(i).getPIBTotal(), CSVIn.get(i).getPopulacao());
            String ClassIDH = Operacao.classIDH(CSVIn.get(i).getIDHGeral());
            String ClassIDHE = Operacao.classIDH(CSVIn.get(i).getIDHEducacao());
            String ClassIDHL = Operacao.classIDH(CSVIn.get(i).getIDHLongevidade());
            
+           // Uso os sets para colocar na lista
            CSVIn.get(i).setDensidade(densidade);
            CSVIn.get(i).setPIBpC(PIBpC);
            CSVIn.get(i).setClassIDHG(ClassIDH);
@@ -75,9 +60,16 @@ public class CRUD extends Municipios {
        }
    }*/
    
+   /** Todos os Updates seguem a mesma logica. Indicando o codigoIBGE para atualizar
+    * uma informação especifica. Como cada construtor precisa de uma informação especifica
+    * então separei em blocos especificos, tambem para conseguir atualizar um sem precisar dos
+    * outros.
+    */
    public static void UpdatePopulacao(int Index, double pop, Historico hist){
+       // Usando sets para atualizar a lista
        CSVIn.get(Index).setPopulacao(pop);
        CSVIn.get(Index).setDensidade(Operacao.Densidade(pop, CSVIn.get(Index).getArea()));
+       // Armazenando as informações da atualização
        hist.setUpdateData(hist.getNow(),hist.getFmt());
        hist.setUpdateTipo("População e Densidade");
        hist.setUpdateValor(pop);
@@ -143,8 +135,9 @@ public class CRUD extends Municipios {
        hist.setUpdateValor(idh);
    }
    
-   
+   // Metodo para deletar uma linha
    public static void Delete(String municipio, Integer codigoIBGE){
+       // Um simples loop com o if responsavel por achar a linha e exclui-la
        for(int i = 0; i < CSVIn.size(); i++){
             if (CSVIn.get(i).getCodigoIBGE().equals(codigoIBGE) || 
                     CSVIn.get(i).getNome().equals(municipio)){
