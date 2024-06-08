@@ -18,17 +18,27 @@
 
 package Services;
 
+import Entities.Historico;
 import Entities.Municipios;
+import Entities.Perfil;
 import static Services.Validacao.cleanNumber;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,13 +52,23 @@ public class CRUD extends Municipios {
 
    protected static List<Municipios> CSVIn = new ArrayList<>();
    
+   String UpdateDate;
+   String UpdateNome;
+   String UpdateCPF;
+   String UpdateType;
+   
    public static void In() throws ParseException{
        
        String strpath = "C:\\Projeto Integrador\\In\\01.ProjetoIntegrador_BaseMunicipios_In.csv";
        
        File sourceFile = new File(strpath);
-       
-       try(BufferedReader br = new BufferedReader(new FileReader(sourceFile))) {
+       /** Tive muito problemas com a acentuação do arquivo lido e gerado, por isso pesquisei bastante e descobrir 
+        * que tenho que ver qual o encoding do arquivo que estou trabalhando e descobri que o arquivo .csv postado no classroom
+        * esta como ANSI e acabei chegando nesse codigo abaixo
+        */
+         Charset encoding = Charset.forName("windows-1252");
+         
+       try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sourceFile), encoding))) {
            
            String itemCsv = br.readLine();
            itemCsv = br.readLine();
@@ -82,7 +102,7 @@ public class CRUD extends Municipios {
                itemCsv = br.readLine();
                
                } catch (NumberFormatException e) {
-                   System.err.println("Erro ao converter número na linha: " + itemCsv);
+                   System.err.println("Erro ao converter nÃºmero na linha: " + itemCsv);
                    e.printStackTrace();
                }
             }
@@ -118,45 +138,63 @@ public class CRUD extends Municipios {
    }*/
    
    
-   public static void UpdatePopulacao(int Index, double pop){
+   public static void UpdatePopulacao(int Index, double pop, Historico hist){
        CSVIn.get(Index).setPopulacao(pop);
        CSVIn.get(Index).setDensidade(Operacoes.Densidade(pop, CSVIn.get(Index).getArea()));
+       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
+       hist.setUpdateType("População e Densidade");
    }
    
-   public static void UpdateDomicilios(int Index, double dom){
+   public static void UpdateDomicilios(int Index, double dom, Historico hist){
        CSVIn.get(Index).setDomicilios(dom);
+       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
+       hist.setUpdateType("Domicílios");
    }
    
-   public static void UpdatePIBTotal(int Index, double pib){
+   public static void UpdatePIBTotal(int Index, double pib, Historico hist){
        CSVIn.get(Index).setPIBTotal(pib);
        CSVIn.get(Index).setPIBpC(Operacoes.PIBpC(pib, CSVIn.get(Index).getPopulacao()));
+       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
+       hist.setUpdateType("PIBTotal e PIBpC");
    }
    
-   public static void UpdateIDHG(int Index, double idh){
+   public static void UpdateIDHG(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHGeral(idh);
        CSVIn.get(Index).setClassIDHG(Operacoes.ClassIDH(idh));
+       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
+       hist.setUpdateType("IDHG e Classificação");
    }
    
-   public static void UpdateRendaMedia(int Index, double rendM){
+   public static void UpdateRendaMedia(int Index, double rendM, Historico hist){
        CSVIn.get(Index).setRendaMedia(rendM);
+       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
+       hist.setUpdateType("Renda Media");
    }
    
-   public static void UpdateRendaNominal(int Index, double rendN){
+   public static void UpdateRendaNominal(int Index, double rendN, Historico hist){
        CSVIn.get(Index).setRendaNominal(rendN);
+       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
+       hist.setUpdateType("Renda Nominal");
    }
    
-   public static void UpdatePEADia(int Index, double pe){
+   public static void UpdatePEADia(int Index, double pe, Historico hist){
        CSVIn.get(Index).setPEADia(pe);
+       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
+       hist.setUpdateType("PEA Dia");
    }
    
-   public static void UpdateIDHE(int Index, double idh){
+   public static void UpdateIDHE(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHEducacao(idh);
        CSVIn.get(Index).setClassIDHE(Operacoes.ClassIDH(idh));
+       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
+       hist.setUpdateType("IDHE e Classificação");
    }
    
-   public static void UpdateIDHL(int Index, double idh){
+   public static void UpdateIDHL(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHLongevidade(idh);
        CSVIn.get(Index).setClassIDHL(Operacoes.ClassIDH(idh));
+       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
+       hist.setUpdateType("IDHL e Classificação");
    }
    
    
@@ -173,16 +211,17 @@ public class CRUD extends Municipios {
    }
    
    public static void Out(){
-       try(BufferedWriter bw = new BufferedWriter(new FileWriter
-        ("C:\\Projeto Integrador\\Out\\01.ProjetoIntegrador_BaseMunicipios_Out.csv", StandardCharsets.UTF_8))){
-           bw.write("Codigo IBGE" + ";" + "Municípios" + ";" + "Microregião" + ";" +
-                   "Estado" + ";" + "Região Geográfica" + ";" + "Área Km²" + ";" +
+        Charset encoding = Charset.forName("windows-1252");
+       try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream
+        ("C:\\Projeto Integrador\\Out\\01.ProjetoIntegrador_BaseMunicipios_Out.csv"), encoding))){
+           bw.write("Código IBGE" + ";" + "Municí­pios" + ";" + "Microregião" + ";" +
+                   "Estado" + ";" + "Região Geográfica" + ";" + "Área km²" + ";" +
                    "População" + ";" + "Densidade" + ";" + "Domicílios" + ";" + 
                    "PIB Total (R$ mil)" + ";" + "PIB per Capita Total" + ";" +
                    "IDH - Índice de Desenv. Humano" + ";" + "Classificação de IDH - Desenv. Humano" + ";" +
                    "Renda Média" + ";" + "Renda Nominal" + ";" + "PEA Dia" + ";" +
-                   "IDH - Dimensão Educação" + ";" + "Classificação do IDH - Dimensão Educação" + ";" +
-                   "IDH - Dimensão Longevidade" + ";" + "Classificação do IDH - Dimensão Longevidade");
+                   "IDH - Dimensção EducaÃ§Ã£o" + ";" + "Classificação do IDH - Dimensão Educação" + ";" +
+                   "IDH - Dimensção Longevidade" + ";" + "Classificação do IDH - Dimensão Longevidade");
            bw.newLine();
            
            for(Municipios out : CSVIn){

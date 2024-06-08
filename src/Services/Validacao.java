@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2024 Willian Junior <willianjunior.c.f@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
