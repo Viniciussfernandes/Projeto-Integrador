@@ -31,7 +31,6 @@ import java.util.Scanner;
 public class teste {
     public static void main(String[] args) throws ParseException {
         CRUD.In();
-        CRUD.Create();
-        CRUD.Out();
+        CRUD.UpdatePopulacao(0, 0);
     }
 }
