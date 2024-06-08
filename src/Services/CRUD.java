@@ -52,67 +52,6 @@ public class CRUD extends Municipios {
 
    protected static List<Municipios> CSVIn = new ArrayList<>();
    
-   String UpdateDate;
-   String UpdateNome;
-   String UpdateCPF;
-   String UpdateType;
-   
-   public static void In() throws ParseException{
-       
-       String strpath = "C:\\Projeto Integrador\\In\\01.ProjetoIntegrador_BaseMunicipios_In.csv";
-       
-       File sourceFile = new File(strpath);
-       /** Tive muito problemas com a acentuação do arquivo lido e gerado, por isso pesquisei bastante e descobrir 
-        * que tenho que ver qual o encoding do arquivo que estou trabalhando e descobri que o arquivo .csv postado no classroom
-        * esta como ANSI e acabei chegando nesse codigo abaixo
-        */
-         Charset encoding = Charset.forName("windows-1252");
-         
-       try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sourceFile), encoding))) {
-           
-           String itemCsv = br.readLine();
-           itemCsv = br.readLine();
-           
-           while(itemCsv != null){
-               
-               try{
-               String[] fields = itemCsv.split(";");
-               
-               int codigoIBGE = Integer.parseInt(fields[0]);
-               String nome = fields[1];
-               String microregiao = fields[2];
-               String sigla = fields[3];
-               String regiao = fields[4];
-               double area = Double.parseDouble(cleanNumber(fields[5]));
-               double populacao = Double.parseDouble(cleanNumber(fields[6]));
-               double domicilios = Double.parseDouble(cleanNumber(fields[7]));
-               double PIBTotal = Double.parseDouble(cleanNumber(fields[8]));
-               double IDHGeral = Double.parseDouble(cleanNumber(fields[9]));
-               double RendaMedia = Double.parseDouble(cleanNumber(fields[10]));
-               double RendaNominal = Double.parseDouble(cleanNumber(fields[11]));
-               double PEADia = Double.parseDouble(cleanNumber(fields[12]));
-               double IDHEducacao = Double.parseDouble(cleanNumber(fields[13]));
-               double IDHLongevidade = Double.parseDouble(cleanNumber(fields[14]));
-               
-               Municipios mun = new Municipios(codigoIBGE, nome, microregiao, sigla,
-                    regiao, area, populacao, domicilios, PIBTotal, IDHGeral, RendaMedia,
-                      RendaNominal, PEADia, IDHEducacao, IDHLongevidade);
-               CSVIn.add(mun);
-               
-               itemCsv = br.readLine();
-               
-               } catch (NumberFormatException e) {
-                   System.err.println("Erro ao converter nÃºmero na linha: " + itemCsv);
-                   e.printStackTrace();
-               }
-            }
-       }
-       
-       catch(IOException e){
-               e.printStackTrace();
-               }
-       } 
-      
    public static void Create(){
        
        for (int i = 0; i < CSVIn.size(); i++) {
@@ -136,7 +75,6 @@ public class CRUD extends Municipios {
            // Indeciso em como apresentar, quando fazer a tela, eu implemento
        }
    }*/
-   
    
    public static void UpdatePopulacao(int Index, double pop, Historico hist){
        CSVIn.get(Index).setPopulacao(pop);
@@ -208,44 +146,5 @@ public class CRUD extends Municipios {
                iterator.remove();
            }
        }
-   }
-   
-   public static void Out(){
-        Charset encoding = Charset.forName("windows-1252");
-       try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-        ("C:\\Projeto Integrador\\Out\\01.ProjetoIntegrador_BaseMunicipios_Out.csv"), encoding))){
-           bw.write("Código IBGE" + ";" + "Municí­pios" + ";" + "Microregião" + ";" +
-                   "Estado" + ";" + "Região Geográfica" + ";" + "Área km²" + ";" +
-                   "População" + ";" + "Densidade" + ";" + "Domicílios" + ";" + 
-                   "PIB Total (R$ mil)" + ";" + "PIB per Capita Total" + ";" +
-                   "IDH - Índice de Desenv. Humano" + ";" + "Classificação de IDH - Desenv. Humano" + ";" +
-                   "Renda Média" + ";" + "Renda Nominal" + ";" + "PEA Dia" + ";" +
-                   "IDH - Dimensção EducaÃ§Ã£o" + ";" + "Classificação do IDH - Dimensão Educação" + ";" +
-                   "IDH - Dimensção Longevidade" + ";" + "Classificação do IDH - Dimensão Longevidade");
-           bw.newLine();
-           
-           for(Municipios out : CSVIn){
-               bw.write(out.getCodigoIBGE() + ";" + out.getNome() + ";" +
-                       out.getMicroregiao() + ";" + out.getSigla() + ";" +
-                       out.getRegiao() + ";" + String.format("%.2f", out.getArea()) + ";" +
-                       String.format("%.2f", out.getPopulacao()) + ";" +
-                       String.format("%.2f", out.getDensidade()) + ";" +
-                       String.format("%.2f", out.getDomicilios()) + ";" +
-                       String.format("%.2f", out.getPIBTotal()) + ";" +
-                       String.format("%.2f", out.getPIBpC()) + ";" +
-                       String.format("%.2f", out.getIDHGeral()) + ";" +
-                       out.getClassIDHG() + ";" +
-                       String.format("%.2f", out.getRendaMedia()) + ";" +
-                       String.format("%.2f", out.getRendaNominal()) + ";" +
-                       String.format("%.2f", out.getPEADia()) + ";" +
-                       String.format("%.2f", out.getIDHEducacao()) + ";" +
-                       out.getClassIDHE() + ";" +
-                       String.format("%.2f", out.getIDHLongevidade()) + ";" +
-                       out.getClassIDHL());
-               bw.newLine();
-           }
-       } catch(IOException e){
-           
-       }
-   }
+   }  
 }

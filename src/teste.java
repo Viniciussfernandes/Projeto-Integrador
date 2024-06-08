@@ -19,6 +19,7 @@
 import Services.CRUD;
 import Services.Validacao;
 import java.text.ParseException;
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -30,7 +31,9 @@ import java.util.Scanner;
 
 public class teste {
     public static void main(String[] args) throws ParseException {
-        CRUD.In();
-        CRUD.UpdatePopulacao(0, 0);
+        Scanner sc = new Scanner(System.in);
+        String CPF = "08090478107";
+        if(Validacao.validarNumerico("08090478107"));
+            System.out.println(Validacao.validarCPF(CPF));;
     }
 }

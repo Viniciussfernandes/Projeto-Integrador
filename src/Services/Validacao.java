@@ -18,6 +18,8 @@
 
 package Services;
 
+import java.util.regex.Pattern;
+
 /**
  *
  * @author Willian Junior <willianjunior.c.f@gmail.com>
@@ -26,20 +28,26 @@ package Services;
  */
 
 public class Validacao {
-
+        
     public static String cleanNumber(String number){
         String clean = number.replace(".", "");
         clean = clean.replace(",", ".");
         return clean;
     }
     
+    public static boolean validarCaracteres(String str){
+        Pattern Caracter = Pattern.compile("^[a-zA-Zà-úÀ-ÚçÇ\\\\s]{1,50}+$");
+        return Caracter.matcher(str).matches();
+    }
+    
+    public static boolean validarNumerico(String str){
+        Pattern Numerico = Pattern.compile("^[0-9]{1,11}+$");
+        return Numerico.matcher(str).matches();
+    }
+    
     public static boolean validarCPF(String CPF){
         
-        CPF = CPF.replaceAll("[^0-9]", "");
-        
-        if(CPF.length() > 11){
-            return false;
-        } else if(CPF.matches("(\\d)\\1{10}")){
+        if(CPF.matches("(\\d)\\1{10}")){
             return false;
         } else {
             int soma = 0;
