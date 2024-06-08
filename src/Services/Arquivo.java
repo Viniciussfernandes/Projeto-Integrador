@@ -37,7 +37,7 @@ import java.text.ParseException;
  * @date 08/06/2024
  * @brief Class Arquivos
  */
-public class Arquivos {
+public class Arquivo {
 
     public static void In() throws ParseException{
        

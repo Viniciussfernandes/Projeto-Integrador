@@ -53,13 +53,12 @@ public class CRUD extends Municipios {
    protected static List<Municipios> CSVIn = new ArrayList<>();
    
    public static void Create(){
-       
        for (int i = 0; i < CSVIn.size(); i++) {
            double densidade = Operacoes.Densidade(CSVIn.get(i).getPopulacao(), CSVIn.get(i).getArea());
            double PIBpC = Operacoes.PIBpC(CSVIn.get(i).getPIBTotal(), CSVIn.get(i).getPopulacao());
-           String ClassIDH = Operacoes.ClassIDH(CSVIn.get(i).getIDHGeral());
-           String ClassIDHE = Operacoes.ClassIDH(CSVIn.get(i).getIDHEducacao());
-           String ClassIDHL = Operacoes.ClassIDH(CSVIn.get(i).getIDHLongevidade());
+           String ClassIDH = Operacoes.classIDH(CSVIn.get(i).getIDHGeral());
+           String ClassIDHE = Operacoes.classIDH(CSVIn.get(i).getIDHEducacao());
+           String ClassIDHL = Operacoes.classIDH(CSVIn.get(i).getIDHLongevidade());
            
            CSVIn.get(i).setDensidade(densidade);
            CSVIn.get(i).setPIBpC(PIBpC);
@@ -79,60 +78,69 @@ public class CRUD extends Municipios {
    public static void UpdatePopulacao(int Index, double pop, Historico hist){
        CSVIn.get(Index).setPopulacao(pop);
        CSVIn.get(Index).setDensidade(Operacoes.Densidade(pop, CSVIn.get(Index).getArea()));
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("PopulaÃ§Ã£o e Densidade");
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("População e Densidade");
+       hist.setUpdateValor(pop);
    }
    
    public static void UpdateDomicilios(int Index, double dom, Historico hist){
        CSVIn.get(Index).setDomicilios(dom);
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("DomicÃ­lios");
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("Domicílios");
+       hist.setUpdateValor(dom);
    }
    
    public static void UpdatePIBTotal(int Index, double pib, Historico hist){
        CSVIn.get(Index).setPIBTotal(pib);
        CSVIn.get(Index).setPIBpC(Operacoes.PIBpC(pib, CSVIn.get(Index).getPopulacao()));
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("PIBTotal e PIBpC");
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("PIBTotal e PIBpC");
+       hist.setUpdateValor(pib);
    }
    
    public static void UpdateIDHG(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHGeral(idh);
-       CSVIn.get(Index).setClassIDHG(Operacoes.ClassIDH(idh));
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("IDHG e ClassificaÃ§Ã£o");
+       CSVIn.get(Index).setClassIDHG(Operacoes.classIDH(idh));
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("IDHG e Classificação");
+       hist.setUpdateValor(idh);
    }
    
    public static void UpdateRendaMedia(int Index, double rendM, Historico hist){
        CSVIn.get(Index).setRendaMedia(rendM);
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("Renda Media");
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("Renda Media");
+       hist.setUpdateValor(rendM);
    }
    
    public static void UpdateRendaNominal(int Index, double rendN, Historico hist){
        CSVIn.get(Index).setRendaNominal(rendN);
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("Renda Nominal");
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("Renda Nominal");
+       hist.setUpdateValor(rendN);
    }
    
    public static void UpdatePEADia(int Index, double pe, Historico hist){
        CSVIn.get(Index).setPEADia(pe);
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("PEA Dia");
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("PEA Dia");
+       hist.setUpdateValor(pe);
    }
    
    public static void UpdateIDHE(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHEducacao(idh);
-       CSVIn.get(Index).setClassIDHE(Operacoes.ClassIDH(idh));
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("IDHE e ClassificaÃ§Ã£o");
+       CSVIn.get(Index).setClassIDHE(Operacoes.classIDH(idh));
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("IDHE e Classificação");
+       hist.setUpdateValor(idh);
    }
    
    public static void UpdateIDHL(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHLongevidade(idh);
-       CSVIn.get(Index).setClassIDHL(Operacoes.ClassIDH(idh));
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("IDHL e ClassificaÃ§Ã£o");
+       CSVIn.get(Index).setClassIDHL(Operacoes.classIDH(idh));
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("IDHL e Classificação");
+       hist.setUpdateValor(idh);
    }
    
    

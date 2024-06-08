@@ -16,6 +16,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+import Entities.Historico;
+import Entities.Perfil;
+import Services.Arquivo;
 import Services.CRUD;
 import Services.Validacao;
 import java.text.ParseException;
@@ -32,8 +35,14 @@ import java.util.Scanner;
 public class teste {
     public static void main(String[] args) throws ParseException {
         Scanner sc = new Scanner(System.in);
-        String CPF = "08090478107";
-        if(Validacao.validarNumerico("08090478107"));
-            System.out.println(Validacao.validarCPF(CPF));;
+        Arquivo.In();
+        Perfil per = new Perfil("Will", "08090478107");
+        Historico hist = new Historico(per.getNome(), per.getCPF());
+        CRUD.UpdatePopulacao(2, 200, hist);
+        System.out.println(hist.getNome());
+        System.out.println(hist.getCPF());
+        System.out.println(hist.getUpdateData());
+        System.out.println(hist.getUpdateTipo());
+        System.out.println(hist.getUpdateValor());
     }
 }

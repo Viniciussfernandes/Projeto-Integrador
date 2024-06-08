@@ -30,10 +30,11 @@ public class Historico extends Perfil {
         super(nome, CPF);
     }
     
-    private String UpdateDate;
-    private String UpdateType;
+    private String UpdateData;
+    private String UpdateTipo;
+    private Double UpdateValor;
     
-    public DateTimeFormatter getFmt1() {
+    public DateTimeFormatter getFmt() {
         return DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     }
     
@@ -41,22 +42,28 @@ public class Historico extends Perfil {
         return LocalDateTime.now();
     }
 
-    public String getUpdateType() {
-        return UpdateType;
-    }
-    
-    public String getUpdateDate() {
-        return UpdateDate;
+    public String getUpdateTipo() {
+        return UpdateTipo;
     }
 
-    public void setUpdateDate(LocalDateTime now, DateTimeFormatter fmt) {
+    public Double getUpdateValor() {
+        return UpdateValor;
+    }
+    
+    public String getUpdateData() {
+        return UpdateData;
+    }
+
+    public void setUpdateData(LocalDateTime now, DateTimeFormatter fmt) {
         String up = now.format(fmt);
-        this.UpdateDate = up;
+        this.UpdateData = up;
     }
 
-    public void setUpdateType(String UpdateType) {
-        this.UpdateType = UpdateType;
+    public void setUpdateTipo(String UpdateTipo) {
+        this.UpdateTipo = UpdateTipo;
     }
-    
-    
+
+    public void setUpdateValor(Double UpdateValor) {
+        this.UpdateValor = UpdateValor;
+    }
 }

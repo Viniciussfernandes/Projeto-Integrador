@@ -21,7 +21,7 @@ package Services;
 /**
  * @author Willian Junior <willianjunior.c.f@gmail.com>
  * @date 30/05/2024
- * @brief Class OperaÃ§Ãµes
+ * @brief Class Operações
  */
 
 public class Operacoes {
@@ -34,7 +34,7 @@ public class Operacoes {
         return PIBTotal / populacao;
     }
     
-    public static String ClassIDH(Double IDH){
+    public static String classIDH(Double IDH){
         if(IDH > 0.80){
             return "Muito alto";
         } else if(IDH > 0.70 && IDH <= 0.80){
@@ -43,6 +43,6 @@ public class Operacoes {
             return "Medio";
         } else if(IDH < 0.55){
             return "Baixo";
-        } else return "NÃ£o foi possivel calcular";
+        } else return "Não foi possivel calcular";
     }
 }
