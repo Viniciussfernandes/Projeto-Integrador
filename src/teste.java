@@ -16,9 +16,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+import Entities.Historico;
+import Entities.Perfil;
+import Services.Arquivo;
 import Services.CRUD;
+import Services.Operacao;
 import Services.Validacao;
 import java.text.ParseException;
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -30,7 +35,6 @@ import java.util.Scanner;
 
 public class teste {
     public static void main(String[] args) throws ParseException {
-        CRUD.In();
-        CRUD.UpdatePopulacao(0, 0);
+        // Teste aqui
     }
 }

@@ -24,6 +24,7 @@ package Entities;
  * @date 05/06/2024
  * @brief Class Perfil
  */
+
 public class Perfil {
 
     private String nome;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 aluno
+ * Copyright (C) 2024 Willian Junior <willianjunior.c.f@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,25 +15,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 package Entities;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- *
- * @author aluno
+ * @author Willian Junior <willianjunior.c.f@gmail.com>
+ * @date 07/06/2024
+ * @brief Class Arquivos
  */
+
 public class Historico extends Perfil {
 
     public Historico(String nome, String CPF) {
         super(nome, CPF);
     }
     
-    private String UpdateDate;
-    private String UpdateType;
+    private String UpdateData;
+    private String UpdateTipo;
+    private Double UpdateValor;
     
-    public DateTimeFormatter getFmt1() {
+    public DateTimeFormatter getFmt() {
         return DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     }
     
@@ -41,22 +45,28 @@ public class Historico extends Perfil {
         return LocalDateTime.now();
     }
 
-    public String getUpdateType() {
-        return UpdateType;
-    }
-    
-    public String getUpdateDate() {
-        return UpdateDate;
+    public String getUpdateTipo() {
+        return UpdateTipo;
     }
 
-    public void setUpdateDate(LocalDateTime now, DateTimeFormatter fmt) {
+    public Double getUpdateValor() {
+        return UpdateValor;
+    }
+    
+    public String getUpdateData() {
+        return UpdateData;
+    }
+
+    public void setUpdateData(LocalDateTime now, DateTimeFormatter fmt) {
         String up = now.format(fmt);
-        this.UpdateDate = up;
+        this.UpdateData = up;
     }
 
-    public void setUpdateType(String UpdateType) {
-        this.UpdateType = UpdateType;
+    public void setUpdateTipo(String UpdateTipo) {
+        this.UpdateTipo = UpdateTipo;
     }
-    
-    
+
+    public void setUpdateValor(Double UpdateValor) {
+        this.UpdateValor = UpdateValor;
+    }
 }

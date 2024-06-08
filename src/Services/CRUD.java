@@ -19,27 +19,8 @@
 package Services;
 
 import Entities.Historico;
-import Entities.Municipios;
-import Entities.Perfil;
-import static Services.Validacao.cleanNumber;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import Entities.Municipio;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -48,80 +29,22 @@ import java.util.List;
  * @brief Class CRUD
  */
 
-public class CRUD extends Municipios {
+public class CRUD extends Municipio {
 
-   protected static List<Municipios> CSVIn = new ArrayList<>();
+    // Lista para armazenar os dados das linhas
+   protected static List<Municipio> CSVIn = new ArrayList<>();
    
-   String UpdateDate;
-   String UpdateNome;
-   String UpdateCPF;
-   String UpdateType;
-   
-   public static void In() throws ParseException{
-       
-       String strpath = "C:\\Projeto Integrador\\In\\01.ProjetoIntegrador_BaseMunicipios_In.csv";
-       
-       File sourceFile = new File(strpath);
-       /** Tive muito problemas com a acentuação do arquivo lido e gerado, por isso pesquisei bastante e descobrir 
-        * que tenho que ver qual o encoding do arquivo que estou trabalhando e descobri que o arquivo .csv postado no classroom
-        * esta como ANSI e acabei chegando nesse codigo abaixo
-        */
-         Charset encoding = Charset.forName("windows-1252");
-         
-       try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sourceFile), encoding))) {
-           
-           String itemCsv = br.readLine();
-           itemCsv = br.readLine();
-           
-           while(itemCsv != null){
-               
-               try{
-               String[] fields = itemCsv.split(";");
-               
-               int codigoIBGE = Integer.parseInt(fields[0]);
-               String nome = fields[1];
-               String microregiao = fields[2];
-               String sigla = fields[3];
-               String regiao = fields[4];
-               double area = Double.parseDouble(cleanNumber(fields[5]));
-               double populacao = Double.parseDouble(cleanNumber(fields[6]));
-               double domicilios = Double.parseDouble(cleanNumber(fields[7]));
-               double PIBTotal = Double.parseDouble(cleanNumber(fields[8]));
-               double IDHGeral = Double.parseDouble(cleanNumber(fields[9]));
-               double RendaMedia = Double.parseDouble(cleanNumber(fields[10]));
-               double RendaNominal = Double.parseDouble(cleanNumber(fields[11]));
-               double PEADia = Double.parseDouble(cleanNumber(fields[12]));
-               double IDHEducacao = Double.parseDouble(cleanNumber(fields[13]));
-               double IDHLongevidade = Double.parseDouble(cleanNumber(fields[14]));
-               
-               Municipios mun = new Municipios(codigoIBGE, nome, microregiao, sigla,
-                    regiao, area, populacao, domicilios, PIBTotal, IDHGeral, RendaMedia,
-                      RendaNominal, PEADia, IDHEducacao, IDHLongevidade);
-               CSVIn.add(mun);
-               
-               itemCsv = br.readLine();
-               
-               } catch (NumberFormatException e) {
-                   System.err.println("Erro ao converter nÃºmero na linha: " + itemCsv);
-                   e.printStackTrace();
-               }
-            }
-       }
-       
-       catch(IOException e){
-               e.printStackTrace();
-               }
-       } 
-      
+   // Metodo para inserir as informa��es calculaveis
    public static void Create(){
-       
        for (int i = 0; i < CSVIn.size(); i++) {
-           double densidade = Operacoes.Densidade(CSVIn.get(i).getPopulacao(), CSVIn.get(i).getArea());
-           double PIBpC = Operacoes.PIBpC(CSVIn.get(i).getPIBTotal(), CSVIn.get(i).getPopulacao());
-           String ClassIDH = Operacoes.ClassIDH(CSVIn.get(i).getIDHGeral());
-           String ClassIDHE = Operacoes.ClassIDH(CSVIn.get(i).getIDHEducacao());
-           String ClassIDHL = Operacoes.ClassIDH(CSVIn.get(i).getIDHLongevidade());
+           // Calculando com base no que tem no CSVIn
+           double densidade = Operacao.Densidade(CSVIn.get(i).getPopulacao(), CSVIn.get(i).getArea());
+           double PIBpC = Operacao.PIBpC(CSVIn.get(i).getPIBTotal(), CSVIn.get(i).getPopulacao());
+           String ClassIDH = Operacao.classIDH(CSVIn.get(i).getIDHGeral());
+           String ClassIDHE = Operacao.classIDH(CSVIn.get(i).getIDHEducacao());
+           String ClassIDHL = Operacao.classIDH(CSVIn.get(i).getIDHLongevidade());
            
+           // Uso os sets para colocar na lista
            CSVIn.get(i).setDensidade(densidade);
            CSVIn.get(i).setPIBpC(PIBpC);
            CSVIn.get(i).setClassIDHG(ClassIDH);
@@ -137,115 +60,89 @@ public class CRUD extends Municipios {
        }
    }*/
    
-   
+   /** Todos os Updates seguem a mesma logica. Indicando o codigoIBGE para atualizar
+    * uma informa��o especifica. Como cada construtor precisa de uma informa��o especifica
+    * ent�o separei em blocos especificos, tambem para conseguir atualizar um sem precisar dos
+    * outros.
+    */
    public static void UpdatePopulacao(int Index, double pop, Historico hist){
+       // Usando sets para atualizar a lista
        CSVIn.get(Index).setPopulacao(pop);
-       CSVIn.get(Index).setDensidade(Operacoes.Densidade(pop, CSVIn.get(Index).getArea()));
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("População e Densidade");
+       CSVIn.get(Index).setDensidade(Operacao.Densidade(pop, CSVIn.get(Index).getArea()));
+       // Armazenando as informa��es da atualiza��o
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("Popula��o e Densidade");
+       hist.setUpdateValor(pop);
    }
    
    public static void UpdateDomicilios(int Index, double dom, Historico hist){
        CSVIn.get(Index).setDomicilios(dom);
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("Domicílios");
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("Domic�lios");
+       hist.setUpdateValor(dom);
    }
    
    public static void UpdatePIBTotal(int Index, double pib, Historico hist){
        CSVIn.get(Index).setPIBTotal(pib);
-       CSVIn.get(Index).setPIBpC(Operacoes.PIBpC(pib, CSVIn.get(Index).getPopulacao()));
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("PIBTotal e PIBpC");
+       CSVIn.get(Index).setPIBpC(Operacao.PIBpC(pib, CSVIn.get(Index).getPopulacao()));
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("PIBTotal e PIBpC");
+       hist.setUpdateValor(pib);
    }
    
    public static void UpdateIDHG(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHGeral(idh);
-       CSVIn.get(Index).setClassIDHG(Operacoes.ClassIDH(idh));
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("IDHG e Classificação");
+       CSVIn.get(Index).setClassIDHG(Operacao.classIDH(idh));
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("IDHG e Classifica��o");
+       hist.setUpdateValor(idh);
    }
    
    public static void UpdateRendaMedia(int Index, double rendM, Historico hist){
        CSVIn.get(Index).setRendaMedia(rendM);
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("Renda Media");
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("Renda Media");
+       hist.setUpdateValor(rendM);
    }
    
    public static void UpdateRendaNominal(int Index, double rendN, Historico hist){
        CSVIn.get(Index).setRendaNominal(rendN);
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("Renda Nominal");
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("Renda Nominal");
+       hist.setUpdateValor(rendN);
    }
    
    public static void UpdatePEADia(int Index, double pe, Historico hist){
        CSVIn.get(Index).setPEADia(pe);
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("PEA Dia");
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("PEA Dia");
+       hist.setUpdateValor(pe);
    }
    
    public static void UpdateIDHE(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHEducacao(idh);
-       CSVIn.get(Index).setClassIDHE(Operacoes.ClassIDH(idh));
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("IDHE e Classificação");
+       CSVIn.get(Index).setClassIDHE(Operacao.classIDH(idh));
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("IDHE e Classifica��o");
+       hist.setUpdateValor(idh);
    }
    
    public static void UpdateIDHL(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHLongevidade(idh);
-       CSVIn.get(Index).setClassIDHL(Operacoes.ClassIDH(idh));
-       hist.setUpdateDate(hist.getNow(),hist.getFmt1());
-       hist.setUpdateType("IDHL e Classificação");
+       CSVIn.get(Index).setClassIDHL(Operacao.classIDH(idh));
+       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateTipo("IDHL e Classifica��o");
+       hist.setUpdateValor(idh);
    }
    
-   
+   // Metodo para deletar uma linha
    public static void Delete(String municipio, Integer codigoIBGE){
-       Iterator<Municipios> iterator = CSVIn.iterator();
-       while(iterator.hasNext()){
-           Municipios mun = iterator.next();
-           if(mun.getNome().equals(municipio)){
-               iterator.remove();
-           } else if(mun.getNome().equals(codigoIBGE)){
-               iterator.remove();
-           }
+       // Um simples loop com o if responsavel por achar a linha e exclui-la
+       for(int i = 0; i < CSVIn.size(); i++){
+            if (CSVIn.get(i).getCodigoIBGE().equals(codigoIBGE) || 
+                    CSVIn.get(i).getNome().equals(municipio)){
+                CSVIn.remove(i);
+            }
        }
-   }
-   
-   public static void Out(){
-        Charset encoding = Charset.forName("windows-1252");
-       try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-        ("C:\\Projeto Integrador\\Out\\01.ProjetoIntegrador_BaseMunicipios_Out.csv"), encoding))){
-           bw.write("Código IBGE" + ";" + "Municí­pios" + ";" + "Microregião" + ";" +
-                   "Estado" + ";" + "Região Geográfica" + ";" + "Área km²" + ";" +
-                   "População" + ";" + "Densidade" + ";" + "Domicílios" + ";" + 
-                   "PIB Total (R$ mil)" + ";" + "PIB per Capita Total" + ";" +
-                   "IDH - Índice de Desenv. Humano" + ";" + "Classificação de IDH - Desenv. Humano" + ";" +
-                   "Renda Média" + ";" + "Renda Nominal" + ";" + "PEA Dia" + ";" +
-                   "IDH - Dimensção EducaÃ§Ã£o" + ";" + "Classificação do IDH - Dimensão Educação" + ";" +
-                   "IDH - Dimensção Longevidade" + ";" + "Classificação do IDH - Dimensão Longevidade");
-           bw.newLine();
-           
-           for(Municipios out : CSVIn){
-               bw.write(out.getCodigoIBGE() + ";" + out.getNome() + ";" +
-                       out.getMicroregiao() + ";" + out.getSigla() + ";" +
-                       out.getRegiao() + ";" + String.format("%.2f", out.getArea()) + ";" +
-                       String.format("%.2f", out.getPopulacao()) + ";" +
-                       String.format("%.2f", out.getDensidade()) + ";" +
-                       String.format("%.2f", out.getDomicilios()) + ";" +
-                       String.format("%.2f", out.getPIBTotal()) + ";" +
-                       String.format("%.2f", out.getPIBpC()) + ";" +
-                       String.format("%.2f", out.getIDHGeral()) + ";" +
-                       out.getClassIDHG() + ";" +
-                       String.format("%.2f", out.getRendaMedia()) + ";" +
-                       String.format("%.2f", out.getRendaNominal()) + ";" +
-                       String.format("%.2f", out.getPEADia()) + ";" +
-                       String.format("%.2f", out.getIDHEducacao()) + ";" +
-                       out.getClassIDHE() + ";" +
-                       String.format("%.2f", out.getIDHLongevidade()) + ";" +
-                       out.getClassIDHL());
-               bw.newLine();
-           }
-       } catch(IOException e){
-           
-       }
-   }
+   }  
 }

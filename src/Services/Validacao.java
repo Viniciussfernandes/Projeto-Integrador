@@ -18,36 +18,51 @@
 
 package Services;
 
+import java.util.regex.Pattern;
+
 /**
- *
  * @author Willian Junior <willianjunior.c.f@gmail.com>
  * @date 05/06/2024
  * @brief Class Validacao
  */
 
 public class Validacao {
-
+    // Metodo para limpar os pontos e virgulas
     public static String cleanNumber(String number){
         String clean = number.replace(".", "");
         clean = clean.replace(",", ".");
         return clean;
     }
     
+    // Validar caractreres especiais exceto ç e acentos
+    public static boolean validarCaracteres(String str){
+        Pattern Caracter = Pattern.compile("^[a-zA-Zà-úÀ-ÚçÇ\\\\s]{1,50}+$");
+        return Caracter.matcher(str).matches();
+    }
+    
+    // Validar numeros com o tamanho maximo de 11 e apenas valores numericos
+    public static boolean validarNumerico(String str){
+        Pattern Numerico = Pattern.compile("^[0-9]{1,11}+$");
+        return Numerico.matcher(str).matches();
+    }
+    
+    // MValidar CPF
     public static boolean validarCPF(String CPF){
-        
-        CPF = CPF.replaceAll("[^0-9]", "");
-        
-        if(CPF.length() > 11){
-            return false;
-        } else if(CPF.matches("(\\d)\\1{10}")){
+        // if para verificar se todos os numeros são iguais
+        if(CPF.matches("(\\d)\\1{10}")){
             return false;
         } else {
+            // Iniciliazaçã da variavel para soma
             int soma = 0;
             
             for(int i = 0; i < 9; i++){
+                /** Uso Character.getNumericValue() para transformar um digito da String
+                 * CPF em Integer para poder fazer a multiplicação
+                 */
                 soma += Character.getNumericValue(CPF.charAt(i)) * (10 - i);
             }
             
+            // Reduzo o resto da divisão por 11 para poder achar o primeiro digito
             int PrimeiroDigito = soma % 11;
             PrimeiroDigito = 11 - PrimeiroDigito;
             
@@ -55,6 +70,7 @@ public class Validacao {
                 PrimeiroDigito = 0;
             }
         
+            // Funciona da mesma forma para achar o segundo numero, mas uso mais um digito
             soma = 0;
             
             for(int i = 0; i < 10; i++){
