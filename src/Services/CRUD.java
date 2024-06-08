@@ -23,9 +23,14 @@ import static Services.Validacao.cleanNumber;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -42,13 +47,16 @@ public class CRUD extends Municipios {
 
    protected static List<Municipios> CSVIn = new ArrayList<>();
    
+   
    public static void In() throws ParseException{
        
        String strpath = "C:\\Projeto Integrador\\In\\01.ProjetoIntegrador_BaseMunicipios_In.csv";
        
        File sourceFile = new File(strpath);
        
-       try(BufferedReader br = new BufferedReader(new FileReader(sourceFile))) {
+         Charset encoding = Charset.forName("windows-1252");
+         
+       try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sourceFile), encoding))) {
            
            String itemCsv = br.readLine();
            itemCsv = br.readLine();
@@ -82,7 +90,7 @@ public class CRUD extends Municipios {
                itemCsv = br.readLine();
                
                } catch (NumberFormatException e) {
-                   System.err.println("Erro ao converter número na linha: " + itemCsv);
+                   System.err.println("Erro ao converter nÃºmero na linha: " + itemCsv);
                    e.printStackTrace();
                }
             }
@@ -173,16 +181,17 @@ public class CRUD extends Municipios {
    }
    
    public static void Out(){
-       try(BufferedWriter bw = new BufferedWriter(new FileWriter
-        ("C:\\Projeto Integrador\\Out\\01.ProjetoIntegrador_BaseMunicipios_Out.csv", StandardCharsets.UTF_8))){
-           bw.write("Codigo IBGE" + ";" + "Municípios" + ";" + "Microregião" + ";" +
-                   "Estado" + ";" + "Região Geográfica" + ";" + "Área Km²" + ";" +
+        Charset encoding = Charset.forName("windows-1252");
+       try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream
+        ("C:\\Projeto Integrador\\Out\\01.ProjetoIntegrador_BaseMunicipios_Out.csv"), encoding))){
+           bw.write("Código IBGE" + ";" + "Municí­pios" + ";" + "Microregião" + ";" +
+                   "Estado" + ";" + "Região Geográfica" + ";" + "Área km²" + ";" +
                    "População" + ";" + "Densidade" + ";" + "Domicílios" + ";" + 
                    "PIB Total (R$ mil)" + ";" + "PIB per Capita Total" + ";" +
                    "IDH - Índice de Desenv. Humano" + ";" + "Classificação de IDH - Desenv. Humano" + ";" +
                    "Renda Média" + ";" + "Renda Nominal" + ";" + "PEA Dia" + ";" +
-                   "IDH - Dimensão Educação" + ";" + "Classificação do IDH - Dimensão Educação" + ";" +
-                   "IDH - Dimensão Longevidade" + ";" + "Classificação do IDH - Dimensão Longevidade");
+                   "IDH - Dimensção EducaÃ§Ã£o" + ";" + "Classificação do IDH - Dimensão Educação" + ";" +
+                   "IDH - Dimensção Longevidade" + ";" + "Classificação do IDH - Dimensão Longevidade");
            bw.newLine();
            
            for(Municipios out : CSVIn){
