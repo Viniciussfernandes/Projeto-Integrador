@@ -14,8 +14,8 @@ git branch -M codigo-fonte \
 git remote add origin https://github.com/Viniciussfernandes/Projeto-Integrador \
 git push -u origin codigo-fonte
 
-- Clonar repositorio para modificação\
-git clone https://github.com/Viniciussfernandes/Projeto-Integrador \
+- Modificar repositorio \
+git pull origin (branch correspondente) \
 git add . \
 git commit -m "Mensagem explicativa" \
 git push
