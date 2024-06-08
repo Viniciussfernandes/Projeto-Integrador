@@ -54,11 +54,11 @@ public class CRUD extends Municipios {
    
    public static void Create(){
        for (int i = 0; i < CSVIn.size(); i++) {
-           double densidade = Operacoes.Densidade(CSVIn.get(i).getPopulacao(), CSVIn.get(i).getArea());
-           double PIBpC = Operacoes.PIBpC(CSVIn.get(i).getPIBTotal(), CSVIn.get(i).getPopulacao());
-           String ClassIDH = Operacoes.classIDH(CSVIn.get(i).getIDHGeral());
-           String ClassIDHE = Operacoes.classIDH(CSVIn.get(i).getIDHEducacao());
-           String ClassIDHL = Operacoes.classIDH(CSVIn.get(i).getIDHLongevidade());
+           double densidade = Operacao.Densidade(CSVIn.get(i).getPopulacao(), CSVIn.get(i).getArea());
+           double PIBpC = Operacao.PIBpC(CSVIn.get(i).getPIBTotal(), CSVIn.get(i).getPopulacao());
+           String ClassIDH = Operacao.classIDH(CSVIn.get(i).getIDHGeral());
+           String ClassIDHE = Operacao.classIDH(CSVIn.get(i).getIDHEducacao());
+           String ClassIDHL = Operacao.classIDH(CSVIn.get(i).getIDHLongevidade());
            
            CSVIn.get(i).setDensidade(densidade);
            CSVIn.get(i).setPIBpC(PIBpC);
@@ -77,7 +77,7 @@ public class CRUD extends Municipios {
    
    public static void UpdatePopulacao(int Index, double pop, Historico hist){
        CSVIn.get(Index).setPopulacao(pop);
-       CSVIn.get(Index).setDensidade(Operacoes.Densidade(pop, CSVIn.get(Index).getArea()));
+       CSVIn.get(Index).setDensidade(Operacao.Densidade(pop, CSVIn.get(Index).getArea()));
        hist.setUpdateData(hist.getNow(),hist.getFmt());
        hist.setUpdateTipo("População e Densidade");
        hist.setUpdateValor(pop);
@@ -92,7 +92,7 @@ public class CRUD extends Municipios {
    
    public static void UpdatePIBTotal(int Index, double pib, Historico hist){
        CSVIn.get(Index).setPIBTotal(pib);
-       CSVIn.get(Index).setPIBpC(Operacoes.PIBpC(pib, CSVIn.get(Index).getPopulacao()));
+       CSVIn.get(Index).setPIBpC(Operacao.PIBpC(pib, CSVIn.get(Index).getPopulacao()));
        hist.setUpdateData(hist.getNow(),hist.getFmt());
        hist.setUpdateTipo("PIBTotal e PIBpC");
        hist.setUpdateValor(pib);
@@ -100,7 +100,7 @@ public class CRUD extends Municipios {
    
    public static void UpdateIDHG(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHGeral(idh);
-       CSVIn.get(Index).setClassIDHG(Operacoes.classIDH(idh));
+       CSVIn.get(Index).setClassIDHG(Operacao.classIDH(idh));
        hist.setUpdateData(hist.getNow(),hist.getFmt());
        hist.setUpdateTipo("IDHG e Classificação");
        hist.setUpdateValor(idh);
@@ -129,7 +129,7 @@ public class CRUD extends Municipios {
    
    public static void UpdateIDHE(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHEducacao(idh);
-       CSVIn.get(Index).setClassIDHE(Operacoes.classIDH(idh));
+       CSVIn.get(Index).setClassIDHE(Operacao.classIDH(idh));
        hist.setUpdateData(hist.getNow(),hist.getFmt());
        hist.setUpdateTipo("IDHE e Classificação");
        hist.setUpdateValor(idh);
@@ -137,7 +137,7 @@ public class CRUD extends Municipios {
    
    public static void UpdateIDHL(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHLongevidade(idh);
-       CSVIn.get(Index).setClassIDHL(Operacoes.classIDH(idh));
+       CSVIn.get(Index).setClassIDHL(Operacao.classIDH(idh));
        hist.setUpdateData(hist.getNow(),hist.getFmt());
        hist.setUpdateTipo("IDHL e Classificação");
        hist.setUpdateValor(idh);
@@ -145,14 +145,11 @@ public class CRUD extends Municipios {
    
    
    public static void Delete(String municipio, Integer codigoIBGE){
-       Iterator<Municipios> iterator = CSVIn.iterator();
-       while(iterator.hasNext()){
-           Municipios mun = iterator.next();
-           if(mun.getNome().equals(municipio)){
-               iterator.remove();
-           } else if(mun.getNome().equals(codigoIBGE)){
-               iterator.remove();
-           }
+       for(int i = 0; i < CSVIn.size(); i++){
+            if (CSVIn.get(i).getCodigoIBGE().equals(codigoIBGE) || 
+                    CSVIn.get(i).getNome().equals(municipio)){
+                CSVIn.remove(i);
+            }
        }
    }  
 }

@@ -20,6 +20,7 @@ import Entities.Historico;
 import Entities.Perfil;
 import Services.Arquivo;
 import Services.CRUD;
+import Services.Operacao;
 import Services.Validacao;
 import java.text.ParseException;
 import java.util.InputMismatchException;
@@ -34,15 +35,12 @@ import java.util.Scanner;
 
 public class teste {
     public static void main(String[] args) throws ParseException {
-        Scanner sc = new Scanner(System.in);
         Arquivo.In();
-        Perfil per = new Perfil("Will", "08090478107");
-        Historico hist = new Historico(per.getNome(), per.getCPF());
-        CRUD.UpdatePopulacao(2, 200, hist);
-        System.out.println(hist.getNome());
-        System.out.println(hist.getCPF());
-        System.out.println(hist.getUpdateData());
-        System.out.println(hist.getUpdateTipo());
-        System.out.println(hist.getUpdateValor());
+        CRUD.Create();
+        System.out.println(Operacao.melhorPIBpC());
+        System.out.println("");
+        System.out.println(Operacao.piorPIBpC());
+        System.out.println("");
+        System.out.println(Operacao.melhorPIBpCpiorIDHE());
     }
 }
