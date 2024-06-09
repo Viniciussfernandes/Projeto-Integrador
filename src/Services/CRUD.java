@@ -19,7 +19,9 @@
 package Services;
 
 import Entities.Historico;
+import static Services.Arquivo.CSVIn;
 import Entities.Municipio;
+import static Services.Tratamento.Pesquisa;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,20 +31,17 @@ import java.util.List;
  * @brief Class CRUD
  */
 
-public class CRUD extends Municipio {
+public class CRUD {
 
-    // Lista para armazenar os dados das linhas
-   protected static List<Municipio> CSVIn = new ArrayList<>();
-   
    // Metodo para inserir as informações calculaveis
    public static void Create(){
        for (int i = 0; i < CSVIn.size(); i++) {
            // Calculando com base no que tem no CSVIn
-           double densidade = Operacao.Densidade(CSVIn.get(i).getPopulacao(), CSVIn.get(i).getArea());
-           double PIBpC = Operacao.PIBpC(CSVIn.get(i).getPIBTotal(), CSVIn.get(i).getPopulacao());
-           String ClassIDH = Operacao.classIDH(CSVIn.get(i).getIDHGeral());
-           String ClassIDHE = Operacao.classIDH(CSVIn.get(i).getIDHEducacao());
-           String ClassIDHL = Operacao.classIDH(CSVIn.get(i).getIDHLongevidade());
+           double densidade = Municipio.Densidade(CSVIn.get(i).getPopulacao(), CSVIn.get(i).getArea());
+           double PIBpC = Municipio.PIBpC(CSVIn.get(i).getPIBTotal(), CSVIn.get(i).getPopulacao());
+           String ClassIDH = Municipio.classIDH(CSVIn.get(i).getIDHGeral());
+           String ClassIDHE = Municipio.classIDH(CSVIn.get(i).getIDHEducacao());
+           String ClassIDHL = Municipio.classIDH(CSVIn.get(i).getIDHLongevidade());
            
            // Uso os sets para colocar na lista
            CSVIn.get(i).setDensidade(densidade);
@@ -65,84 +64,78 @@ public class CRUD extends Municipio {
     * então separei em blocos especificos, tambem para conseguir atualizar um sem precisar dos
     * outros.
     */
-   public static void UpdatePopulacao(int Index, double pop, Historico hist){
+   public static void UpdatePopulacao(int index, double pop, Historico hist){
        // Usando sets para atualizar a lista
-       CSVIn.get(Index).setPopulacao(pop);
-       CSVIn.get(Index).setDensidade(Operacao.Densidade(pop, CSVIn.get(Index).getArea()));
+       CSVIn.get(index).setPopulacao(pop);
+       CSVIn.get(index).setDensidade(Municipio.Densidade(pop, CSVIn.get(index).getArea()));
        // Armazenando as informações da atualização
-       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("População e Densidade");
        hist.setUpdateValor(pop);
    }
    
-   public static void UpdateDomicilios(int Index, double dom, Historico hist){
-       CSVIn.get(Index).setDomicilios(dom);
-       hist.setUpdateData(hist.getNow(),hist.getFmt());
+   public static void UpdateDomicilios(int index, double dom, Historico hist){
+       CSVIn.get(index).setDomicilios(dom);
+       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("Domicílios");
        hist.setUpdateValor(dom);
    }
    
-   public static void UpdatePIBTotal(int Index, double pib, Historico hist){
-       CSVIn.get(Index).setPIBTotal(pib);
-       CSVIn.get(Index).setPIBpC(Operacao.PIBpC(pib, CSVIn.get(Index).getPopulacao()));
-       hist.setUpdateData(hist.getNow(),hist.getFmt());
+   public static void UpdatePIBTotal(int index, double pib, Historico hist){
+       CSVIn.get(index).setPIBTotal(pib);
+       CSVIn.get(index).setPIBpC(Municipio.PIBpC(pib, CSVIn.get(index).getPopulacao()));
+       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("PIBTotal e PIBpC");
        hist.setUpdateValor(pib);
    }
    
-   public static void UpdateIDHG(int Index, double idh, Historico hist){
-       CSVIn.get(Index).setIDHGeral(idh);
-       CSVIn.get(Index).setClassIDHG(Operacao.classIDH(idh));
-       hist.setUpdateData(hist.getNow(),hist.getFmt());
+   public static void UpdateIDHG(int index, double idh, Historico hist){
+       CSVIn.get(index).setIDHGeral(idh);
+       CSVIn.get(index).setClassIDHG(Municipio.classIDH(idh));
+       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("IDHG e Classificação");
        hist.setUpdateValor(idh);
    }
    
-   public static void UpdateRendaMedia(int Index, double rendM, Historico hist){
-       CSVIn.get(Index).setRendaMedia(rendM);
-       hist.setUpdateData(hist.getNow(),hist.getFmt());
+   public static void UpdateRendaMedia(int index, double rendM, Historico hist){
+       CSVIn.get(index).setRendaMedia(rendM);
+       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("Renda Media");
        hist.setUpdateValor(rendM);
    }
    
-   public static void UpdateRendaNominal(int Index, double rendN, Historico hist){
-       CSVIn.get(Index).setRendaNominal(rendN);
-       hist.setUpdateData(hist.getNow(),hist.getFmt());
+   public static void UpdateRendaNominal(int index, double rendN, Historico hist){
+       CSVIn.get(index).setRendaNominal(rendN);
+       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("Renda Nominal");
        hist.setUpdateValor(rendN);
    }
    
-   public static void UpdatePEADia(int Index, double pe, Historico hist){
-       CSVIn.get(Index).setPEADia(pe);
-       hist.setUpdateData(hist.getNow(),hist.getFmt());
+   public static void UpdatePEADia(int index, double pe, Historico hist){
+       CSVIn.get(index).setPEADia(pe);
+       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("PEA Dia");
        hist.setUpdateValor(pe);
    }
    
    public static void UpdateIDHE(int Index, double idh, Historico hist){
        CSVIn.get(Index).setIDHEducacao(idh);
-       CSVIn.get(Index).setClassIDHE(Operacao.classIDH(idh));
-       hist.setUpdateData(hist.getNow(),hist.getFmt());
+       CSVIn.get(Index).setClassIDHE(Municipio.classIDH(idh));
+       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("IDHE e Classificação");
        hist.setUpdateValor(idh);
    }
    
-   public static void UpdateIDHL(int Index, double idh, Historico hist){
-       CSVIn.get(Index).setIDHLongevidade(idh);
-       CSVIn.get(Index).setClassIDHL(Operacao.classIDH(idh));
-       hist.setUpdateData(hist.getNow(),hist.getFmt());
+   public static void UpdateIDHL(int index, double idh, Historico hist){
+       CSVIn.get(index).setIDHLongevidade(idh);
+       CSVIn.get(index).setClassIDHL(Municipio.classIDH(idh));
+       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("IDHL e Classificação");
        hist.setUpdateValor(idh);
    }
    
    // Metodo para deletar uma linha
-   public static void Delete(String municipio, Integer codigoIBGE){
-       // Um simples loop com o if responsavel por achar a linha e exclui-la
-       for(int i = 0; i < CSVIn.size(); i++){
-            if (CSVIn.get(i).getCodigoIBGE().equals(codigoIBGE) || 
-                    CSVIn.get(i).getNome().equals(municipio)){
-                CSVIn.remove(i);
-            }
-       }
+   public static void Delete(int index){
+        CSVIn.remove(index);
    }  
 }

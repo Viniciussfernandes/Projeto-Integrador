@@ -42,4 +42,47 @@ public class Perfil {
     public String getCPF() {
         return CPF;
     }
+    
+    // Validar CPF
+    public static boolean validarCPF(String CPF){
+        // if para verificar se todos os numeros são iguais
+        if(CPF.matches("(\\d)\\1{10}")){
+            return false;
+        } else {
+            // Iniciliazaçã da variavel para soma
+            int soma = 0;
+            
+            for(int i = 0; i < 9; i++){
+                /** Uso Character.getNumericValue() para transformar um digito da String
+                 * CPF em Integer para poder fazer a multiplicação
+                 */
+                soma += Character.getNumericValue(CPF.charAt(i)) * (10 - i);
+            }
+            
+            // Reduzo o resto da divisão por 11 para poder achar o primeiro digito
+            int PrimeiroDigito = soma % 11;
+            PrimeiroDigito = 11 - PrimeiroDigito;
+            
+            if(PrimeiroDigito >= 10){
+                PrimeiroDigito = 0;
+            }
+        
+            // Funciona da mesma forma para achar o segundo numero, mas uso mais um digito
+            soma = 0;
+            
+            for(int i = 0; i < 10; i++){
+                soma += Character.getNumericValue(CPF.charAt(i)) * (11 - i);
+            }
+            
+            int SegundoDigito = soma % 11;
+            SegundoDigito = 11 - SegundoDigito;
+            
+            if(SegundoDigito >= 10){
+                SegundoDigito = 0;
+            }
+        
+            return PrimeiroDigito == Character.getNumericValue(CPF.charAt(9)) &&
+                    SegundoDigito == Character.getNumericValue(CPF.charAt(10));
+        }
+    }
 }

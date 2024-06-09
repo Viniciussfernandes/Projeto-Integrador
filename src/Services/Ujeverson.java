@@ -18,7 +18,7 @@
 
 package Services;
 
-import static Services.CRUD.CSVIn;
+import static Services.Arquivo.CSVIn;
 
 /**
  * @author Willian Junior <willianjunior.c.f@gmail.com>
@@ -26,29 +26,7 @@ import static Services.CRUD.CSVIn;
  * @brief Class Operações
  */
 
-public class Operacao {
-    
-    // Operações de acordo com o arquivo disponibilizado no classroom
-    public static double Densidade(Double populacao, Double area){
-        return populacao / area;
-    }
-    
-    public static double PIBpC(Double PIBTotal, Double populacao){
-        return PIBTotal / populacao;
-    }
-    
-    public static String classIDH(Double IDH){
-        if(IDH > 0.80){
-            return "Muito alto";
-        } else if(IDH > 0.70 && IDH <= 0.80){
-            return "Alto";
-        } else if(IDH > 0.55 && IDH <= 0.70){
-            return "Medio";
-        } else if(IDH < 0.55){
-            return "Baixo";
-        } else return "Não foi possivel calcular";
-    }
-    
+public class Ujeverson {
     // Metodos para a atividade do Ujeverson
     public static String melhorPIBpC(){
         // Inicializando as variaveis fora do loop

@@ -19,8 +19,7 @@
 package Services;
 
 import Entities.Municipio;
-import static Services.CRUD.CSVIn;
-import static Services.Validacao.cleanNumber;
+import static Services.Tratamento.cleanNumber;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -31,6 +30,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Willian Junior <willianjunior.c.f@gmail.com>
@@ -40,6 +41,9 @@ import java.text.ParseException;
 
 public class Arquivo {
 
+    // Lista para armazenar os dados das linhas
+    protected static List<Municipio> CSVIn = new ArrayList<>();
+   
     // Metodo para ler o arquivo
     public static void In() throws ParseException{
        /** Tive muito problemas com a acentuação do arquivo lido e gerado, por isso pesquisei bastante e descobrir 

@@ -36,14 +36,6 @@ public class Historico extends Perfil {
     private String UpdateData;
     private String UpdateTipo;
     private Double UpdateValor;
-    
-    public DateTimeFormatter getFmt() {
-        return DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    }
-    
-    public LocalDateTime getNow(){
-        return LocalDateTime.now();
-    }
 
     public String getUpdateTipo() {
         return UpdateTipo;
@@ -68,5 +60,13 @@ public class Historico extends Perfil {
 
     public void setUpdateValor(Double UpdateValor) {
         this.UpdateValor = UpdateValor;
+    }
+    
+    public DateTimeFormatter DataFormato() {
+        return DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    }
+    
+    public LocalDateTime HoraAtual(){
+        return LocalDateTime.now();
     }
 }
