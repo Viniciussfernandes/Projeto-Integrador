@@ -29,10 +29,10 @@ import java.util.regex.Pattern;
 
 public class Tratamento {
     // Metodo para limpar os pontos e virgulas
-    public static String cleanNumber(String number){
-        String clean = number.replace(".", "");
-        clean = clean.replace(",", ".");
-        return clean;
+    public static String LimparNumero(String numero){
+        String limpo = numero.replace(".", "");
+        limpo = limpo.replace(",", ".");
+        return limpo;
     }
     
     // Validar caractreres especiais exceto ç e acentos
@@ -42,9 +42,9 @@ public class Tratamento {
     }
     
     // Validar numeros com o tamanho maximo de 11 e apenas valores numericos
-    public static boolean Numerico(String str){
+    public static boolean Numerico(String numero){
         Pattern Numerico = Pattern.compile("^[0-9]{1,11}+$");
-        return Numerico.matcher(str).matches();
+        return Numerico.matcher(numero).matches();
     }
     
     public static Integer Pesquisa(int codigoIBGE, String municipio){

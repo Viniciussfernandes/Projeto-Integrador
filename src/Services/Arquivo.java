@@ -19,7 +19,7 @@
 package Services;
 
 import Entities.Municipio;
-import static Services.Tratamento.cleanNumber;
+import static Services.Tratamento.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -78,16 +78,16 @@ public class Arquivo {
                String microregiao = fields[2];
                String sigla = fields[3];
                String regiao = fields[4];
-               double area = Double.parseDouble(cleanNumber(fields[5]));
-               double populacao = Double.parseDouble(cleanNumber(fields[6]));
-               double domicilios = Double.parseDouble(cleanNumber(fields[7]));
-               double PIBTotal = Double.parseDouble(cleanNumber(fields[8]));
-               double IDHGeral = Double.parseDouble(cleanNumber(fields[9]));
-               double RendaMedia = Double.parseDouble(cleanNumber(fields[10]));
-               double RendaNominal = Double.parseDouble(cleanNumber(fields[11]));
-               double PEADia = Double.parseDouble(cleanNumber(fields[12]));
-               double IDHEducacao = Double.parseDouble(cleanNumber(fields[13]));
-               double IDHLongevidade = Double.parseDouble(cleanNumber(fields[14]));
+               double area = Double.parseDouble(LimparNumero(fields[5]));
+               double populacao = Double.parseDouble(LimparNumero(fields[6]));
+               double domicilios = Double.parseDouble(LimparNumero(fields[7]));
+               double PIBTotal = Double.parseDouble(LimparNumero(fields[8]));
+               double IDHGeral = Double.parseDouble(LimparNumero(fields[9]));
+               double RendaMedia = Double.parseDouble(LimparNumero(fields[10]));
+               double RendaNominal = Double.parseDouble(LimparNumero(fields[11]));
+               double PEADia = Double.parseDouble(LimparNumero(fields[12]));
+               double IDHEducacao = Double.parseDouble(LimparNumero(fields[13]));
+               double IDHLongevidade = Double.parseDouble(LimparNumero(fields[14]));
                
                // Instanciando a classe para pôr na lista CSVIn
                Municipio mun = new Municipio(codigoIBGE, nome, microregiao, sigla,

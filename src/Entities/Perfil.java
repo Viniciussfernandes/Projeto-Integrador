@@ -44,7 +44,7 @@ public class Perfil {
     }
     
     // Validar CPF
-    public static boolean validarCPF(String CPF){
+    public static boolean ValidarCPF(String CPF){
         // if para verificar se todos os numeros são iguais
         if(CPF.matches("(\\d)\\1{10}")){
             return false;

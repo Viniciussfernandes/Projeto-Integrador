@@ -49,8 +49,8 @@ public class Historico extends Perfil {
         return UpdateData;
     }
 
-    public void setUpdateData(LocalDateTime now, DateTimeFormatter fmt) {
-        String up = now.format(fmt);
+    public void setUpdateData(LocalDateTime hora, DateTimeFormatter formato) {
+        String up = hora.format(formato);
         this.UpdateData = up;
     }
 

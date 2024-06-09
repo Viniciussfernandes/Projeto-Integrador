@@ -28,7 +28,7 @@ import static Services.Arquivo.CSVIn;
 
 public class Ujeverson {
     // Metodos para a atividade do Ujeverson
-    public static String melhorPIBpC(){
+    public static String MelhorPIBpC(){
         // Inicializando as variaveis fora do loop
         double maior = 0;
         int index = 0;
@@ -50,7 +50,7 @@ public class Ujeverson {
     }
     
     // Segue a mesma logica do que o de cima so que o pior PIBpC
-    public static String piorPIBpC(){
+    public static String PiorPIBpC(){
         double menor = 0;
         int index = 0;
         for(int i = 0; i < CSVIn.size(); i++){
@@ -70,7 +70,7 @@ public class Ujeverson {
     }
     
     // Segue a mesma logica so que com uma condição a mais
-    public static String melhorPIBpCpiorIDHE(){
+    public static String MelhorPIBpC_PiorIDHE(){
         double pib = 0;
         double idh = 0;
         int index = 0;
