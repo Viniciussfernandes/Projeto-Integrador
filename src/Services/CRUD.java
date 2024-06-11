@@ -21,9 +21,6 @@ package Services;
 import Entities.Historico;
 import static Services.Arquivo.CSVIn;
 import Entities.Municipio;
-import static Services.Tratamento.Pesquisa;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Willian Junior <willianjunior.c.f@gmail.com>
@@ -52,12 +49,26 @@ public class CRUD {
        }
    }
    
-  /**
-   public static void Reader(){
-       for(int i = 0; i < CSVIn.size(); i++){
-           // Indeciso em como apresentar, quando fazer a tela, eu implemento
+  
+   public static String Reader(int i){
+            return CSVIn.get(i).getCodigoIBGE() + "; " + CSVIn.get(i).getNome() + "; " +
+                   CSVIn.get(i).getMicroregiao() + "; " + CSVIn.get(i).getSigla() + "; " +
+                   CSVIn.get(i).getRegiao() + "; " + String.format("%.2f", CSVIn.get(i).getArea()) + "; " +
+                   String.format("%.2f", CSVIn.get(i).getPopulacao()) + "; " +
+                   String.format("%.2f", CSVIn.get(i).getDensidade()) + "; " +
+                   String.format("%.2f", CSVIn.get(i).getDomicilios()) + "; " +
+                   String.format("%.2f", CSVIn.get(i).getPIBTotal()) + "; " +
+                   String.format("%.2f", CSVIn.get(i).getPIBpC()) + "; " +
+                       String.format("%.2f", CSVIn.get(i).getIDHGeral()) + "; " +
+                       CSVIn.get(i).getClassIDHG() + "; " +
+                       String.format("%.2f", CSVIn.get(i).getRendaMedia()) + "; " +
+                       String.format("%.2f", CSVIn.get(i).getRendaNominal()) + "; " +
+                       String.format("%.2f", CSVIn.get(i).getPEADia()) + "; " +
+                       String.format("%.2f", CSVIn.get(i).getIDHEducacao()) + "; " +
+                       CSVIn.get(i).getClassIDHE() + "; " +
+                       String.format("%.2f", CSVIn.get(i).getIDHLongevidade()) + "; " +
+                       CSVIn.get(i).getClassIDHL();
        }
-   }*/
    
    /** Todos os Updates seguem a mesma logica. Indicando o codigoIBGE para atualizar
     * uma informação especifica. Como cada construtor precisa de uma informação especifica
@@ -134,7 +145,7 @@ public class CRUD {
        hist.setUpdateValor(idh);
    }
    
-   // Metodo para deletar uma linha
+   // Metodo para deletar uma linha. Obs: O professor quer que não exclua o codigo IBGE e nome municipio
    public static void Delete(int index){
         CSVIn.remove(index);
    }  

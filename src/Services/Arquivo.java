@@ -42,7 +42,7 @@ import java.util.List;
 public class Arquivo {
 
     // Lista para armazenar os dados das linhas
-    protected static List<Municipio> CSVIn = new ArrayList<>();
+    public static List<Municipio> CSVIn = new ArrayList<>();
    
     // Metodo para ler o arquivo
     public static void In() throws ParseException{
@@ -92,7 +92,7 @@ public class Arquivo {
                // Instanciando a classe para pôr na lista CSVIn
                Municipio mun = new Municipio(codigoIBGE, nome, microregiao, sigla,
                     regiao, area, populacao, domicilios, PIBTotal, IDHGeral, RendaMedia,
-                      RendaNominal, PEADia, IDHEducacao, IDHLongevidade);
+                    RendaNominal, PEADia, IDHEducacao, IDHLongevidade);
                CSVIn.add(mun);
                
                //Assim passa para a proxima linha até aparecer null

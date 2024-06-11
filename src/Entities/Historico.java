@@ -29,6 +29,9 @@ import java.time.format.DateTimeFormatter;
 
 public class Historico extends Perfil {
 
+    public Historico() {
+    }
+    
     public Historico(String nome, String CPF) {
         super(nome, CPF);
     }

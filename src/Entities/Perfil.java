@@ -30,6 +30,9 @@ public class Perfil {
     private String nome;
     private String CPF;
 
+    public Perfil() {
+    }
+    
     public Perfil(String nome, String CPF) {
         this.nome = nome;
         this.CPF = CPF;
@@ -42,6 +45,16 @@ public class Perfil {
     public String getCPF() {
         return CPF;
     }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
+    }
+    
+    
     
     // Validar CPF
     public static boolean ValidarCPF(String CPF){
