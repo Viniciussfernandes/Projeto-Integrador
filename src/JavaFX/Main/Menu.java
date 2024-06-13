@@ -4,27 +4,26 @@
  */
 package JavaFX.Main;
 
+import JavaFX.Controladores.CRUD.CriarController;
+import JavaFX.Main.CRUD.Atualizar;
+import JavaFX.Main.CRUD.Criar;
+import JavaFX.Main.CRUD.Deletar;
+import JavaFX.Main.CRUD.Ler;
 import java.io.IOException;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
  *
  * @author Willian Junior <willianjunior.c.f@gmail.com>
  */
-public class Login extends Application {
+public class Menu extends Application {
     
-    private AnchorPane pane;
-    private TextField txNome;
-    private TextField txCPF;
-    private Button btEntrar, btCadastro;
     private static Stage stage;
 
     public static Stage getStage() {
@@ -32,14 +31,14 @@ public class Login extends Application {
     }
     
     @Override
-    public void start(Stage Login) throws Exception {
-        this.stage = Login;
-        String path = "/JavaFX/Telas/Login.fxml";
-        Parent login = FXMLLoader.load(getClass().getResource(path));
+    public void start(Stage Menu) throws Exception {
+        this.stage = Menu;
+        String path = "/JavaFX/Telas/Menu.fxml";
+        Parent menu = FXMLLoader.load(getClass().getResource(path));
         
-        Scene scene = new Scene(login);
+        Scene scene = new Scene(menu);
         
-        stage.setTitle("Login");
+        stage.setTitle("Menu");
         stage.setScene(scene);
         stage.show();
     }

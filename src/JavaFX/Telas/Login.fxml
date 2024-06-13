@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFX.Controladores.LoginController">
    <children>
       <ImageView fitHeight="418.0" fitWidth="615.0" layoutX="-6.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -25,7 +25,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Button id="btEntrar" fx:id="btEntrar" layoutX="90.0" layoutY="182.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="69.0" style="-fx-background-color: #064d79;" text="Entrar" textFill="WHITE" />
+            <Button fx:id="btEntrar" layoutX="90.0" layoutY="182.0" mnemonicParsing="false" onAction="#Verif_Login" prefHeight="27.0" prefWidth="69.0" style="-fx-background-color: #064d79;" text="Entrar" textFill="WHITE" />
             <Text fill="#615e5e" layoutX="85.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Não possui conta?">
                <font>
                   <Font size="10.0" />
