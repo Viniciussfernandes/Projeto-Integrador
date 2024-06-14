@@ -48,7 +48,7 @@ public class Tratamento {
     }
     
     public static Integer Pesquisa(int codigoIBGE, String municipio){
-        int index = 0;
+        int index = -1;
         for(int i = 0; i < CSVIn.size(); i++){
             if (CSVIn.get(i).getCodigoIBGE().equals(codigoIBGE) || 
                     CSVIn.get(i).getNome().equals(municipio)){

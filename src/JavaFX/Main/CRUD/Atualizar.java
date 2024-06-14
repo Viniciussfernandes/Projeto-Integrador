@@ -39,10 +39,15 @@ import javafx.stage.Stage;
 
 public class Atualizar extends Application {
     
-    
+    private static Stage stage;
+
+    public static Stage getStage() {
+        return stage;
+    }
     
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage Atualizar) throws Exception {
+        this.stage = Atualizar;
         String path = "/JavaFX/Telas/CRUD/Atualizar.fxml";
         Parent login = FXMLLoader.load(getClass().getResource(path));
         

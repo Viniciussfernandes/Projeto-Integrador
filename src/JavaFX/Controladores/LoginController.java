@@ -40,7 +40,7 @@ public class LoginController implements Initializable {
                 Perfil.ValidarCPF(CPF.getText())){
             perfil = new Perfil(login.getText(), CPF.getText());
             Login.getStage().close();
-            TelaMenu();
+            MenuController.TelaMenu();
         } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Erro");
@@ -48,15 +48,6 @@ public class LoginController implements Initializable {
             alert.setContentText("Informações inseridas incorretas");
             alert.show();
         }
-    }
-    
-    public void TelaMenu(){
-        Menu m = new Menu();
-            try {
-                m.start(new Stage());
-            } catch (Exception ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
     }
     
     @Override

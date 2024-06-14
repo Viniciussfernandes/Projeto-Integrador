@@ -27,6 +27,8 @@ package JavaFX.Controladores.CRUD;
 
 import Entities.Historico;
 import JavaFX.Controladores.LoginController;
+import JavaFX.Controladores.MenuController;
+import JavaFX.Main.CRUD.Atualizar;
 import Services.Arquivo;
 import static Services.CRUD.*;
 import Services.Tratamento;
@@ -60,89 +62,102 @@ public class AtualizarController implements Initializable {
     @FXML private Button btVoltar;
     
     public void AtualizarDados(){
-        
-        boolean seguir = true;
-        
         try {
             Arquivo.In();
             
-            TextField[] Vet_Tex = {Populacao, Domicilios, PIBTotal, IDHG, RendaM, RendaN, IDHE, IDHL, PEADia};
-            List<TextField> InfoNaoNulo = new ArrayList<>();
-            while(seguir){
-            for(TextField tf : Vet_Tex){
-                if(tf.getText() != null && !tf.getText().isEmpty()){
-                    InfoNaoNulo.add(tf);
-                } else if(Tratamento.Numerico(tf.getText()) == false){
-                    Alert erro = new Alert(Alert.AlertType.ERROR);
+            Alert erro = new Alert(Alert.AlertType.ERROR);
+            if(Pesquisa.getText() == null || Pesquisa.getText().isEmpty()){
+                erro.setTitle("Erro");
+                erro.setHeaderText("Erro ao tentar acessar a linha do csv");
+                erro.setContentText("Por favor preencha o espaço codigo IBGE ou municipio");
+                erro.show();
+            } else {
+                
+                int index = MenuController.PesquisarLinha(Pesquisa);
+                if(index == -1){
                     erro.setTitle("Erro");
-                    erro.setHeaderText("Erro ao ler os dados");
-                    erro.setContentText("Informações fornecidas incorretas");
+                    erro.setHeaderText("Erro ao tentar acessar a linha do csv");
+                    erro.setContentText("Não foi encontrado esse municipio");
                     erro.show();
-                    seguir = false;
-                    break;
+                } else {
+                    
+                    boolean seguir = true;
+                    
+                        TextField[] Vet_Tex = {Populacao, Domicilios, PIBTotal, IDHG, RendaM, RendaN, IDHE, IDHL, PEADia};
+                        List<TextField> InfoNaoNulo = new ArrayList<>();
+                        for(TextField tf : Vet_Tex){
+                            if(tf.getText() != null && !tf.getText().isEmpty() && Tratamento.Numerico(tf.getText())){
+                                InfoNaoNulo.add(tf);
+                                seguir = true;
+                            } else if(!Tratamento.Numerico(tf.getText()) && !tf.getText().isEmpty()){
+                                erro.setTitle("Erro");
+                                erro.setHeaderText("Erro ao ler os dados");
+                                erro.setContentText("Informações fornecidas incorretas");
+                                erro.show();
+                                seguir = false;
+                                break;
+                            }
+                        }
+                        if(InfoNaoNulo.size() == 0){
+                            erro.setTitle("Erro");
+                            erro.setHeaderText("Erro ao ler os dados");
+                            erro.setContentText("Por favor preencha os campos");
+                            erro.show();
+                        } else {
+                        Historico hist = new Historico("Joao", "08090478107");
+                        //Historico hist = new Historico(LoginController.getPerfil().getNome(), LoginController.getPerfil().getCPF());
+                        if(seguir){
+                            for(TextField manipulacao : InfoNaoNulo){
+                                if(manipulacao.equals(Populacao)){
+                                    Double populacao = Double.parseDouble(manipulacao.getText());
+                                    UpdatePopulacao(index, populacao, hist);
+                                }
+                                else if(manipulacao.equals(Domicilios)){
+                                    Double domicilios = Double.parseDouble(manipulacao.getText());
+                                    UpdateDomicilios(index, domicilios, hist);
+                                }
+                                else if(manipulacao.equals(PIBTotal)){
+                                    Double pib = Double.parseDouble(manipulacao.getText());
+                                    UpdatePIBTotal(index, pib, hist);
+                                }
+                                else if(manipulacao.equals(IDHG)){
+                                    Double idhg = Double.parseDouble(manipulacao.getText());
+                                    UpdateIDHG(index, idhg, hist);
+                                }
+                                else if(manipulacao.equals(RendaM)){
+                                    Double rendm = Double.parseDouble(manipulacao.getText());
+                                    UpdateRendaMedia(index, rendm, hist);
+                                }
+                                else if(manipulacao.equals(RendaN)){
+                                    Double rendn = Double.parseDouble(manipulacao.getText());
+                                    UpdateRendaNominal(index, rendn, hist);
+                                }
+                                else if(manipulacao.equals(IDHE)){
+                                    Double idhe = Double.parseDouble(manipulacao.getText());
+                                    UpdateIDHE(index, idhe, hist);
+                                }
+                                else if(manipulacao.equals(IDHL)){
+                                    Double idhl = Double.parseDouble(manipulacao.getText());
+                                    UpdateIDHL(index, idhl, hist);
+                                }
+                                else if(manipulacao.equals(PEADia)){
+                                    Double pea = Double.parseDouble(manipulacao.getText());
+                                    UpdatePEADia(index, pea, hist);
+                                }
+                            }
+                            
+                            StringBuilder mensagem = new StringBuilder("As seguintes informações foram atualizadas:\n");
+                            for(TextField tf : InfoNaoNulo){
+                                mensagem.append(tf.getId() + ": " + tf.getText() + "\n");
+                            } mensagem.append("\nResponsavel:\n" + hist.getNome() + "\n" + hist.getCPF() + "\n" + hist.getUpdateData());
+                            Alert inf = new Alert(Alert.AlertType.INFORMATION);
+                            inf.setTitle("Atualização");
+                            inf.setHeaderText("Notas da atualização");
+                            inf.setContentText(mensagem.toString());
+                            inf.show();
+                        }
+                        }
                 }
-            }
-            }
-            Historico hist = new Historico("Joao", "08090478107");
-            //Historico hist = new Historico(LoginController.getPerfil().getNome(), LoginController.getPerfil().getCPF());
-            if(seguir){
-                for(TextField manipulacao : InfoNaoNulo){
-                    if(manipulacao.equals(Populacao)){
-                        Double populacao = Double.parseDouble(manipulacao.getText());
-                        int index = 0;
-                        UpdatePopulacao(index, populacao, hist);
-                    }
-                    else if(manipulacao.equals(Domicilios)){
-                        Double domicilios = Double.parseDouble(manipulacao.getText());
-                        int index = 0;
-                        UpdateDomicilios(index, domicilios, hist);
-                    }
-                    else if(manipulacao.equals(PIBTotal)){
-                        Double pib = Double.parseDouble(manipulacao.getText());
-                        int index = 0;
-                        UpdatePIBTotal(index, pib, hist);
-                    }
-                    else if(manipulacao.equals(IDHG)){
-                        Double idhg = Double.parseDouble(manipulacao.getText());
-                        int index = 0;
-                        UpdateIDHG(index, idhg, hist);
-                    }
-                    else if(manipulacao.equals(RendaM)){
-                        Double rendm = Double.parseDouble(manipulacao.getText());
-                        int index = 0;
-                        UpdateRendaMedia(index, rendm, hist);
-                    }
-                    else if(manipulacao.equals(RendaN)){
-                        Double rendn = Double.parseDouble(manipulacao.getText());
-                        int index = 0;
-                        UpdateRendaNominal(index, rendn, hist);
-                    }
-                    else if(manipulacao.equals(IDHE)){
-                        Double idhe = Double.parseDouble(manipulacao.getText());
-                        int index = 0;
-                        UpdateIDHE(index, idhe, hist);
-                    }
-                    else if(manipulacao.equals(IDHL)){
-                        Double idhl = Double.parseDouble(manipulacao.getText());
-                        int index = 0;
-                        UpdateIDHL(index, idhl, hist);
-                    }
-                    else if(manipulacao.equals(PEADia)){
-                        Double pea = Double.parseDouble(manipulacao.getText());
-                        int index = 0;
-                        UpdatePEADia(index, pea, hist);
-                    }
-                }
-            
-                StringBuilder mensagem = new StringBuilder("As seguintes informações foram atualizadas:\n");
-                for(TextField tf : InfoNaoNulo){
-                    mensagem.append(tf.getId() + ": " + tf.getText() + "\n");
-                } mensagem.append("\nResponsavel:\n" + hist.getNome() + "\n" + hist.getCPF() + "\n" + hist.getUpdateData());
-                Alert inf = new Alert(Alert.AlertType.INFORMATION);
-                inf.setTitle("Atualização");
-                inf.setHeaderText("Notas da atualização");
-                inf.setContentText(mensagem.toString());
-                inf.show();
             }
         } catch (ParseException ex) {
             Logger.getLogger(AtualizarController.class.getName()).log(Level.SEVERE, null, ex);
@@ -157,7 +172,8 @@ public class AtualizarController implements Initializable {
             AtualizarDados();
         });
         btVoltar.setOnMouseClicked((MouseEvent e)->{
-            
+            Atualizar.getStage().close();
+            MenuController.TelaMenu();
         });
         }
     }
