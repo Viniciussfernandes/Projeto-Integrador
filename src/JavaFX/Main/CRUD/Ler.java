@@ -39,7 +39,7 @@ public class Ler extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        String path = "/JavaFX/Telas/Login.fxml";
+        String path = "/JavaFX/Telas/CRUD/Ler.fxml";
         Parent login = FXMLLoader.load(getClass().getResource(path));
         
         Scene scene = new Scene(login);

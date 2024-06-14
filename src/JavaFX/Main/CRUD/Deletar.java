@@ -25,9 +25,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -42,7 +39,7 @@ public class Deletar extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        String path = "/JavaFX/Telas/Login.fxml";
+        String path = "/JavaFX/Telas/CRUD/Deletar.fxml";
         Parent login = FXMLLoader.load(getClass().getResource(path));
         
         Scene scene = new Scene(login);

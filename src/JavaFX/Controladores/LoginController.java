@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -30,15 +29,16 @@ public class LoginController implements Initializable {
     @FXML private TextField login;
     @FXML private TextField CPF;
     @FXML private Button btEntrar;
+    private static Perfil perfil;
+
+    public static Perfil getPerfil() {
+        return perfil;
+    }
     
     public void Verif_Login(){
         if(Tratamento.Caracteres(login.getText()) && Tratamento.Numerico(CPF.getText()) &&
                 Perfil.ValidarCPF(CPF.getText())){
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Sucesso");
-            alert.setHeaderText(null);
-            alert.setContentText("Login bem-sucedido");
-            alert.show();
+            perfil = new Perfil(login.getText(), CPF.getText());
             Login.getStage().close();
             TelaMenu();
         } else {

@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #161622;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:controller="JavaFX.Controladores.CRUD.AtualizarController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #161622;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane layoutX="143.0" layoutY="36.0" prefHeight="328.0" prefWidth="315.0" style="-fx-background-color: white;">
          <children>
-            <TextField layoutX="166.0" layoutY="68.0" prefHeight="27.0" prefWidth="138.0" promptText="Domicílios" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
-            <Button layoutX="121.0" layoutY="287.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="69.0" style="-fx-background-color: #064d79; -fx-cursor: pointer;" text="Atualizar" textFill="WHITE" />
-            <Button layoutX="14.0" layoutY="15.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="29.0" style="-fx-background-color: #064d79; -fx-cursor: pointer;" text="&lt;" textFill="WHITE" />
+            <TextField fx:id="Domicilios" layoutX="17.0" layoutY="113.0" prefHeight="27.0" prefWidth="138.0" promptText="Domicílios" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
+            <Button fx:id="btAtualizar" layoutX="121.0" layoutY="287.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="69.0" style="-fx-background-color: #064d79; -fx-cursor: pointer;" text="Atualizar" textFill="WHITE" />
+            <Button fx:id="btVoltar" layoutX="14.0" layoutY="15.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="29.0" style="-fx-background-color: #064d79; -fx-cursor: pointer;" text="&lt;" textFill="WHITE" />
             <Text fill="#161622" layoutX="64.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informe os seguintes dados">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <TextField layoutX="17.0" layoutY="68.0" prefHeight="27.0" prefWidth="138.0" promptText="População" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
-            <TextField layoutX="166.0" layoutY="108.0" prefHeight="27.0" prefWidth="138.0" promptText="IDH" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
-            <TextField layoutX="17.0" layoutY="108.0" prefHeight="27.0" prefWidth="138.0" promptText="PIB Total" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
-            <TextField layoutX="166.0" layoutY="151.0" prefHeight="27.0" prefWidth="138.0" promptText="Renda Nominal" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
-            <TextField layoutX="17.0" layoutY="151.0" prefHeight="27.0" prefWidth="138.0" promptText="Renda Média" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
-            <TextField layoutX="166.0" layoutY="189.0" prefHeight="27.0" prefWidth="138.0" promptText="IDHD Longevidade" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
-            <TextField layoutX="17.0" layoutY="189.0" prefHeight="27.0" prefWidth="138.0" promptText="IDHD Educação" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
-            <TextField layoutX="16.0" layoutY="235.0" prefHeight="27.0" prefWidth="288.0" promptText="População Economicamente Ativa durante o dia" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="Populacao" layoutX="166.0" layoutY="74.0" prefHeight="27.0" prefWidth="138.0" promptText="População" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="IDHG" layoutX="17.0" layoutY="151.0" prefHeight="27.0" prefWidth="138.0" promptText="IDH" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="PIBTotal" layoutX="166.0" layoutY="113.0" prefHeight="27.0" prefWidth="138.0" promptText="PIB Total" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="RendaN" layoutX="166.0" layoutY="151.0" prefHeight="27.0" prefWidth="138.0" promptText="Renda Nominal" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="RendaM" layoutX="17.0" layoutY="192.0" prefHeight="27.0" prefWidth="138.0" promptText="Renda Média" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="IDHL" layoutX="17.0" layoutY="231.0" prefHeight="27.0" prefWidth="138.0" promptText="IDHD Longevidade" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="IDHE" layoutX="166.0" layoutY="192.0" prefHeight="27.0" prefWidth="138.0" promptText="IDHD Educação" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="PEADia" layoutX="166.0" layoutY="231.0" prefHeight="27.0" prefWidth="138.0" promptText="PEA Dia" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="Pesquisa" layoutX="14.0" layoutY="74.0" prefHeight="27.0" prefWidth="138.0" promptText="Codigo IBGE ou Municipio" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
          </children>
       </AnchorPane>
    </children>

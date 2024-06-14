@@ -4,15 +4,10 @@
  */
 package JavaFX.Main;
 
-import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -21,10 +16,6 @@ import javafx.stage.Stage;
  */
 public class Login extends Application {
     
-    private AnchorPane pane;
-    private TextField txNome;
-    private TextField txCPF;
-    private Button btEntrar, btCadastro;
     private static Stage stage;
 
     public static Stage getStage() {

@@ -25,10 +25,18 @@ package JavaFX.Controladores.CRUD;
  * @brief Class AtualizarController
  */
 
-import Entities.Perfil;
+import Entities.Historico;
+import JavaFX.Controladores.LoginController;
+import Services.Arquivo;
+import static Services.CRUD.*;
 import Services.Tratamento;
 import java.net.URL;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -38,32 +46,118 @@ import javafx.scene.input.MouseEvent;
 
 public class AtualizarController implements Initializable {
     
-    @FXML private TextField login;
-    @FXML private TextField CPF;
-    @FXML private Button btEntrar;
+    @FXML private TextField Pesquisa;
+    @FXML private TextField Populacao;
+    @FXML private TextField Domicilios;
+    @FXML private TextField PIBTotal;
+    @FXML private TextField IDHG;
+    @FXML private TextField RendaM;
+    @FXML private TextField RendaN;
+    @FXML private TextField IDHE;
+    @FXML private TextField IDHL;
+    @FXML private TextField PEADia;
+    @FXML private Button btAtualizar;
+    @FXML private Button btVoltar;
     
-
-    public void Verif_Login(){
-        if(Tratamento.Caracteres(login.getText()) && Tratamento.Numerico(CPF.getText()) &&
-                Perfil.ValidarCPF(CPF.getText())){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Sucesso");
-            alert.setHeaderText(null);
-            alert.setContentText("Login bem-sucedido");
-            alert.show();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Falha ao fazer o login");
-            alert.setContentText("Informações inseridas incorretas");
-            alert.show();
+    public void AtualizarDados(){
+        
+        boolean seguir = true;
+        
+        try {
+            Arquivo.In();
+            
+            TextField[] Vet_Tex = {Populacao, Domicilios, PIBTotal, IDHG, RendaM, RendaN, IDHE, IDHL, PEADia};
+            List<TextField> InfoNaoNulo = new ArrayList<>();
+            while(seguir){
+            for(TextField tf : Vet_Tex){
+                if(tf.getText() != null && !tf.getText().isEmpty()){
+                    InfoNaoNulo.add(tf);
+                } else if(Tratamento.Numerico(tf.getText()) == false){
+                    Alert erro = new Alert(Alert.AlertType.ERROR);
+                    erro.setTitle("Erro");
+                    erro.setHeaderText("Erro ao ler os dados");
+                    erro.setContentText("Informações fornecidas incorretas");
+                    erro.show();
+                    seguir = false;
+                    break;
+                }
+            }
+            }
+            Historico hist = new Historico("Joao", "08090478107");
+            //Historico hist = new Historico(LoginController.getPerfil().getNome(), LoginController.getPerfil().getCPF());
+            if(seguir){
+                for(TextField manipulacao : InfoNaoNulo){
+                    if(manipulacao.equals(Populacao)){
+                        Double populacao = Double.parseDouble(manipulacao.getText());
+                        int index = 0;
+                        UpdatePopulacao(index, populacao, hist);
+                    }
+                    else if(manipulacao.equals(Domicilios)){
+                        Double domicilios = Double.parseDouble(manipulacao.getText());
+                        int index = 0;
+                        UpdateDomicilios(index, domicilios, hist);
+                    }
+                    else if(manipulacao.equals(PIBTotal)){
+                        Double pib = Double.parseDouble(manipulacao.getText());
+                        int index = 0;
+                        UpdatePIBTotal(index, pib, hist);
+                    }
+                    else if(manipulacao.equals(IDHG)){
+                        Double idhg = Double.parseDouble(manipulacao.getText());
+                        int index = 0;
+                        UpdateIDHG(index, idhg, hist);
+                    }
+                    else if(manipulacao.equals(RendaM)){
+                        Double rendm = Double.parseDouble(manipulacao.getText());
+                        int index = 0;
+                        UpdateRendaMedia(index, rendm, hist);
+                    }
+                    else if(manipulacao.equals(RendaN)){
+                        Double rendn = Double.parseDouble(manipulacao.getText());
+                        int index = 0;
+                        UpdateRendaNominal(index, rendn, hist);
+                    }
+                    else if(manipulacao.equals(IDHE)){
+                        Double idhe = Double.parseDouble(manipulacao.getText());
+                        int index = 0;
+                        UpdateIDHE(index, idhe, hist);
+                    }
+                    else if(manipulacao.equals(IDHL)){
+                        Double idhl = Double.parseDouble(manipulacao.getText());
+                        int index = 0;
+                        UpdateIDHL(index, idhl, hist);
+                    }
+                    else if(manipulacao.equals(PEADia)){
+                        Double pea = Double.parseDouble(manipulacao.getText());
+                        int index = 0;
+                        UpdatePEADia(index, pea, hist);
+                    }
+                }
+            
+                StringBuilder mensagem = new StringBuilder("As seguintes informações foram atualizadas:\n");
+                for(TextField tf : InfoNaoNulo){
+                    mensagem.append(tf.getId() + ": " + tf.getText() + "\n");
+                } mensagem.append("\nResponsavel:\n" + hist.getNome() + "\n" + hist.getCPF() + "\n" + hist.getUpdateData());
+                Alert inf = new Alert(Alert.AlertType.INFORMATION);
+                inf.setTitle("Atualização");
+                inf.setHeaderText("Notas da atualização");
+                inf.setContentText(mensagem.toString());
+                inf.show();
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(AtualizarController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btEntrar.setOnMouseClicked((MouseEvent e) -> {
-            Verif_Login();
+        btAtualizar.setOnMouseClicked((MouseEvent e)->{
+            AtualizarDados();
+        });
+        btVoltar.setOnMouseClicked((MouseEvent e)->{
+            
         });
         }
     }

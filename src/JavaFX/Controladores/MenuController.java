@@ -31,38 +31,51 @@ public class MenuController implements Initializable {
     @FXML private Button btAtualizar;
     @FXML private Button btDeletar;
     
-    public void TelaCriar() throws IOException, Exception{
-        Menu.getStage().close();
-        Criar c = new Criar();
-        
-        c.start(new Stage());
+    public void TelaCriar(){
+        try {
+            Criar c = new Criar();
+            
+            c.start(new Stage());
+        } catch (Exception ex) {
+            Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void TelaAtualizar() throws IOException, Exception{
-        Menu.getStage().close();
-        Atualizar a = new Atualizar();
-        
-        a.start(new Stage());
+    public void TelaAtualizar(){
+        try {
+            Atualizar a = new Atualizar();
+            
+            a.start(new Stage());
+        } catch (Exception ex) {
+            Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void TelaDeletar() throws IOException, Exception{
-        Menu.getStage().close();
-        Deletar d = new Deletar();
-        
-        d.start(new Stage());
+    public void TelaDeletar(){
+        try {
+            Deletar d = new Deletar();
+            
+            d.start(new Stage());
+        } catch (Exception ex) {
+            Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void TelaLer() throws IOException, Exception{
-        Menu.getStage().close();
-        Ler l = new Ler();
-        
-        l.start(new Stage());
+    public void TelaLer(){
+        try {
+            Ler l = new Ler();
+            
+            l.start(new Stage());
+        } catch (Exception ex) {
+            Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btCriar.setOnMouseClicked((MouseEvent e)->{
             try {
+                Menu.getStage().close();
                 TelaCriar();
             } catch (Exception ex) {
                 Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,6 +84,7 @@ public class MenuController implements Initializable {
         
         btLer.setOnMouseClicked((MouseEvent e)->{
             try {
+                Menu.getStage().close();
                 TelaLer();
             } catch (Exception ex) {
                 Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,6 +93,7 @@ public class MenuController implements Initializable {
         
         btAtualizar.setOnMouseClicked((MouseEvent e)->{
             try {
+                Menu.getStage().close();
                 TelaAtualizar();
             } catch (Exception ex) {
                 Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,6 +102,7 @@ public class MenuController implements Initializable {
         
         btDeletar.setOnMouseClicked((MouseEvent e)->{
             try {
+                Menu.getStage().close();
                 TelaDeletar();
             } catch (Exception ex) {
                 Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);

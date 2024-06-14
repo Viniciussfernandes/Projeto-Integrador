@@ -40,7 +40,7 @@ public class Criar extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        String path = "/JavaFX/Telas/Login.fxml";
+        String path = "/JavaFX/Telas/CRUD/Criar.fxml";
         Parent login = FXMLLoader.load(getClass().getResource(path));
         
         Scene scene = new Scene(login);
