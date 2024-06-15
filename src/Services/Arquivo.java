@@ -43,6 +43,10 @@ public class Arquivo {
 
     // Lista para armazenar os dados das linhas
     public static List<Municipio> CSVIn = new ArrayList<>();
+
+    public static List<Municipio> getCSVIn() {
+        return CSVIn;
+    }
    
     // Metodo para ler o arquivo
     public static void In() throws ParseException{

@@ -50,15 +50,16 @@ public class CRUD {
    }
    
   
-   public static String Reader(int i){
-            return CSVIn.get(i).getCodigoIBGE() + "; " + CSVIn.get(i).getNome() + "; " +
-                   CSVIn.get(i).getMicroregiao() + "; " + CSVIn.get(i).getSigla() + "; " +
-                   CSVIn.get(i).getRegiao() + "; " + String.format("%.2f", CSVIn.get(i).getArea()) + "; " +
-                   String.format("%.2f", CSVIn.get(i).getPopulacao()) + "; " +
-                   String.format("%.2f", CSVIn.get(i).getDensidade()) + "; " +
-                   String.format("%.2f", CSVIn.get(i).getDomicilios()) + "; " +
-                   String.format("%.2f", CSVIn.get(i).getPIBTotal()) + "; " +
-                   String.format("%.2f", CSVIn.get(i).getPIBpC()) + "; " +
+   public static StringBuilder Reader(int i){
+       StringBuilder Planilha = new StringBuilder(
+                       CSVIn.get(i).getCodigoIBGE() + "; " + CSVIn.get(i).getNome() + "; " +
+                       CSVIn.get(i).getMicroregiao() + "; " + CSVIn.get(i).getSigla() + "; " +
+                       CSVIn.get(i).getRegiao() + "; " + String.format("%.2f", CSVIn.get(i).getArea()) + "; " +
+                       String.format("%.2f", CSVIn.get(i).getPopulacao()) + "; " +
+                       String.format("%.2f", CSVIn.get(i).getDensidade()) + "; " +
+                       String.format("%.2f", CSVIn.get(i).getDomicilios()) + "; " +
+                       String.format("%.2f", CSVIn.get(i).getPIBTotal()) + "; " +
+                       String.format("%.2f", CSVIn.get(i).getPIBpC()) + "; " +
                        String.format("%.2f", CSVIn.get(i).getIDHGeral()) + "; " +
                        CSVIn.get(i).getClassIDHG() + "; " +
                        String.format("%.2f", CSVIn.get(i).getRendaMedia()) + "; " +
@@ -67,7 +68,8 @@ public class CRUD {
                        String.format("%.2f", CSVIn.get(i).getIDHEducacao()) + "; " +
                        CSVIn.get(i).getClassIDHE() + "; " +
                        String.format("%.2f", CSVIn.get(i).getIDHLongevidade()) + "; " +
-                       CSVIn.get(i).getClassIDHL();
+                       CSVIn.get(i).getClassIDHL() + "\n");
+            return Planilha;
        }
    
    /** Todos os Updates seguem a mesma logica. Indicando o codigoIBGE para atualizar

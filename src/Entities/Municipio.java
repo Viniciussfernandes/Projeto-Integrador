@@ -232,5 +232,4 @@ public class Municipio {
             return "Baixo";
         } else return "Não foi possivel calcular";
     }
-    
 }

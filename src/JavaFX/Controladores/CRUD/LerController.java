@@ -18,53 +18,110 @@
 
 package JavaFX.Controladores.CRUD;
 
-import Entities.Perfil;
-import Services.Tratamento;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXML2.java to edit this template
+ */
+
+import Entities.Municipio;
+import Services.Arquivo;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
- * @author Willian Junior <willianjunior.c.f@gmail.com>
- * @date 12/06/2024
- * @brief Class LerControleer
+ * @author Davi Erick
+ * tabela
+ * colCodigo
+ * colMunicipios
+ * colMicrorregiao
+ * colEstado
+ * colRegiaoGeografica
+ * colArea
+ * colPopulacao
+ * colDomicilios
+ * colPibTotal
+ * colIDH
+ * colRendaMedia
+ * colRendaNominal
+ * colPea
+ * colIDHEducacao
+ * colIDHLongevidade
  */
-
 public class LerController implements Initializable {
     
-    @FXML private TextField login;
-    @FXML private TextField CPF;
-    @FXML private Button btEntrar;
+    @FXML private TableView<Municipio> tabela = new TableView<Municipio>();
     
-
-    public void Verif_Login(){
-        if(Tratamento.Caracteres(login.getText()) && Tratamento.Numerico(CPF.getText()) &&
-                Perfil.ValidarCPF(CPF.getText())){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Sucesso");
-            alert.setHeaderText(null);
-            alert.setContentText("Login bem-sucedido");
-            alert.show();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Falha ao fazer o login");
-            alert.setContentText("Informações inseridas incorretas");
-            alert.show();
+    @FXML private TableColumn<Municipio, Integer> colCodigo = new TableColumn<>();
+    @FXML private TableColumn<Municipio, String> colMunicipios = new TableColumn<>();
+    @FXML private TableColumn<Municipio, String> colMicrorregiao = new TableColumn<>();
+    @FXML private TableColumn<Municipio, String> colEstado = new TableColumn<>();
+    @FXML private TableColumn<Municipio, String> colRegiaoGeografica = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Double> colArea = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Double> colPopulacao = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Double> colDomicilios = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Double> colPibTotal = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Double> colIDH = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Double> colRendaMedia = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Double> colRendaNominal = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Double> colPea = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Double> colIDHEducacao = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Double> colIDHLongevidade = new TableColumn<>();
+    
+    @FXML private TextField Busca;        
+    
+    @FXML
+    private void adicionarNaTabela(){
+        try {
+            Arquivo.In();
+            
+            preencherTabela();
+        } catch (ParseException ex) {
+            Logger.getLogger(LerController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void preencherTabela(){
+        ObservableList<Municipio> dados = FXCollections.observableArrayList(Arquivo.getCSVIn());
+        tabela.setItems(dados);
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btEntrar.setOnMouseClicked((MouseEvent e) -> {
-            Verif_Login();
-        });
-        }
+        // TODO
+        colCodigo.setCellValueFactory(new PropertyValueFactory<Municipio, Integer>("codigoIBGE"));
+        colMunicipios.setCellValueFactory(new PropertyValueFactory<Municipio, String>("nome"));
+        colMicrorregiao.setCellValueFactory(new PropertyValueFactory<Municipio, String>("microregiao"));
+        colEstado.setCellValueFactory(new PropertyValueFactory<Municipio, String>("sigla"));
+        colRegiaoGeografica.setCellValueFactory(new PropertyValueFactory<Municipio, String>("regiao"));
+        colArea.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("area"));
+        colPopulacao.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("populacao"));
+        colDomicilios.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("domicilios"));
+        colPibTotal.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("PIBTotal"));
+        colIDH.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("IDHGeral"));
+        colRendaMedia.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("RendaMedia"));
+        colRendaNominal.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("RendaNominal"));
+        colPea.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("PEADia"));
+        colIDHEducacao.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("IDHEducacao"));
+        colIDHLongevidade.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("IDHLongevidade"));
+        
+        adicionarNaTabela();
+        preencherTabela();
     }
-
+    
+    
+    
+}

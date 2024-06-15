@@ -88,7 +88,7 @@ public class MenuController implements Initializable {
             Alert info = new Alert(Alert.AlertType.INFORMATION);
             info.setTitle("Criação");
             info.setHeaderText("Novas informações inseridas");
-            info.setContentText("Densidade Demográfica\nPIB per Capita Total\n Classificação dos IDHs");
+            info.setContentText("Densidade Demográfica\nPIB per Capita Total\nClassificação dos IDHs");
             info.show();
         });
         
