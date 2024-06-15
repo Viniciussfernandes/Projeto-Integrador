@@ -18,7 +18,14 @@
 
 package Services;
 
+import Entities.Municipio;
 import static Services.Arquivo.CSVIn;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -28,8 +35,43 @@ import java.util.regex.Pattern;
  */
 
 public class Tratamento {
+    
     // Metodo para limpar os pontos e virgulas
-    public static String LimparNumero(String numero){
+    
+    public static List<Municipio> FormatarLista(List<Municipio> list){
+        List<Municipio> res = new ArrayList<>();
+        res = list;
+        for(Municipio m : res){
+            String areaFormat = String.format("%.2f", m.getArea());
+            areaFormat = areaFormat.replace(",", ".");
+            m.setArea(Double.parseDouble(areaFormat));
+            
+            String domiFormat = String.format("%.2f", m.getDomicilios());
+            domiFormat = domiFormat.replace(",", ".");
+            m.setDomicilios(Double.parseDouble(domiFormat));
+            
+            String PIBFormat = String.format("%.2f", m.getPIBTotal());
+            PIBFormat = PIBFormat.replace(",", ".");
+            m.setPIBTotal(Double.parseDouble(PIBFormat));
+            
+            String rendaMFormat = String.format("%.2f", m.getRendaMedia());
+            rendaMFormat = rendaMFormat.replace(",", ".");
+            m.setRendaMedia(Double.parseDouble(rendaMFormat));
+            
+            String rendaNFormat = String.format("%.2f", m.getRendaNominal());
+            rendaNFormat = rendaNFormat.replace(",", ".");
+            m.setRendaNominal(Double.parseDouble(rendaNFormat));
+        } 
+        return res;
+    }
+    
+    public static String LimparInteger(String numero){
+        String limpo = numero.replaceAll("\\,0+$", "");
+        limpo = limpo.replace(".", "");
+        return limpo;
+    }
+    
+    public static String LimparDouble(String numero){
         String limpo = numero.replace(".", "");
         limpo = limpo.replace(",", ".");
         return limpo;

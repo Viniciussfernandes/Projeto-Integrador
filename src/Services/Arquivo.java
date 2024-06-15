@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -82,16 +83,17 @@ public class Arquivo {
                String microregiao = fields[2];
                String sigla = fields[3];
                String regiao = fields[4];
-               double area = Double.parseDouble(LimparNumero(fields[5]));
-               double populacao = Double.parseDouble(LimparNumero(fields[6]));
-               double domicilios = Double.parseDouble(LimparNumero(fields[7]));
-               double PIBTotal = Double.parseDouble(LimparNumero(fields[8]));
-               double IDHGeral = Double.parseDouble(LimparNumero(fields[9]));
-               double RendaMedia = Double.parseDouble(LimparNumero(fields[10]));
-               double RendaNominal = Double.parseDouble(LimparNumero(fields[11]));
-               double PEADia = Double.parseDouble(LimparNumero(fields[12]));
-               double IDHEducacao = Double.parseDouble(LimparNumero(fields[13]));
-               double IDHLongevidade = Double.parseDouble(LimparNumero(fields[14]));
+               double area = Double.parseDouble(LimparDouble(fields[5]));
+               int populacao = Integer.parseInt(LimparInteger(fields[6]));
+               double domicilios = Double.parseDouble(LimparDouble(fields[7]));
+               double PIBTotal = Double.parseDouble(LimparDouble(fields[8]));
+               double IDHGeral = Double.parseDouble(LimparDouble(fields[9]));
+               double RendaMedia = Double.parseDouble(LimparDouble(fields[10]));
+               BigDecimal RendaN = new BigDecimal(LimparDouble(fields[11]));
+               double RendaNominal = RendaN.doubleValue();
+               int PEADia = Integer.parseInt(LimparInteger(fields[12]));
+               double IDHEducacao = Double.parseDouble(LimparDouble(fields[13]));
+               double IDHLongevidade = Double.parseDouble(LimparDouble(fields[14]));
                
                // Instanciando a classe para pôr na lista CSVIn
                Municipio mun = new Municipio(codigoIBGE, nome, microregiao, sigla,

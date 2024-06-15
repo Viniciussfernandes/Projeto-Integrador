@@ -35,10 +35,15 @@ import javafx.stage.Stage;
  */
 public class Ler extends Application {
     
-    
+    private static Stage stage;
+
+    public static Stage getStage() {
+        return stage;
+    }
     
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage Ler) throws Exception {
+        this.stage = Ler;
         String path = "/JavaFX/Telas/CRUD/Ler.fxml";
         Parent login = FXMLLoader.load(getClass().getResource(path));
         

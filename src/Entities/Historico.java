@@ -43,10 +43,6 @@ public class Historico extends Perfil {
     public String getUpdateTipo() {
         return UpdateTipo;
     }
-
-    public Double getUpdateValor() {
-        return UpdateValor;
-    }
     
     public String getUpdateData() {
         return UpdateData;
@@ -59,10 +55,6 @@ public class Historico extends Perfil {
 
     public void setUpdateTipo(String UpdateTipo) {
         this.UpdateTipo = UpdateTipo;
-    }
-
-    public void setUpdateValor(Double UpdateValor) {
-        this.UpdateValor = UpdateValor;
     }
     
     public DateTimeFormatter DataFormato() {

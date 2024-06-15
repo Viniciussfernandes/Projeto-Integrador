@@ -55,7 +55,7 @@ public class CRUD {
                        CSVIn.get(i).getCodigoIBGE() + "; " + CSVIn.get(i).getNome() + "; " +
                        CSVIn.get(i).getMicroregiao() + "; " + CSVIn.get(i).getSigla() + "; " +
                        CSVIn.get(i).getRegiao() + "; " + String.format("%.2f", CSVIn.get(i).getArea()) + "; " +
-                       String.format("%.2f", CSVIn.get(i).getPopulacao()) + "; " +
+                       CSVIn.get(i).getPopulacao() + "; " +
                        String.format("%.2f", CSVIn.get(i).getDensidade()) + "; " +
                        String.format("%.2f", CSVIn.get(i).getDomicilios()) + "; " +
                        String.format("%.2f", CSVIn.get(i).getPIBTotal()) + "; " +
@@ -63,8 +63,8 @@ public class CRUD {
                        String.format("%.2f", CSVIn.get(i).getIDHGeral()) + "; " +
                        CSVIn.get(i).getClassIDHG() + "; " +
                        String.format("%.2f", CSVIn.get(i).getRendaMedia()) + "; " +
-                       String.format("%.2f", CSVIn.get(i).getRendaNominal()) + "; " +
-                       String.format("%.2f", CSVIn.get(i).getPEADia()) + "; " +
+                       String.format("%.2f", CSVIn.get(i).getRendaNominal()) + "; " + 
+                               CSVIn.get(i).getPEADia() + "; " +
                        String.format("%.2f", CSVIn.get(i).getIDHEducacao()) + "; " +
                        CSVIn.get(i).getClassIDHE() + "; " +
                        String.format("%.2f", CSVIn.get(i).getIDHLongevidade()) + "; " +
@@ -77,21 +77,19 @@ public class CRUD {
     * então separei em blocos especificos, tambem para conseguir atualizar um sem precisar dos
     * outros.
     */
-   public static void UpdatePopulacao(int index, double pop, Historico hist){
+   public static void UpdatePopulacao(int index, int pop, Historico hist){
        // Usando sets para atualizar a lista
        CSVIn.get(index).setPopulacao(pop);
        CSVIn.get(index).setDensidade(Municipio.Densidade(pop, CSVIn.get(index).getArea()));
        // Armazenando as informações da atualização
        hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("População e Densidade");
-       hist.setUpdateValor(pop);
    }
    
    public static void UpdateDomicilios(int index, double dom, Historico hist){
        CSVIn.get(index).setDomicilios(dom);
        hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("Domicílios");
-       hist.setUpdateValor(dom);
    }
    
    public static void UpdatePIBTotal(int index, double pib, Historico hist){
@@ -99,7 +97,6 @@ public class CRUD {
        CSVIn.get(index).setPIBpC(Municipio.PIBpC(pib, CSVIn.get(index).getPopulacao()));
        hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("PIBTotal e PIBpC");
-       hist.setUpdateValor(pib);
    }
    
    public static void UpdateIDHG(int index, double idh, Historico hist){
@@ -107,28 +104,24 @@ public class CRUD {
        CSVIn.get(index).setClassIDHG(Municipio.classIDH(idh));
        hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("IDHG e Classificação");
-       hist.setUpdateValor(idh);
    }
    
    public static void UpdateRendaMedia(int index, double rendM, Historico hist){
        CSVIn.get(index).setRendaMedia(rendM);
        hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("Renda Media");
-       hist.setUpdateValor(rendM);
    }
    
    public static void UpdateRendaNominal(int index, double rendN, Historico hist){
        CSVIn.get(index).setRendaNominal(rendN);
        hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("Renda Nominal");
-       hist.setUpdateValor(rendN);
    }
    
-   public static void UpdatePEADia(int index, double pe, Historico hist){
+   public static void UpdatePEADia(int index, int pe, Historico hist){
        CSVIn.get(index).setPEADia(pe);
        hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("PEA Dia");
-       hist.setUpdateValor(pe);
    }
    
    public static void UpdateIDHE(int Index, double idh, Historico hist){
@@ -136,7 +129,6 @@ public class CRUD {
        CSVIn.get(Index).setClassIDHE(Municipio.classIDH(idh));
        hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("IDHE e Classificação");
-       hist.setUpdateValor(idh);
    }
    
    public static void UpdateIDHL(int index, double idh, Historico hist){
@@ -144,7 +136,6 @@ public class CRUD {
        CSVIn.get(index).setClassIDHL(Municipio.classIDH(idh));
        hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
        hist.setUpdateTipo("IDHL e Classificação");
-       hist.setUpdateValor(idh);
    }
    
    // Metodo para deletar uma linha. Obs: O professor quer que não exclua o codigo IBGE e nome municipio

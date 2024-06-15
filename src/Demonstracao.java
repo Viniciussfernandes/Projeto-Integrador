@@ -126,8 +126,8 @@ public class Demonstracao {
                 switch(up_op){
                     case 1 -> {
                         System.out.println("Digite o novo valor:");
-                        double pop = sc.nextDouble();
-                        CRUD.UpdatePopulacao(index, ibge, hist);
+                        int pop = sc.nextInt();
+                        CRUD.UpdatePopulacao(index, pop, hist);
                         break;
                     }
                     case 2 -> {
@@ -162,7 +162,7 @@ public class Demonstracao {
                     }
                     case 7 -> {
                         System.out.println("Digite o novo valor:");
-                        double pea = sc.nextDouble();
+                        int pea = sc.nextInt();
                         CRUD.UpdatePEADia(index, pea, hist);
                         break;
                     }

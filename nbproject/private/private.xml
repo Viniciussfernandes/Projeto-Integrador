@@ -3,10 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Projeto%20Integrador/Densus/src/Services/CRUD.java</file>
+            <file>file:/C:/Projeto%20Integrador/Densus/src/Services/Tratamento.java</file>
             <file>file:/C:/Projeto%20Integrador/Densus/src/JavaFX/Telas/CRUD/Ler.fxml</file>
+            <file>file:/C:/Projeto%20Integrador/Densus/src/Services/CRUD.java</file>
+            <file>file:/C:/Projeto%20Integrador/Densus/src/Services/Arquivo.java</file>
+            <file>file:/C:/Projeto%20Integrador/Densus/src/JavaFX/Controladores/CRUD/AtualizarController.java</file>
+            <file>file:/C:/Projeto%20Integrador/Densus/src/Demonstracao.java</file>
             <file>file:/C:/Projeto%20Integrador/Densus/src/Entities/Municipio.java</file>
+            <file>file:/C:/Projeto%20Integrador/Densus/src/JavaFX/Main/CRUD/Ler.java</file>
             <file>file:/C:/Projeto%20Integrador/Densus/src/JavaFX/Controladores/CRUD/LerController.java</file>
+            <file>file:/C:/Projeto%20Integrador/Densus/src/Entities/Historico.java</file>
         </group>
     </open-files>
 </project-private>

@@ -109,7 +109,7 @@ public class AtualizarController implements Initializable {
                         if(seguir){
                             for(TextField manipulacao : InfoNaoNulo){
                                 if(manipulacao.equals(Populacao)){
-                                    Double populacao = Double.parseDouble(manipulacao.getText());
+                                    int populacao = Integer.parseInt(manipulacao.getText());
                                     UpdatePopulacao(index, populacao, hist);
                                 }
                                 else if(manipulacao.equals(Domicilios)){
@@ -141,7 +141,7 @@ public class AtualizarController implements Initializable {
                                     UpdateIDHL(index, idhl, hist);
                                 }
                                 else if(manipulacao.equals(PEADia)){
-                                    Double pea = Double.parseDouble(manipulacao.getText());
+                                    int pea = Integer.parseInt(manipulacao.getText());
                                     UpdatePEADia(index, pea, hist);
                                 }
                             }

@@ -24,22 +24,35 @@ package JavaFX.Controladores.CRUD;
  */
 
 import Entities.Municipio;
+import JavaFX.Controladores.MenuController;
+import JavaFX.Main.CRUD.Atualizar;
+import JavaFX.Main.CRUD.Ler;
 import Services.Arquivo;
+import Services.Tratamento;
+import Services.Ujeverson;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
+import javafx.util.StringConverter;
+import javafx.util.Callback;
 
 /**
  *
@@ -71,55 +84,104 @@ public class LerController implements Initializable {
     @FXML private TableColumn<Municipio, String> colEstado = new TableColumn<>();
     @FXML private TableColumn<Municipio, String> colRegiaoGeografica = new TableColumn<>();
     @FXML private TableColumn<Municipio, Double> colArea = new TableColumn<>();
-    @FXML private TableColumn<Municipio, Double> colPopulacao = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Integer> colPopulacao = new TableColumn<>();
     @FXML private TableColumn<Municipio, Double> colDomicilios = new TableColumn<>();
     @FXML private TableColumn<Municipio, Double> colPibTotal = new TableColumn<>();
     @FXML private TableColumn<Municipio, Double> colIDH = new TableColumn<>();
     @FXML private TableColumn<Municipio, Double> colRendaMedia = new TableColumn<>();
     @FXML private TableColumn<Municipio, Double> colRendaNominal = new TableColumn<>();
-    @FXML private TableColumn<Municipio, Double> colPea = new TableColumn<>();
+    @FXML private TableColumn<Municipio, Integer> colPea = new TableColumn<>();
     @FXML private TableColumn<Municipio, Double> colIDHEducacao = new TableColumn<>();
     @FXML private TableColumn<Municipio, Double> colIDHLongevidade = new TableColumn<>();
     
     @FXML private TextField Busca;        
+    @FXML private Button btBuscar;
+    @FXML private Button btVoltar;
+    @FXML private Button btMelhorPIB;
+    @FXML private Button btPiorPIB;
+    @FXML private Button btMelhorPIBPiorIDHE;
     
-    @FXML
-    private void adicionarNaTabela(){
-        try {
-            Arquivo.In();
-            
-            preencherTabela();
-        } catch (ParseException ex) {
-            Logger.getLogger(LerController.class.getName()).log(Level.SEVERE, null, ex);
+    public void PesquisarMunicipio(){
+        if(Busca.getText().equals("")){
+            preencherTabela(Tratamento.FormatarLista(Arquivo.getCSVIn()));
+        } else {
+            List<Municipio> res = new ArrayList<>();
+            for(Municipio m : Arquivo.getCSVIn()){
+                if(m.getNome().equals(Busca.getText()) || (m.getCodigoIBGE().toString()).equals(Busca.getText()))
+                    res.add(m);
+            }
+            preencherTabela(res);
         }
     }
     
-    private void preencherTabela(){
-        ObservableList<Municipio> dados = FXCollections.observableArrayList(Arquivo.getCSVIn());
-        tabela.setItems(dados);
+    public void Ujeverson(int option){
+        switch(option){
+            case 1:{
+                List<Municipio> MelhorPIBpC = new ArrayList<>();
+                MelhorPIBpC.add(Arquivo.getCSVIn().get(Ujeverson.MelhorPIBpC()));
+                preencherTabela(MelhorPIBpC);
+            }
+            case 2:{
+                List<Municipio> PiorPIBpC = new ArrayList<>();
+                PiorPIBpC.add(Arquivo.getCSVIn().get(Ujeverson.PiorPIBpC()));
+                preencherTabela(PiorPIBpC);
+            }
+            case 3:{
+                List<Municipio> MelhorPIBpC_PiorIDHE = new ArrayList<>();
+                MelhorPIBpC_PiorIDHE.add(Arquivo.getCSVIn().get(Ujeverson.MelhorPIBpC_PiorIDHE()));
+                preencherTabela(MelhorPIBpC_PiorIDHE);
+            }
+        }
     }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    
+    public void preencherTabela(List<Municipio> Tabela){
+        ObservableList<Municipio> dados = FXCollections.observableArrayList(Tabela);
+        
         colCodigo.setCellValueFactory(new PropertyValueFactory<Municipio, Integer>("codigoIBGE"));
         colMunicipios.setCellValueFactory(new PropertyValueFactory<Municipio, String>("nome"));
         colMicrorregiao.setCellValueFactory(new PropertyValueFactory<Municipio, String>("microregiao"));
         colEstado.setCellValueFactory(new PropertyValueFactory<Municipio, String>("sigla"));
         colRegiaoGeografica.setCellValueFactory(new PropertyValueFactory<Municipio, String>("regiao"));
         colArea.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("area"));
-        colPopulacao.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("populacao"));
+        colPopulacao.setCellValueFactory(new PropertyValueFactory<Municipio, Integer>("populacao"));
         colDomicilios.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("domicilios"));
         colPibTotal.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("PIBTotal"));
         colIDH.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("IDHGeral"));
         colRendaMedia.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("RendaMedia"));
         colRendaNominal.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("RendaNominal"));
-        colPea.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("PEADia"));
+        colPea.setCellValueFactory(new PropertyValueFactory<Municipio, Integer>("PEADia"));
         colIDHEducacao.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("IDHEducacao"));
         colIDHLongevidade.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("IDHLongevidade"));
         
-        adicionarNaTabela();
-        preencherTabela();
+        tabela.setItems(dados);
+    }
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        try {
+            btBuscar.setOnMouseClicked((MouseEvent e)->{
+                PesquisarMunicipio();
+            });
+            btVoltar.setOnMouseClicked((MouseEvent e)->{
+                Ler.getStage().close();
+                MenuController.TelaMenu();
+            });
+            btMelhorPIB.setOnMouseClicked((MouseEvent e)->{
+                Ujeverson(1);
+            });
+            btPiorPIB.setOnMouseClicked((MouseEvent e)->{
+                Ujeverson(2);
+            });
+            btMelhorPIBPiorIDHE.setOnMouseClicked((MouseEvent e)->{
+                Ujeverson(3);
+            });
+            Arquivo.In();
+            PesquisarMunicipio();
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(LerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

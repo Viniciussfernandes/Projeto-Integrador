@@ -28,7 +28,7 @@ import static Services.Arquivo.CSVIn;
 
 public class Ujeverson {
     // Metodos para a atividade do Ujeverson
-    public static String MelhorPIBpC(){
+    public static int MelhorPIBpC(){
         // Inicializando as variaveis fora do loop
         double maior = 0;
         int index = 0;
@@ -39,18 +39,11 @@ public class Ujeverson {
                 index = i;
             }
         }
-        return "Municipio: " + CSVIn.get(index).getNome() + 
-                String.format("\nPIBpC: %.2f", CSVIn.get(index).getPIBpC()) + 
-                "\nIDH - Desenvolv. Humano: " + CSVIn.get(index).getIDHGeral() + 
-                ", Classificação: " + CSVIn.get(index).getClassIDHG()+ 
-                "\nIDH - Dimensão Educação: " + CSVIn.get(index).getIDHEducacao() + 
-                ", Classificação: " + CSVIn.get(index).getClassIDHE()+ 
-                "\nIDH - Dimensão Longevidade: " + CSVIn.get(index).getIDHLongevidade() +
-                ", Classificação: " + CSVIn.get(index).getClassIDHL();
+        return index;
     }
     
     // Segue a mesma logica do que o de cima so que o pior PIBpC
-    public static String PiorPIBpC(){
+    public static int PiorPIBpC(){
         double menor = 0;
         int index = 0;
         for(int i = 0; i < CSVIn.size(); i++){
@@ -59,18 +52,11 @@ public class Ujeverson {
                 index = i;
             }
         }
-        return "Municipio: " + CSVIn.get(index).getNome() + 
-                String.format("\nPIBpC: %.2f", CSVIn.get(index).getPIBpC()) + 
-                "\nIDH - Desenvolv. Humano: " + CSVIn.get(index).getIDHGeral() + 
-                ", Classificação: " + CSVIn.get(index).getClassIDHG()+ 
-                "\nIDH - Dimensão Educação: " + CSVIn.get(index).getIDHEducacao() + 
-                ", Classificação: " + CSVIn.get(index).getClassIDHE()+ 
-                "\nIDH - Dimensão Longevidade: " + CSVIn.get(index).getIDHLongevidade() +
-                ", Classificação: " + CSVIn.get(index).getClassIDHL();
+        return index;
     }
     
     // Segue a mesma logica so que com uma condição a mais
-    public static String MelhorPIBpC_PiorIDHE(){
+    public static int MelhorPIBpC_PiorIDHE(){
         double pib = 0;
         double idh = 0;
         int index = 0;
@@ -81,13 +67,6 @@ public class Ujeverson {
                 index = i;
             }
         }
-        return "Municipio: " + CSVIn.get(index).getNome() + 
-                String.format("\nPIBpC: %.2f", CSVIn.get(index).getPIBpC()) + 
-                "\nIDH - Desenvolv. Humano: " + CSVIn.get(index).getIDHGeral() + 
-                ", Classificação: " + CSVIn.get(index).getClassIDHG()+ 
-                "\nIDH - Dimensão Educação: " + CSVIn.get(index).getIDHEducacao() + 
-                ", Classificação: " + CSVIn.get(index).getClassIDHE()+ 
-                "\nIDH - Dimensão Longevidade: " + CSVIn.get(index).getIDHLongevidade() +
-                ", Classificação: " + CSVIn.get(index).getClassIDHL();
+        return index;
     }
 }

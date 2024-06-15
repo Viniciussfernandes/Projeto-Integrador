@@ -32,11 +32,11 @@
             </TableView>
          </children>
       </VBox>
-      <Button layoutX="14.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="&lt;" />
+      <Button fx:id="btVoltar" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="&lt;" />
       <TextField fx:id="Busca" layoutX="133.0" layoutY="8.0" prefHeight="25.0" prefWidth="275.0" promptText="Digite o código do município ou nome" />
-      <Button fx:id="adicionarNaTabela" layoutX="430.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Buscar" />
-      <Button layoutX="513.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Mostrar melhor PIBpC" />
-      <Button layoutX="655.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Mostrar pior PIBpC" />
-      <Button layoutX="778.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Mostrar melhor PIBpC e IDH educação" />
+      <Button fx:id="btBuscar" layoutX="430.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Buscar" />
+      <Button fx:id="btMelhorPIB" layoutX="513.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Mostrar melhor PIBpC" />
+      <Button fx:id="btPiorPIB" layoutX="655.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Mostrar pior PIBpC" />
+      <Button fx:id="btMelhorPIBPiorIDHE" layoutX="778.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Mostrar melhor PIBpC e o pior IDH educação" />
    </children>
 </AnchorPane>

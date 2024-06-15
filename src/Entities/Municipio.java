@@ -18,6 +18,10 @@
 
 package Entities;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Willian Junior <willianjunior.c.f@gmail.com>
  * @date 30/05/2024
@@ -32,13 +36,13 @@ public class Municipio {
     private String sigla;
     private String regiao;
     private Double area;
-    private Double populacao;
+    private Integer populacao;
     private Double domicilios;
     private Double PIBTotal;
     private Double IDHGeral;
     private Double RendaMedia;
     private Double RendaNominal;
-    private Double PEADia;
+    private Integer PEADia;
     private Double IDHEducacao;
     private Double IDHLongevidade;
     
@@ -48,14 +52,14 @@ public class Municipio {
     private String ClassIDHG;
     private String ClassIDHE;
     private String ClassIDHL;
-
+    
     public Municipio() {
     }
     
     //Construtor com as variaveis fora as calculaveis
     public Municipio(Integer codigoIBGE, String nome, String microregiao, String sigla,
-            String regiao, Double area, Double populacao, Double domicilios, Double PIBTotal,
-            Double IDHGeral, Double RendaMedia, Double RendaNominal, Double PEADia,
+            String regiao, Double area, Integer populacao, Double domicilios, Double PIBTotal,
+            Double IDHGeral, Double RendaMedia, Double RendaNominal, Integer PEADia,
             Double IDHEducacao, Double IDHLongevidade) {
         this.codigoIBGE = codigoIBGE;
         this.nome = nome;
@@ -98,7 +102,7 @@ public class Municipio {
         return area;
     }
 
-    public Double getPopulacao() {
+    public Integer getPopulacao() {
         return populacao;
     }
 
@@ -122,7 +126,7 @@ public class Municipio {
         return RendaNominal;
     }
 
-    public Double getPEADia() {
+    public Integer getPEADia() {
         return PEADia;
     }
 
@@ -176,7 +180,7 @@ public class Municipio {
     }
     
     // Sets para a Operação Update
-    public void setPopulacao(Double populacao) {
+    public void setPopulacao(Integer populacao) {
         this.populacao = populacao;
     }
 
@@ -200,7 +204,7 @@ public class Municipio {
         this.RendaNominal = RendaNominal;
     }
 
-    public void setPEADia(Double PEADia) {
+    public void setPEADia(Integer PEADia) {
         this.PEADia = PEADia;
     }
 
@@ -213,11 +217,11 @@ public class Municipio {
     }
     
     // Operações de acordo com o arquivo disponibilizado no classroom
-    public static double Densidade(Double populacao, Double area){
+    public static double Densidade(Integer populacao, Double area){
         return populacao / area;
     }
     
-    public static double PIBpC(Double PIBTotal, Double populacao){
+    public static double PIBpC(Double PIBTotal, Integer populacao){
         return PIBTotal / populacao;
     }
     
@@ -232,4 +236,30 @@ public class Municipio {
             return "Baixo";
         } else return "Não foi possivel calcular";
     }
+
+    public void setCodigoIBGE(Integer codigoIBGE) {
+        this.codigoIBGE = codigoIBGE;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setMicroregiao(String microregiao) {
+        this.microregiao = microregiao;
+    }
+
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
+    }
+
+    public void setRegiao(String regiao) {
+        this.regiao = regiao;
+    }
+
+    public void setArea(Double area) {
+        this.area = area;
+    }
+    
+    
 }
