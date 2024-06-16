@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1300.0" style="-fx-background-color: #161622;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFX.Controladores.CRUD.LerController">
+   <children>
+      <VBox layoutX="-4.0" layoutY="43.0" prefHeight="700.0" prefWidth="1300.0">
+         <children>
+            <TableView fx:id="tabela" prefHeight="650.0" prefWidth="1300.0">
+              <columns>
+                <TableColumn fx:id="colCodigo" prefWidth="100.0" text="Código IBGE" />
+                <TableColumn fx:id="colMunicipios" prefWidth="175.0" text="Municípios" />
+                <TableColumn fx:id="colMicrorregiao" prefWidth="145.0" text="Microrregião" />
+                <TableColumn fx:id="colEstado" prefWidth="70.0" text="Estado" />
+                <TableColumn fx:id="colRegiaoGeografica" prefWidth="130.0" text="Região Geográfica" />
+                <TableColumn fx:id="colArea" prefWidth="85.0" text="Área Km2" />
+                <TableColumn fx:id="colPopulacao" prefWidth="85.0" text="População" />
+                <TableColumn fx:id="colDensidade" prefWidth="85.0" text="Densidade" />
+                <TableColumn fx:id="colDomicilios" prefWidth="85.0" text="Domicilios" />
+                <TableColumn fx:id="colPibTotal" prefWidth="120.0" text="PIB Total(RS mil)" />
+                <TableColumn fx:id="colPIBpC" prefWidth="70.0" text="PIBpc" />
+                <TableColumn fx:id="colIDH" prefWidth="70.0" text="IDH" />
+                <TableColumn fx:id="colClassIDH" prefWidth="120.0" text="IDH Classificação" />
+                <TableColumn fx:id="colRendaMedia" prefWidth="100.0" text="Renda Média" />
+                <TableColumn fx:id="colRendaNominal" prefWidth="110.0" text="Renda Nominal" />
+                <TableColumn fx:id="colPea" prefWidth="70.0" text="PEA Dia" />
+                <TableColumn fx:id="colIDHEducacao" prefWidth="110.0" text="IDH Educação" />
+                <TableColumn fx:id="colClassIDHE" prefWidth="145.0" text="IDH Edu Classificação" />
+                <TableColumn fx:id="colIDHLongevidade" prefWidth="120.0" text="IDH Longevidade" />
+                <TableColumn fx:id="colClassIDHL" prefWidth="150.0" text="IDH Long Classificação" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <Button fx:id="btVoltar" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="&lt;" />
+      <TextField fx:id="busca" layoutX="108.0" layoutY="8.0" prefHeight="25.0" prefWidth="275.0" promptText="Digite o código do município ou nome" />
+      <Button fx:id="btBuscar" layoutX="399.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Buscar" />
+      <Button fx:id="btMelhorPIB" layoutX="466.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Mostrar melhor PIBpC" />
+      <Button fx:id="btPiorPIB" layoutX="616.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Mostrar pior PIBpC" />
+      <Button fx:id="btMelhorPIBPiorIDHE" layoutX="749.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Mostrar melhor PIBpC e o pior IDH educação" />
+      <Button fx:id="btUltimaAtualizacao" layoutX="1169.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Ultima atualização" />
+      <Button fx:id="btDesfazerAtualizacoes" layoutX="1020.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Desfazer Atualizações" />
+   </children>
+</AnchorPane>

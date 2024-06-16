@@ -24,36 +24,38 @@ package Entities;
  * @brief Class Municipios
  */
 
+// Essa classe vai ser responsavel por armazenar o objeto dentro da lista
 public class Municipio {
     
+    // Variaveis basicas
     private Integer codigoIBGE;
     private String nome;
     private String microregiao;
     private String sigla;
     private String regiao;
     private Double area;
-    private Double populacao;
+    private Integer populacao;
     private Double domicilios;
     private Double PIBTotal;
     private Double IDHGeral;
     private Double RendaMedia;
     private Double RendaNominal;
-    private Double PEADia;
+    private Integer PEADia;
     private Double IDHEducacao;
     private Double IDHLongevidade;
     
-    // Variaveis calculadas
+    // Variaveis da operação Create
     private Double Densidade;
     private Double PIBpC;
     private String ClassIDHG;
     private String ClassIDHE;
     private String ClassIDHL;
-
-    public Municipio() {
-    }
     
-    //Construtor com as variaveis fora as calculaveis
-    public Municipio(Integer codigoIBGE, String nome, String microregiao, String sigla, String regiao, Double area, Double populacao, Double domicilios, Double PIBTotal, Double IDHGeral, Double RendaMedia, Double RendaNominal, Double PEADia, Double IDHEducacao, Double IDHLongevidade) {
+    // Construtor com as variaveis basicas, as outras serão colocadas no objeto através de sets
+    public Municipio(Integer codigoIBGE, String nome, String microregiao, String sigla,
+            String regiao, Double area, Integer populacao, Double domicilios, Double PIBTotal,
+            Double IDHGeral, Double RendaMedia, Double RendaNominal, Integer PEADia,
+            Double IDHEducacao, Double IDHLongevidade) {
         this.codigoIBGE = codigoIBGE;
         this.nome = nome;
         this.microregiao = microregiao;
@@ -70,7 +72,8 @@ public class Municipio {
         this.IDHEducacao = IDHEducacao;
         this.IDHLongevidade = IDHLongevidade;
     }
-
+    
+    // gets
     public Integer getCodigoIBGE() {
         return codigoIBGE;
     }
@@ -95,7 +98,7 @@ public class Municipio {
         return area;
     }
 
-    public Double getPopulacao() {
+    public Integer getPopulacao() {
         return populacao;
     }
 
@@ -119,7 +122,7 @@ public class Municipio {
         return RendaNominal;
     }
 
-    public Double getPEADia() {
+    public Integer getPEADia() {
         return PEADia;
     }
 
@@ -151,7 +154,32 @@ public class Municipio {
         return ClassIDHL;
     }
 
-    // Sets para a operação Create
+    // sets 
+    public void setCodigoIBGE(Integer codigoIBGE) {
+        this.codigoIBGE = codigoIBGE;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setMicroregiao(String microregiao) {
+        this.microregiao = microregiao;
+    }
+
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
+    }
+
+    public void setRegiao(String regiao) {
+        this.regiao = regiao;
+    }
+
+    public void setArea(Double area) {
+        this.area = area;
+    }
+    
+    // Sets para a operação Create.
     public void setDensidade(Double Densidade) {
         this.Densidade = Densidade;
     }
@@ -172,8 +200,8 @@ public class Municipio {
         this.ClassIDHL = ClassIDHL;
     }
     
-    // Sets para a Operação Update
-    public void setPopulacao(Double populacao) {
+    // Sets para a Operação Update.
+    public void setPopulacao(Integer populacao) {
         this.populacao = populacao;
     }
 
@@ -197,7 +225,7 @@ public class Municipio {
         this.RendaNominal = RendaNominal;
     }
 
-    public void setPEADia(Double PEADia) {
+    public void setPEADia(Integer PEADia) {
         this.PEADia = PEADia;
     }
 
@@ -207,5 +235,26 @@ public class Municipio {
 
     public void setIDHLongevidade(Double IDHLongevidade) {
         this.IDHLongevidade = IDHLongevidade;
+    }
+    
+    // Metodos para a operação Create. As formulas estão presente no classroom.
+    public static double Densidade(Integer populacao, Double area){
+        return populacao / area;
+    }
+    
+    public static double PIBpC(Double PIBTotal, Integer populacao){
+        return PIBTotal / populacao;
+    }
+    
+    public static String classIDH(Double IDH){
+        if(IDH > 0.80){
+            return "Muito alto";
+        } else if(IDH > 0.70 && IDH <= 0.80){
+            return "Alto";
+        } else if(IDH > 0.55 && IDH <= 0.70){
+            return "Medio";
+        } else if(IDH <= 0.55){
+            return "Baixo";
+        } else return "Não foi possivel calcular";
     }
 }

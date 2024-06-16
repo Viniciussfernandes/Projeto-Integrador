@@ -16,25 +16,44 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-import Entities.Historico;
-import Entities.Perfil;
-import Services.Arquivo;
-import Services.CRUD;
-import Services.Operacao;
-import Services.Validacao;
-import java.text.ParseException;
-import java.util.InputMismatchException;
-import java.util.Locale;
-import java.util.Scanner;
+package JavaFX.Main;
+
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * @author Willian Junior <willianjunior.c.f@gmail.com>
- * @date 30/05/2024
- * @brief Class teste
+ * @date 07/06/2024
+ * @brief Class Municipios
  */
 
-public class teste {
-    public static void main(String[] args) throws ParseException {
-        // Teste aqui
+public class Menu extends Application {
+    
+    private static Stage stage;
+
+    public static Stage getStage() {
+        return stage;
     }
+    
+    @Override
+    public void start(Stage Menu) throws Exception {
+        this.stage = Menu;
+        String path = "/JavaFX/Telas/Menu.fxml";
+        Parent menu = FXMLLoader.load(getClass().getResource(path));
+        
+        Scene scene = new Scene(menu);
+        
+        stage.setTitle("Menu");
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
 }
