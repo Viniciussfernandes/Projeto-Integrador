@@ -33,22 +33,23 @@ public class CRUD {
    // Metodo para inserir as informações calculaveis
    public static void Create(){
        for (int i = 0; i < CSVIn.size(); i++) {
+           if(Tratamento.CampoNull(Arquivo.CSVIn.get(i))){
            // Calculando com base no que tem no CSVIn
-           double densidade = Municipio.Densidade(CSVIn.get(i).getPopulacao(), CSVIn.get(i).getArea());
-           double PIBpC = Municipio.PIBpC(CSVIn.get(i).getPIBTotal(), CSVIn.get(i).getPopulacao());
-           String ClassIDH = Municipio.classIDH(CSVIn.get(i).getIDHGeral());
-           String ClassIDHE = Municipio.classIDH(CSVIn.get(i).getIDHEducacao());
-           String ClassIDHL = Municipio.classIDH(CSVIn.get(i).getIDHLongevidade());
+           double densidade = Municipio.Densidade(Arquivo.CSVIn.get(i).getPopulacao(), Arquivo.CSVIn.get(i).getArea());
+           double PIBpC = Municipio.PIBpC(Arquivo.CSVIn.get(i).getPIBTotal(), Arquivo.CSVIn.get(i).getPopulacao());
+           String ClassIDH = Municipio.classIDH(Arquivo.CSVIn.get(i).getIDHGeral());
+           String ClassIDHE = Municipio.classIDH(Arquivo.CSVIn.get(i).getIDHEducacao());
+           String ClassIDHL = Municipio.classIDH(Arquivo.CSVIn.get(i).getIDHLongevidade());
            
            // Uso os sets para colocar na lista
-           CSVIn.get(i).setDensidade(densidade);
-           CSVIn.get(i).setPIBpC(PIBpC);
-           CSVIn.get(i).setClassIDHG(ClassIDH);
-           CSVIn.get(i).setClassIDHE(ClassIDHE);
-           CSVIn.get(i).setClassIDHL(ClassIDHL);
+           Arquivo.CSVIn.get(i).setDensidade(densidade);
+           Arquivo.CSVIn.get(i).setPIBpC(PIBpC);
+           Arquivo.CSVIn.get(i).setClassIDHG(ClassIDH);
+           Arquivo.CSVIn.get(i).setClassIDHE(ClassIDHE);
+           Arquivo.CSVIn.get(i).setClassIDHL(ClassIDHL);
        }
    }
-   
+   }
   
    public static StringBuilder Reader(int i){
        StringBuilder Planilha = new StringBuilder(
@@ -140,6 +141,21 @@ public class CRUD {
    
    // Metodo para deletar uma linha. Obs: O professor quer que não exclua o codigo IBGE e nome municipio
    public static void Delete(int index){
-        CSVIn.remove(index);
+        CSVIn.get(index).setArea(null); 
+        CSVIn.get(index).setPopulacao(null);
+        CSVIn.get(index).setDomicilios(null);
+        CSVIn.get(index).setPIBTotal(null);
+        CSVIn.get(index).setIDHGeral(null);
+        CSVIn.get(index).setRendaMedia(null);
+        CSVIn.get(index).setRendaNominal(null);
+        CSVIn.get(index).setPEADia(null);
+        CSVIn.get(index).setIDHEducacao(null);
+        CSVIn.get(index).setIDHLongevidade(null);
+        
+        CSVIn.get(index).setDensidade(null);
+        CSVIn.get(index).setPIBpC(null);
+        CSVIn.get(index).setClassIDHG(null);
+        CSVIn.get(index).setClassIDHE(null);
+        CSVIn.get(index).setClassIDHL(null);
    }  
 }

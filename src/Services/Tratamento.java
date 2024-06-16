@@ -20,12 +20,8 @@ package Services;
 
 import Entities.Municipio;
 import static Services.Arquivo.CSVIn;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -42,6 +38,7 @@ public class Tratamento {
         List<Municipio> res = new ArrayList<>();
         res = list;
         for(Municipio m : res){
+            if(!CampoNull(m)){
             String areaFormat = String.format("%.2f", m.getArea());
             areaFormat = areaFormat.replace(",", ".");
             m.setArea(Double.parseDouble(areaFormat));
@@ -61,8 +58,27 @@ public class Tratamento {
             String rendaNFormat = String.format("%.2f", m.getRendaNominal());
             rendaNFormat = rendaNFormat.replace(",", ".");
             m.setRendaNominal(Double.parseDouble(rendaNFormat));
+            
+            String densidadeFormat = String.format("%.2f", m.getDensidade());
+            densidadeFormat = areaFormat.replace(",", ".");
+            m.setDensidade(Double.parseDouble(densidadeFormat));
+                
+            String PIBpCFormat = String.format("%.2f", m.getPIBpC());
+            PIBpCFormat = PIBpCFormat.replace(",", ".");
+            m.setPIBpC(Double.parseDouble(PIBpCFormat));
+            }
         } 
         return res;
+    }
+    
+    public static boolean CampoNull(Municipio m){
+        if(m.getArea() == null || m.getPopulacao() == null || m.getDomicilios() == null ||
+            m.getPIBTotal() == null || m.getPIBpC() == null || m.getDensidade() == null ||
+            m.getIDHGeral() == null || m.getClassIDHG() == null || m.getRendaMedia() == null ||
+            m.getRendaNominal() == null || m.getPEADia() == null || m.getIDHEducacao() == null ||
+            m.getClassIDHE() == null || m.getIDHLongevidade() == null || m.getClassIDHL() == null){
+                return true;
+        } return false;
     }
     
     public static String LimparInteger(String numero){
@@ -79,13 +95,13 @@ public class Tratamento {
     
     // Validar caractreres especiais exceto ç e acentos
     public static boolean Caracteres(String str){
-        Pattern Caracter = Pattern.compile("^[a-zA-Zà-úÀ-ÚçÇ\\\\s]{1,50}+$");
+        Pattern Caracter = Pattern.compile("^[a-zA-Zà-úÀ-ÚçÇ\\s]{1,50}$");
         return Caracter.matcher(str).matches();
     }
     
     // Validar numeros com o tamanho maximo de 11 e apenas valores numericos
     public static boolean Numerico(String numero){
-        Pattern Numerico = Pattern.compile("^[0-9]{1,11}+$");
+        Pattern Numerico = Pattern.compile("^[0-9]+(\\.[0-9]+)?$");
         return Numerico.matcher(numero).matches();
     }
     

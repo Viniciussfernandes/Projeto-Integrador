@@ -18,7 +18,10 @@
 
 package Services;
 
+import Entities.Municipio;
 import static Services.Arquivo.CSVIn;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Willian Junior <willianjunior.c.f@gmail.com>
@@ -31,12 +34,14 @@ public class Ujeverson {
     public static int MelhorPIBpC(){
         // Inicializando as variaveis fora do loop
         double maior = 0;
-        int index = 0;
+        int index = -1;
         // Loop responsavel por varrer a lista para armazenar o maior PIBpc
         for(int i = 0; i < CSVIn.size(); i++){
-            if(CSVIn.get(i).getPIBpC() > maior){
-                maior = CSVIn.get(i).getPIBpC();
-                index = i;
+            if(!Tratamento.CampoNull(CSVIn.get(i))){
+                if(CSVIn.get(i).getPIBpC() > maior){
+                    maior = CSVIn.get(i).getPIBpC();
+                    index = i;
+                }
             }
         }
         return index;
@@ -44,12 +49,14 @@ public class Ujeverson {
     
     // Segue a mesma logica do que o de cima so que o pior PIBpC
     public static int PiorPIBpC(){
-        double menor = 0;
+        double menor = Arquivo.CSVIn.get(MelhorPIBpC()).getPIBpC();
         int index = 0;
-        for(int i = 0; i < CSVIn.size(); i++){
-            if(CSVIn.get(i).getPIBpC() < menor){
-                menor = CSVIn.get(i).getPIBpC();
-                index = i;
+        for(int i = 0; i < Arquivo.CSVIn.size(); i++){
+            if(!Tratamento.CampoNull(Arquivo.CSVIn.get(i))){
+                if(Arquivo.CSVIn.get(i).getPIBpC() < menor){
+                    menor = Arquivo.CSVIn.get(i).getPIBpC();
+                    index = i;
+                }
             }
         }
         return index;
@@ -57,14 +64,24 @@ public class Ujeverson {
     
     // Segue a mesma logica so que com uma condição a mais
     public static int MelhorPIBpC_PiorIDHE(){
-        double pib = 0;
+        double pib = 0;//Arquivo.CSVIn.get(MelhorPIBpC()).getPIBpC();
         double idh = 0;
+        for(Municipio m : Arquivo.getCSVIn()){
+            if(!Tratamento.CampoNull(m)){
+                if(m.getIDHEducacao() > idh){
+                    idh = m.getIDHEducacao();
+                }
+            }
+        }
         int index = 0;
         for(int i = 0; i < CSVIn.size(); i++){
-            if(CSVIn.get(i).getPIBpC() > pib && CSVIn.get(i).getIDHEducacao() < idh){
-                pib = CSVIn.get(i).getPIBpC();
-                idh = CSVIn.get(i).getIDHEducacao();
-                index = i;
+            if(!Tratamento.CampoNull(Arquivo.CSVIn.get(i))){
+                if(Arquivo.CSVIn.get(i).getPIBpC() >= pib && Arquivo.CSVIn.get(i).getIDHEducacao() < idh){
+                        
+                    pib = Arquivo.CSVIn.get(i).getPIBpC();
+                    idh = Arquivo.CSVIn.get(i).getIDHEducacao();
+                    index = i;
+                }
             }
         }
         return index;

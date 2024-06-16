@@ -33,12 +33,9 @@ import Services.Arquivo;
 import static Services.CRUD.*;
 import Services.Tratamento;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -60,31 +57,26 @@ public class AtualizarController implements Initializable {
     @FXML private TextField PEADia;
     @FXML private Button btAtualizar;
     @FXML private Button btVoltar;
+    private static Alert UltimaAtualizacao = new Alert(Alert.AlertType.INFORMATION);
+
+    public static Alert getUltimaAtualizacao() {
+        return UltimaAtualizacao;
+    }
     
     public void AtualizarDados(){
-        try {
-            Arquivo.In();
-            
+            int index = MenuController.PesquisarLinha(Pesquisa);
             Alert erro = new Alert(Alert.AlertType.ERROR);
-            if(Pesquisa.getText() == null || Pesquisa.getText().isEmpty()){
-                erro.setTitle("Erro");
-                erro.setHeaderText("Erro ao tentar acessar a linha do csv");
-                erro.setContentText("Por favor preencha o espaço codigo IBGE ou municipio");
-                erro.show();
-            } else {
-                
-                int index = MenuController.PesquisarLinha(Pesquisa);
-                if(index == -1){
+            try{
+            if(MenuController.validacaoespaco(Pesquisa, index, erro)){
+                if(Arquivo.CSVIn.get(index).getPopulacao() == null){
                     erro.setTitle("Erro");
-                    erro.setHeaderText("Erro ao tentar acessar a linha do csv");
-                    erro.setContentText("Não foi encontrado esse municipio");
+                    erro.setHeaderText("Informações inexistentes");
+                    erro.setContentText("Por favor escolha outra municipio");
                     erro.show();
                 } else {
-                    
-                    boolean seguir = true;
-                    
-                        TextField[] Vet_Tex = {Populacao, Domicilios, PIBTotal, IDHG, RendaM, RendaN, IDHE, IDHL, PEADia};
-                        List<TextField> InfoNaoNulo = new ArrayList<>();
+                boolean seguir = true;
+                TextField[] Vet_Tex = {Populacao, Domicilios, PIBTotal, IDHG, RendaM, RendaN, IDHE, IDHL, PEADia};
+                List<TextField> InfoNaoNulo = new ArrayList<>();
                         for(TextField tf : Vet_Tex){
                             if(tf.getText() != null && !tf.getText().isEmpty() && Tratamento.Numerico(tf.getText())){
                                 InfoNaoNulo.add(tf);
@@ -98,15 +90,16 @@ public class AtualizarController implements Initializable {
                                 break;
                             }
                         }
-                        if(InfoNaoNulo.size() == 0){
-                            erro.setTitle("Erro");
-                            erro.setHeaderText("Erro ao ler os dados");
-                            erro.setContentText("Por favor preencha os campos");
-                            erro.show();
-                        } else {
-                        Historico hist = new Historico("Joao", "08090478107");
-                        //Historico hist = new Historico(LoginController.getPerfil().getNome(), LoginController.getPerfil().getCPF());
+                        
                         if(seguir){
+                            Historico hist = new Historico(LoginController.getPerfil().getNome(), LoginController.getPerfil().getCPF());
+
+                            if(InfoNaoNulo.size() == 0){
+                                erro.setTitle("Erro");
+                                erro.setHeaderText("Erro ao ler os dados");
+                                erro.setContentText("Por favor preencha os campos");
+                                erro.show();
+                            } else {
                             for(TextField manipulacao : InfoNaoNulo){
                                 if(manipulacao.equals(Populacao)){
                                     int populacao = Integer.parseInt(manipulacao.getText());
@@ -150,21 +143,21 @@ public class AtualizarController implements Initializable {
                             for(TextField tf : InfoNaoNulo){
                                 mensagem.append(tf.getId() + ": " + tf.getText() + "\n");
                             } mensagem.append("\nResponsavel:\n" + hist.getNome() + "\n" + hist.getCPF() + "\n" + hist.getUpdateData());
-                            Alert inf = new Alert(Alert.AlertType.INFORMATION);
-                            inf.setTitle("Atualização");
-                            inf.setHeaderText("Notas da atualização");
-                            inf.setContentText(mensagem.toString());
-                            inf.show();
+                            UltimaAtualizacao.setTitle("Atualização");
+                            UltimaAtualizacao.setHeaderText("Notas da atualização");
+                            UltimaAtualizacao.setContentText(mensagem.toString());
+                            UltimaAtualizacao.show();
                         }
                         }
                 }
             }
-        } catch (ParseException ex) {
-            Logger.getLogger(AtualizarController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            } catch (NumberFormatException e){
+                MenuController.erro.setTitle("Erro");
+                MenuController.erro.setHeaderText("Erro ao ler os dados");
+                MenuController.erro.setContentText("O valor excede o limite permitido");
+                MenuController.erro.show();
+            }
     }
-    
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

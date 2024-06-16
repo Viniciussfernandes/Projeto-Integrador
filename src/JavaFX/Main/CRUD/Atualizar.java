@@ -49,7 +49,7 @@ public class Atualizar extends Application {
     public void start(Stage Atualizar) throws Exception {
         this.stage = Atualizar;
         String path = "/JavaFX/Telas/CRUD/Atualizar.fxml";
-        Parent login = FXMLLoader.load(getClass().getResource(path));
+        Parent login = FXMLLoader.load(getClass().getResource("/JavaFX/Telas/CRUD/Atualizar.fxml"));
         
         Scene scene = new Scene(login);
         

@@ -232,7 +232,7 @@ public class Municipio {
             return "Alto";
         } else if(IDH > 0.55 && IDH <= 0.70){
             return "Medio";
-        } else if(IDH < 0.55){
+        } else if(IDH <= 0.55){
             return "Baixo";
         } else return "Não foi possivel calcular";
     }

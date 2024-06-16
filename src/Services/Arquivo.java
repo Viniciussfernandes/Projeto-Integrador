@@ -137,7 +137,7 @@ public class Arquivo {
                bw.write(out.getCodigoIBGE() + ";" + out.getNome() + ";" +
                        out.getMicroregiao() + ";" + out.getSigla() + ";" +
                        out.getRegiao() + ";" + String.format("%.2f", out.getArea()) + ";" +
-                       String.format("%.2f", out.getPopulacao()) + ";" +
+                       out.getPopulacao() + ";" +
                        String.format("%.2f", out.getDensidade()) + ";" +
                        String.format("%.2f", out.getDomicilios()) + ";" +
                        String.format("%.2f", out.getPIBTotal()) + ";" +
@@ -146,7 +146,7 @@ public class Arquivo {
                        out.getClassIDHG() + ";" +
                        String.format("%.2f", out.getRendaMedia()) + ";" +
                        String.format("%.2f", out.getRendaNominal()) + ";" +
-                       String.format("%.2f", out.getPEADia()) + ";" +
+                       out.getPEADia() + ";" +
                        String.format("%.2f", out.getIDHEducacao()) + ";" +
                        out.getClassIDHE() + ";" +
                        String.format("%.2f", out.getIDHLongevidade()) + ";" +

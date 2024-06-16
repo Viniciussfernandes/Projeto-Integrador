@@ -19,13 +19,24 @@
 package JavaFX.Controladores.CRUD;
 
 import Entities.Perfil;
+import JavaFX.Controladores.MenuController;
+import JavaFX.Main.CRUD.Deletar;
+import Services.Arquivo;
+import Services.CRUD;
 import Services.Tratamento;
 import java.net.URL;
+import java.text.ParseException;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
@@ -37,32 +48,51 @@ import javafx.scene.input.MouseEvent;
  */
 public class DeletarController implements Initializable {
     
-    @FXML private TextField login;
-    @FXML private TextField CPF;
-    @FXML private Button btEntrar;
+    @FXML private TextField Busca;
+    @FXML private Button btDeletar;
+    @FXML private Button btVoltar;
     
-
-    public void Verif_Login(){
-        if(Tratamento.Caracteres(login.getText()) && Tratamento.Numerico(CPF.getText()) &&
-                Perfil.ValidarCPF(CPF.getText())){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Sucesso");
-            alert.setHeaderText(null);
-            alert.setContentText("Login bem-sucedido");
-            alert.show();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Falha ao fazer o login");
-            alert.setContentText("Informações inseridas incorretas");
-            alert.show();
+    
+    public void delete(){
+        int index = MenuController.PesquisarLinha(Busca);
+        Alert erro = new Alert(Alert.AlertType.ERROR);
+        
+        if(MenuController.validacaoespaco(Busca, index, erro)){
+            
+            MenuController.conf.setTitle("Confirmação");
+            MenuController.conf.setHeaderText("Exemplo");
+            MenuController.conf.setContentText("Você deseja confirmar essa escolha?");
+            
+            ButtonType btSim = new ButtonType("Sim");
+            ButtonType btNao = new ButtonType("Não");
+            
+            MenuController.conf.getButtonTypes().setAll(btSim, btNao);
+            
+            Optional<ButtonType> result = MenuController.conf.showAndWait();
+            
+            if(result.isPresent() && result.get() == btSim){
+                CRUD.Delete(index);
+                Alert info = new Alert(Alert.AlertType.INFORMATION);
+                info.setTitle("Operação deletar");
+                info.setHeaderText("Notas da remoção");
+                info.setContentText("As seguinte informação foram deletadas:\nArea Km²\nPopulação" +
+                        "\nDomicílios\nDensidade Demográfica\nPIB Total\nPIB per Capita Total" +
+                        "\nIDH - Índice de Desenvolvimento Humeno Geral\nClassificação do IDH Geral" + 
+                        "\nRendaMédia\nRenda Nominal\nPEA Dia\nIDH Dimensão Educação\nClassificação IDH Educação" +
+                        "\nIDH Dimensão Longevidade\nClassificação IDH Longevidade");
+                info.show();
+            }
         }
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btEntrar.setOnMouseClicked((MouseEvent e) -> {
-            Verif_Login();
-        });
+            btDeletar.setOnMouseClicked((MouseEvent e) -> {
+                delete();
+            });
+            btVoltar.setOnMouseClicked((MouseEvent e) -> {
+                Deletar.getStage().close();
+                MenuController.TelaMenu();
+            });
         }
     }

@@ -35,12 +35,17 @@ import javafx.stage.Stage;
  */
 public class Deletar extends Application {
     
-    
+    private static Stage stage;
+
+    public static Stage getStage() {
+        return stage;
+    }
     
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage Deletar) throws Exception {
+        this.stage = Deletar;
         String path = "/JavaFX/Telas/CRUD/Deletar.fxml";
-        Parent login = FXMLLoader.load(getClass().getResource(path));
+        Parent login = FXMLLoader.load(getClass().getResource("/JavaFX/Telas/CRUD/Deletar.fxml"));
         
         Scene scene = new Scene(login);
         
