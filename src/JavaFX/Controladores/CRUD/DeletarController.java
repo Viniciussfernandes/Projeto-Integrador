@@ -50,7 +50,7 @@ public class DeletarController implements Initializable {
         
         if(MenuController.VerificarTextFieldPesquisa(busca, index)){
             
-            MenuController.getConfirmacao().setHeaderText("Você está prestes à apagar as informações desse município");
+            MenuController.getConfirmacao().setHeaderText("Você está prestes à apagar as informações desse município!");
             MenuController.getConfirmacao().setContentText("Tem certeza?");
             
             // Configuro os botões de sim e não
@@ -66,14 +66,13 @@ public class DeletarController implements Initializable {
             // Pego o resultado é confiro se o usuario clicou em uma opção com is.Present() e verifico se ele clicou em Sim
             if(result.isPresent() && result.get() == btSim){
                 CRUD.Delete(index);
-                MenuController.getInformativo().setTitle("Operação deletar");
-                MenuController.getInformativo().setHeaderText("Notas da remoção");
+                MenuController.getInformativo().setHeaderText("Notas da remoção.");
                 MenuController.getInformativo().setContentText("As seguinte informação foram deletadas:\nArea Km²\nPopulação" +
                         "\nDomicílios\nDensidade Demográfica\nPIB Total\nPIB per Capita Total" +
                         "\nIDH - Índice de Desenvolvimento Humeno Geral\nClassificação do IDH Geral" + 
                         "\nRendaMédia\nRenda Nominal\nPEA Dia\nIDH Dimensão Educação\nClassificação IDH Educação" +
                         "\nIDH Dimensão Longevidade\nClassificação IDH Longevidade");
-                MenuController.getInformativo().show();
+                MenuController.getInformativo().showAndWait();
             }
         }
     }

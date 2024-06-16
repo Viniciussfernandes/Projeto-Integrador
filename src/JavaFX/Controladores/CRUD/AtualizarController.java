@@ -79,9 +79,9 @@ public class AtualizarController implements Initializable {
                 if(MenuController.VerificarTextFieldPesquisa(pesquisa, index)){
                     // Outra verificação se as informações do municipio foram apagadas.
                     if(Tratamento.CampoNull(Arquivo.getCSVIn().get(index))){
-                        MenuController.getErro().setHeaderText("Informações inexistentes");
-                        MenuController.getErro().setContentText("Por favor escolha outra municipio");
-                        MenuController.getErro().show();
+                        MenuController.getErro().setHeaderText("Informações inexistentes!");
+                        MenuController.getErro().setContentText("Por favor escolha outra municipio!");
+                        MenuController.getErro().showAndWait();
                     } else {
                         // Passando pelas verificações, crio uma variavel boolean para uma condicional futura.
                         boolean seguir = true;
@@ -103,9 +103,9 @@ public class AtualizarController implements Initializable {
                                 seguir = true;
                                 // Outra verificação para caso o usuario digite alguma coisa, mas está incorreta.
                             } else if(!Tratamento.Numerico(tf.getText()) && !tf.getText().isEmpty()){
-                                MenuController.getErro().setHeaderText("Erro ao ler os dados");
-                                MenuController.getErro().setContentText("Informações fornecidas incorretas");
-                                MenuController.getErro().show();
+                                MenuController.getErro().setHeaderText("Erro ao ler os dados!");
+                                MenuController.getErro().setContentText("Informações fornecidas incorretas!");
+                                MenuController.getErro().showAndWait();
                                 // Caso ele não passe pela verificação eu saio do loop e coloco a variavel boolean como false para não seguir.
                                 seguir = false;
                                 break;
@@ -120,9 +120,9 @@ public class AtualizarController implements Initializable {
 
                             // Verificação se a Lista esta vazia
                             if(InfoNaoNulo.size() == 0){
-                                MenuController.getErro().setHeaderText("Erro ao ler os dados");
-                                MenuController.getErro().setContentText("Por favor preencha os campos");
-                                MenuController.getErro().show();
+                                MenuController.getErro().setHeaderText("Erro ao ler os dados!");
+                                MenuController.getErro().setContentText("Por favor preencha os campos!");
+                                MenuController.getErro().showAndWait();
                             } else {
                                 // for-each para mudar os dados da lista.
                                 for(TextField manipulacao : InfoNaoNulo){
@@ -176,15 +176,15 @@ public class AtualizarController implements Initializable {
                                 ultimaAtualizacao.setHeaderText("Notas da atualização");
                                 // Transformo o StringBuilder de volta para String e coloco no ContentText().
                                 ultimaAtualizacao.setContentText(mensagem.toString());
-                                ultimaAtualizacao.show();
+                                ultimaAtualizacao.showAndWait();
                         }
                     }
                 }
             }
             } catch (NumberFormatException e){
-                MenuController.getErro().setHeaderText("Erro ao ler os dados");
-                MenuController.getErro().setContentText("O valor excede o limite permitido");
-                MenuController.getErro().show();
+                MenuController.getErro().setHeaderText("Erro ao ler os dados!");
+                MenuController.getErro().setContentText("O valor excede o limite permitido!");
+                MenuController.getErro().showAndWait();
             }
     }
     

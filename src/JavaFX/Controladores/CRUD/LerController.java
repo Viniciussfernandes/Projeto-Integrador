@@ -92,19 +92,19 @@ public class LerController implements Initializable {
         // Uma verificação se a atualização se foi utilizada antes.
         if(AtualizarController.getUltimaAtualizacao().getHeaderText().isEmpty() || AtualizarController.getUltimaAtualizacao().getContentText().isEmpty()){
             // Se sim vai aparecer uma mensagem de erro.
-            AtualizarController.getUltimaAtualizacao().setHeaderText("Informações inexistente");
-            AtualizarController.getUltimaAtualizacao().setContentText("Ainda não foi utilizado o recurso de Atualização");
-            AtualizarController.getUltimaAtualizacao().show();
+            AtualizarController.getUltimaAtualizacao().setHeaderText("Informações inexistentes!");
+            AtualizarController.getUltimaAtualizacao().setContentText("Ainda não foi utilizado o recurso de Atualização!");
+            AtualizarController.getUltimaAtualizacao().showAndWait();
             
         } else {
-            AtualizarController.getUltimaAtualizacao().show();
+            AtualizarController.getUltimaAtualizacao().showAndWait();
         }
     }
     
     // Metodo para desfazer todas as alterações
     public void DesfazerAtualizacoes(){
         // Da mesma forma que foi com o botão de delete
-        MenuController.getConfirmacao().setHeaderText("Exemplo");
+        MenuController.getConfirmacao().setHeaderText("Essa ação ira resetar a planilha inteira!");
         MenuController.getConfirmacao().setContentText("Você deseja confirmar essa escolha?");
             
         ButtonType btSim = new ButtonType("Sim");
@@ -129,9 +129,9 @@ public class LerController implements Initializable {
                 PesquisarMunicipio();
                 
                 // Pop-up.
-                MenuController.getInformativo().setHeaderText("Notas da remoção");
-                MenuController.getInformativo().setContentText("Todos os dados foram restaurados");
-                MenuController.getInformativo().show();
+                MenuController.getInformativo().setHeaderText("Nota da remoção.");
+                MenuController.getInformativo().setContentText("Todos os dados foram resetados!");
+                MenuController.getInformativo().showAndWait();
                 } catch (ParseException ex) {
                     Logger.getLogger(LerController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -169,9 +169,9 @@ public class LerController implements Initializable {
         /** Uma verificação da contagem de campo null, se tiver a mesma quantidade do que o tamanho da lista, quer dizer 
          * que o usuario não fez a operação create e informo através do alert para o usuario fazer isso primeiro. */
         if(qtd_CampoNull == Arquivo.getCSVIn().size()){
-                MenuController.getErro().setHeaderText("Informações inexistentes");
-                MenuController.getErro().setContentText("Por favor selecione a operação Criar primeiro");
-                MenuController.getErro().show();
+                MenuController.getErro().setHeaderText("Informações inexistentes!");
+                MenuController.getErro().setContentText("Por favor selecione a operação criar primeiro!");
+                MenuController.getErro().showAndWait();
         } else {
             // Passando pela verificação e fornecido a opção de qual operação, passamos para um switch-case.
             switch(option){

@@ -49,29 +49,7 @@ public class CRUD {
                 }
         }
    }
-  /**
-   public static StringBuilder Reader(int i){
-       StringBuilder Planilha = new StringBuilder(
-                       Arquivo.getCSVIn().get(i).getCodigoIBGE() + "; " + Arquivo.getCSVIn().get(i).getNome() + "; " +
-                       Arquivo.getCSVIn().get(i).getMicroregiao() + "; " + Arquivo.getCSVIn().get(i).getSigla() + "; " +
-                       Arquivo.getCSVIn().get(i).getRegiao() + "; " + String.format("%.2f", Arquivo.getCSVIn().get(i).getArea()) + "; " +
-                       Arquivo.getCSVIn().get(i).getPopulacao() + "; " +
-                       String.format("%.2f", Arquivo.getCSVIn().get(i).getDensidade()) + "; " +
-                       String.format("%.2f", Arquivo.getCSVIn().get(i).getDomicilios()) + "; " +
-                       String.format("%.2f", Arquivo.getCSVIn().get(i).getPIBTotal()) + "; " +
-                       String.format("%.2f", Arquivo.getCSVIn().get(i).getPIBpC()) + "; " +
-                       String.format("%.2f", Arquivo.getCSVIn().get(i).getIDHGeral()) + "; " +
-                       CSVIn.get(i).getClassIDHG() + "; " +
-                       String.format("%.2f", CSVIn.get(i).getRendaMedia()) + "; " +
-                       String.format("%.2f", CSVIn.get(i).getRendaNominal()) + "; " + 
-                               CSVIn.get(i).getPEADia() + "; " +
-                       String.format("%.2f", CSVIn.get(i).getIDHEducacao()) + "; " +
-                       CSVIn.get(i).getClassIDHE() + "; " +
-                       String.format("%.2f", CSVIn.get(i).getIDHLongevidade()) + "; " +
-                       CSVIn.get(i).getClassIDHL() + "\n");
-            return Planilha;
-       }
-   */
+   
    /** Todos os Updates seguem a mesma logica, informe o index , o valor da atualização, dependendo do tipo de mudança
     * o tipo do valor pode altera, por conta disso coloquei em metodos separados.*/
    public static void UpdatePopulacao(int index, int pop){

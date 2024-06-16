@@ -80,15 +80,15 @@ public class MenuController implements Initializable {
     
     public static boolean VerificarTextFieldPesquisa(TextField espaco, int index){
             if(espaco.getText() == null || espaco.getText().isEmpty()){
-                erro.setHeaderText("Erro ao tentar acessar a linha do csv");
-                erro.setContentText("Por favor preencha o espaço codigo IBGE ou municipio");
-                erro.show();
+                erro.setHeaderText("Erro ao tentar acessar a linha do csv!");
+                erro.setContentText("Por favor preencha o espaço codigo IBGE ou municipio!");
+                erro.showAndWait();
                 return false;
             } else {
                 if(index == -1){
-                    erro.setHeaderText("Erro ao tentar acessar a linha do csv");
-                    erro.setContentText("Não foi encontrado esse municipio");
-                    erro.show();
+                    erro.setHeaderText("Erro ao tentar acessar a linha do csv!");
+                    erro.setContentText("Não foi encontrado esse municipio!");
+                    erro.showAndWait();
                     return false;
                 } else return true;
             }
@@ -186,7 +186,7 @@ public class MenuController implements Initializable {
                 informativo.setTitle("Criação");
                 informativo.setHeaderText("Novas informações inseridas");
                 informativo.setContentText("Densidade Demográfica\nPIB per Capita Total\nClassificação dos IDHs");
-                informativo.show();
+                informativo.showAndWait();
             });
             
             // MouseEvent para a operação Read
@@ -230,7 +230,7 @@ public class MenuController implements Initializable {
                 informativo.setTitle("Exportação");
                 informativo.setHeaderText("Notas da exportação");
                 informativo.setContentText("Exportado para o caminho C:\\Projeto Integrador\\Out");
-                informativo.show();
+                informativo.showAndWait();
             });
         } catch (ParseException ex) {
             Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);

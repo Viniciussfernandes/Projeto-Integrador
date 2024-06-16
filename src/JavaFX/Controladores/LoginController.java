@@ -66,9 +66,9 @@ public class LoginController implements Initializable {
             MenuController.TelaMenu();
         } else {
             // Usando o Alert que eu criei na Classe MenuController eu informo o usuário o contexto do erro.
-            MenuController.getErro().setHeaderText("Falha ao fazer o login");
-            MenuController.getErro().setContentText("Informações inseridas incorretas");
-            MenuController.getErro().show();
+            MenuController.getErro().setHeaderText("Falha ao fazer o login!");
+            MenuController.getErro().setContentText("Informações inseridas incorretas!");
+            MenuController.getErro().showAndWait();
         }
     }
     
