@@ -18,25 +18,16 @@
 
 package JavaFX.Controladores.CRUD;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXML2.java to edit this template
- */
-
 import Entities.Municipio;
 import JavaFX.Controladores.MenuController;
-import JavaFX.Main.CRUD.Atualizar;
 import JavaFX.Main.CRUD.Ler;
 import Services.Arquivo;
-import Services.CRUD;
 import Services.Tratamento;
 import Services.Ujeverson;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -45,43 +36,27 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.util.StringConverter;
-import javafx.util.Callback;
 
 /**
- *
- * @author Davi Erick
- * tabela
- * colCodigo
- * colMunicipios
- * colMicrorregiao
- * colEstado
- * colRegiaoGeografica
- * colArea
- * colPopulacao
- * colDomicilios
- * colPibTotal
- * colIDH
- * colRendaMedia
- * colRendaNominal
- * colPea
- * colIDHEducacao
- * colIDHLongevidade
+ * @author Willian Junior <willianjunior.c.f@gmail.com>
+ * @author Davi Erick <davierick999@gmail.com>
+ * @date 07/06/2024
+ * @brief Class Arquivos
  */
+
 public class LerController implements Initializable {
     
+    // Essas são as variaveis responsaveis pelo funcionando da tabela, começando pela propria tabela.
     @FXML private TableView<Municipio> tabela = new TableView<Municipio>();
     
+    // Essa são as colunas tabelas, cada com o tipo Municipio seguido pelo tipo da variavel.
     @FXML private TableColumn<Municipio, Integer> colCodigo = new TableColumn<>();
     @FXML private TableColumn<Municipio, String> colMunicipios = new TableColumn<>();
     @FXML private TableColumn<Municipio, String> colMicrorregiao = new TableColumn<>();
@@ -103,7 +78,7 @@ public class LerController implements Initializable {
     @FXML private TableColumn<Municipio, Double> colIDHLongevidade = new TableColumn<>();
     @FXML private TableColumn<Municipio, String> colClassIDHL = new TableColumn<>();
     
-    @FXML private TextField Busca;        
+    @FXML private TextField busca;        
     @FXML private Button btBuscar;
     @FXML private Button btVoltar;
     @FXML private Button btMelhorPIB;
@@ -112,80 +87,105 @@ public class LerController implements Initializable {
     @FXML private Button btUltimaAtualizacao;
     @FXML private Button btDesfazerAtualizacoes;
     
+    // Aqui aparece o pop-up sobre as ultimas atualizações.
     public void UltimaAtualizacao(){
-        if(AtualizarController.getUltimaAtualizacao().getTitle().isEmpty() || AtualizarController.getUltimaAtualizacao().getHeaderText().isEmpty() ||
-                AtualizarController.getUltimaAtualizacao().getContentText().isEmpty()){
-            MenuController.erro.setHeaderText("Informações inexistente");
-            MenuController.erro.setContentText("Ainda não foi utilizado o recurso de Atualização");
-            MenuController.erro.show();
-        } else AtualizarController.getUltimaAtualizacao().show();
+        // Uma verificação se a atualização se foi utilizada antes.
+        if(AtualizarController.getUltimaAtualizacao().getHeaderText().isEmpty() || AtualizarController.getUltimaAtualizacao().getContentText().isEmpty()){
+            // Se sim vai aparecer uma mensagem de erro.
+            AtualizarController.getUltimaAtualizacao().setHeaderText("Informações inexistente");
+            AtualizarController.getUltimaAtualizacao().setContentText("Ainda não foi utilizado o recurso de Atualização");
+            AtualizarController.getUltimaAtualizacao().show();
+            
+        } else {
+            AtualizarController.getUltimaAtualizacao().show();
+        }
     }
     
+    // Metodo para desfazer todas as alterações
     public void DesfazerAtualizacoes(){
-            MenuController.conf.setTitle("Confirmação");
-            MenuController.conf.setHeaderText("Exemplo");
-            MenuController.conf.setContentText("Você deseja confirmar essa escolha?");
+        // Da mesma forma que foi com o botão de delete
+        MenuController.getConfirmacao().setHeaderText("Exemplo");
+        MenuController.getConfirmacao().setContentText("Você deseja confirmar essa escolha?");
             
-            ButtonType btSim = new ButtonType("Sim");
-            ButtonType btNao = new ButtonType("Não");
+        ButtonType btSim = new ButtonType("Sim");
+        ButtonType btNao = new ButtonType("Não");
             
-            MenuController.conf.getButtonTypes().setAll(btSim, btNao);
+        MenuController.getConfirmacao().getButtonTypes().setAll(btSim, btNao);
             
-            Optional<ButtonType> result = MenuController.conf.showAndWait();
+        Optional<ButtonType> result = MenuController.getConfirmacao().showAndWait();
             
-            if(result.isPresent() && result.get() == btSim){
-                try {
-                    // Aberto a discusão se devo deixar a ultima atualização ou se removo
-                    AtualizarController.getUltimaAtualizacao().setContentText("");
-                    Arquivo.CSVIn.clear();
-                    Arquivo.In();
-                    PesquisarMunicipio();
-                    Alert info = new Alert(Alert.AlertType.INFORMATION);
-                    info.setTitle("Operação deletar");
-                    info.setHeaderText("Notas da remoção");
-                    info.setContentText("Todos os dados foram restaurados");
-                    info.show();
+        if(result.isPresent() && result.get() == btSim){
+            try {
+                // Aberto a discusão se devo deixar a ultima atualização ou se removo.
+                AtualizarController.getUltimaAtualizacao().setContentText("");
+                
+                // Limpar a lista com .clear().
+                Arquivo.getCSVIn().clear();
+                
+                // Chamo o metodo Arquivo.In() denovo
+                Arquivo.In();
+                
+                // Chamo o metodo PesquisarMunicipio() para ja mostrar ao usuario a nova planilha.
+                PesquisarMunicipio();
+                
+                // Pop-up.
+                MenuController.getInformativo().setHeaderText("Notas da remoção");
+                MenuController.getInformativo().setContentText("Todos os dados foram restaurados");
+                MenuController.getInformativo().show();
                 } catch (ParseException ex) {
                     Logger.getLogger(LerController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
     }
     
+    // Responsavel por verificar o TextField de busca.
     public void PesquisarMunicipio(){
-        if(Busca.getText().equals("")){
+        // Uma verificação se o TextField Busca está vazio.
+        if(busca.getText().equals("")){
+            // Se estiver vazio chama o metodo preencherTabela com todos os dados.
             preencherTabela(Tratamento.FormatarLista(Arquivo.getCSVIn()));
         } else {
-            List<Municipio> res = new ArrayList<>();
+            // Se tiver alguma coisa, eu crio nova lista onde estara o resultado da busca.
+            List<Municipio> resultado = new ArrayList<>();
             for(Municipio m : Arquivo.getCSVIn()){
-                if(m.getNome().equals(Busca.getText()) || (m.getCodigoIBGE().toString()).equals(Busca.getText()))
-                    res.add(m);
+                // vai varrer a lista em busca do nome do municipio ou codigoIBGE digitado
+                if(m.getNome().equals(busca.getText()) || (m.getCodigoIBGE().toString()).equals(busca.getText()))
+                    resultado.add(m);
             }
-            preencherTabela(res);
+            preencherTabela(resultado);
         }
     }
     
     public void Ujeverson(int option){
-        int CampoNull = 0;
+        // Inicializo uma variavel chamada de CampoNull, onde vou fazer a contagem de quantos campos null tem na lista.
+        int qtd_CampoNull = 0;
+        // for-each para percorrer a lista atras de algum campo null.
         for(Municipio m : Arquivo.getCSVIn()){
             if(Tratamento.CampoNull(m)){
-                CampoNull++;
+                // Se estiver null ele incrementa a variavel.
+                qtd_CampoNull++;
             }
         }
-        if(CampoNull == 246){
-                MenuController.erro.setTitle("Erro");
-                MenuController.erro.setHeaderText("Informações inexistentes");
-                MenuController.erro.setContentText("Por favor selecione a operação Criar primeiro");
-                MenuController.erro.show();
+        /** Uma verificação da contagem de campo null, se tiver a mesma quantidade do que o tamanho da lista, quer dizer 
+         * que o usuario não fez a operação create e informo através do alert para o usuario fazer isso primeiro. */
+        if(qtd_CampoNull == Arquivo.getCSVIn().size()){
+                MenuController.getErro().setHeaderText("Informações inexistentes");
+                MenuController.getErro().setContentText("Por favor selecione a operação Criar primeiro");
+                MenuController.getErro().show();
         } else {
+            // Passando pela verificação e fornecido a opção de qual operação, passamos para um switch-case.
             switch(option){
                 case 1->{
+                    // Crio uma nova lista que vai adicionar qual vai ser o resultado da busca.
                     List<Municipio> MelhorPIBpC = new ArrayList<>();
-                    MelhorPIBpC.add(Arquivo.CSVIn.get(Ujeverson.MelhorPIBpC()));
+                    MelhorPIBpC.add(Arquivo.getCSVIn().get(Ujeverson.MelhorPIBpC()));
+                    // Chamo o preencherTabela() com a lista que foi encontrada.
                     preencherTabela(MelhorPIBpC);
                 }
+                // Esses da mesma forma.
                 case 2->{
                     List<Municipio> PiorPIBpC = new ArrayList<>();
-                    PiorPIBpC.add(Arquivo.CSVIn.get(Ujeverson.PiorPIBpC()));
+                    PiorPIBpC.add(Arquivo.getCSVIn().get(Ujeverson.PiorPIBpC()));
                     preencherTabela(PiorPIBpC);
                 }
                 case 3->{
@@ -198,8 +198,16 @@ public class LerController implements Initializable {
     }
     
     public void preencherTabela(List<Municipio> Tabela){
+        /** ObservableList representa uma lista cujas alterações podem ser observadas.
+         * FXCollections.observableArrayList cria uma nova instânia na ObservableList.
+         * A Tabela, do tipo Lista<Municipio>, esta sendo responsabel por inicializar essa nova instancia */
         ObservableList<Municipio> dados = FXCollections.observableArrayList(Tabela);
         
+        /** colCodigo representa a coluna que foi inicializada anteriormente.
+         * setCellValueFactory define como os valores serão extraídos e exibidos na coluna.
+         * new PropertyValueFactory cria um ObservableValue para ser usado pelas células/variaveis da coluna.
+         * <Municipio, Integer> especifica para o ValueFactory qual o tipo do objeto e qual o tipo da variavel.
+         * ("codigoIBGE") especifica qual o nome que a ValueFactory deve procurar para achar o valor. */
         colCodigo.setCellValueFactory(new PropertyValueFactory<Municipio, Integer>("codigoIBGE"));
         colMunicipios.setCellValueFactory(new PropertyValueFactory<Municipio, String>("nome"));
         colMicrorregiao.setCellValueFactory(new PropertyValueFactory<Municipio, String>("microregiao"));
@@ -221,34 +229,50 @@ public class LerController implements Initializable {
         colIDHLongevidade.setCellValueFactory(new PropertyValueFactory<Municipio, Double>("IDHLongevidade"));
         colClassIDHL.setCellValueFactory(new PropertyValueFactory<Municipio, String>("ClassIDHL"));
         
+        // Define os itens que a tablea exibirá.
         tabela.setItems(dados);
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-            btBuscar.setOnMouseClicked((MouseEvent e)->{
-                PesquisarMunicipio();
-            });
-            btVoltar.setOnMouseClicked((MouseEvent e)->{
-                Ler.getStage().close();
-                MenuController.TelaMenu();
-            });
-            btMelhorPIB.setOnMouseClicked((MouseEvent e)->{
-                Ujeverson(1);
-            });
-            btPiorPIB.setOnMouseClicked((MouseEvent e)->{
-                Ujeverson(2);
-            });
-            btMelhorPIBPiorIDHE.setOnMouseClicked((MouseEvent e)->{
-                Ujeverson(3);
-            });
-            btDesfazerAtualizacoes.setOnMouseClicked((MouseEvent e)->{
-                DesfazerAtualizacoes();
-            });
-            btUltimaAtualizacao.setOnMouseClicked((MouseEvent e)->{
-                UltimaAtualizacao();
-            });
+        // MouseEvent para a barra de pesquisa
+        btBuscar.setOnMouseClicked((MouseEvent e)->{
             PesquisarMunicipio();
+        });
+        
+        // MouseEvent para voltar a tela de menu
+        btVoltar.setOnMouseClicked((MouseEvent e)->{
+            Ler.getStage().close();
+            MenuController.TelaMenu();
+        });
+        
+        // MouseEvent para aparecer o municipio com o melhor PIBpC
+        btMelhorPIB.setOnMouseClicked((MouseEvent e)->{
+            Ujeverson(1);
+        });
+        
+        // MouseEvent para aparecer o municipio com o pior PIBpC
+        btPiorPIB.setOnMouseClicked((MouseEvent e)->{
+            Ujeverson(2);
+        });
+        
+        // MouseEvent para aparecer o municipio com o melhor PIBpC com o pior IDH Educação
+        btMelhorPIBPiorIDHE.setOnMouseClicked((MouseEvent e)->{
+            Ujeverson(3);
+        });
+        
+        // MouseEvent para defazer as mudanças
+        btDesfazerAtualizacoes.setOnMouseClicked((MouseEvent e)->{
+            DesfazerAtualizacoes();
+        });
+        
+        // MouseEvent para aparecer o pop-up sobre as ultimas atualizações
+        btUltimaAtualizacao.setOnMouseClicked((MouseEvent e)->{
+            UltimaAtualizacao();
+        });
+        
+        // Inicializar com os dados na tabela.
+        PesquisarMunicipio();
     }
     
     

@@ -17,7 +17,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <TextField fx:id="Busca" layoutX="22.0" layoutY="101.0" prefHeight="27.0" prefWidth="225.0" promptText="Digite o código do IBGE ou Município" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="busca" layoutX="22.0" layoutY="101.0" prefHeight="27.0" prefWidth="225.0" promptText="Digite o código do IBGE ou Município" style="-fx-background-color: transparent; -fx-border-color: #161622; -fx-border-width: 0px 0px 2px 0px;" />
          </children>
       </AnchorPane>
    </children>

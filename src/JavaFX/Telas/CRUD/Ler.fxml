@@ -38,7 +38,7 @@
          </children>
       </VBox>
       <Button fx:id="btVoltar" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="&lt;" />
-      <TextField fx:id="Busca" layoutX="108.0" layoutY="8.0" prefHeight="25.0" prefWidth="275.0" promptText="Digite o código do município ou nome" />
+      <TextField fx:id="busca" layoutX="108.0" layoutY="8.0" prefHeight="25.0" prefWidth="275.0" promptText="Digite o código do município ou nome" />
       <Button fx:id="btBuscar" layoutX="399.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Buscar" />
       <Button fx:id="btMelhorPIB" layoutX="466.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Mostrar melhor PIBpC" />
       <Button fx:id="btPiorPIB" layoutX="616.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #95c5f5;" text="Mostrar pior PIBpC" />

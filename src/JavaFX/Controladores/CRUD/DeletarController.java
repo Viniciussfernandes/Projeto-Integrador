@@ -18,81 +18,77 @@
 
 package JavaFX.Controladores.CRUD;
 
-import Entities.Perfil;
 import JavaFX.Controladores.MenuController;
 import JavaFX.Main.CRUD.Deletar;
-import Services.Arquivo;
 import Services.CRUD;
-import Services.Tratamento;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 /**
- *
  * @author Willian Junior <willianjunior.c.f@gmail.com>
  * @date 12/06/2024
  * @brief Class DeletarController
  */
+
 public class DeletarController implements Initializable {
     
-    @FXML private TextField Busca;
+    @FXML private TextField busca;
     @FXML private Button btDeletar;
     @FXML private Button btVoltar;
     
     
-    public void delete(){
-        int index = MenuController.PesquisarLinha(Busca);
-        Alert erro = new Alert(Alert.AlertType.ERROR);
+    public void Deletar(){
+        // Da mesmo forma que o Atualizar
+        int index = MenuController.PesquisarLinha(busca);
         
-        if(MenuController.validacaoespaco(Busca, index, erro)){
+        if(MenuController.VerificarTextFieldPesquisa(busca, index)){
             
-            MenuController.conf.setTitle("Confirmação");
-            MenuController.conf.setHeaderText("Exemplo");
-            MenuController.conf.setContentText("Você deseja confirmar essa escolha?");
+            MenuController.getConfirmacao().setHeaderText("Você está prestes à apagar as informações desse município");
+            MenuController.getConfirmacao().setContentText("Tem certeza?");
             
+            // Configuro os botões de sim e não
             ButtonType btSim = new ButtonType("Sim");
             ButtonType btNao = new ButtonType("Não");
             
-            MenuController.conf.getButtonTypes().setAll(btSim, btNao);
+            // Coloco dentro do Alert usando .getButtonTypes.setAll().
+            MenuController.getConfirmacao().getButtonTypes().setAll(btSim, btNao);
             
-            Optional<ButtonType> result = MenuController.conf.showAndWait();
+            // Optional pode ou não conter um valor não nulo, uso para evitar de aparecer o erro NullPointerException caso o usuario feche, sem clicar
+            Optional<ButtonType> result = MenuController.getConfirmacao().showAndWait();
             
+            // Pego o resultado é confiro se o usuario clicou em uma opção com is.Present() e verifico se ele clicou em Sim
             if(result.isPresent() && result.get() == btSim){
                 CRUD.Delete(index);
-                Alert info = new Alert(Alert.AlertType.INFORMATION);
-                info.setTitle("Operação deletar");
-                info.setHeaderText("Notas da remoção");
-                info.setContentText("As seguinte informação foram deletadas:\nArea Km²\nPopulação" +
+                MenuController.getInformativo().setTitle("Operação deletar");
+                MenuController.getInformativo().setHeaderText("Notas da remoção");
+                MenuController.getInformativo().setContentText("As seguinte informação foram deletadas:\nArea Km²\nPopulação" +
                         "\nDomicílios\nDensidade Demográfica\nPIB Total\nPIB per Capita Total" +
                         "\nIDH - Índice de Desenvolvimento Humeno Geral\nClassificação do IDH Geral" + 
                         "\nRendaMédia\nRenda Nominal\nPEA Dia\nIDH Dimensão Educação\nClassificação IDH Educação" +
                         "\nIDH Dimensão Longevidade\nClassificação IDH Longevidade");
-                info.show();
+                MenuController.getInformativo().show();
             }
         }
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-            btDeletar.setOnMouseClicked((MouseEvent e) -> {
-                delete();
-            });
-            btVoltar.setOnMouseClicked((MouseEvent e) -> {
-                Deletar.getStage().close();
-                MenuController.TelaMenu();
-            });
-        }
+        // MouseEvent para deletar
+        btDeletar.setOnMouseClicked((MouseEvent e) -> {
+            Deletar();
+        });
+        
+        // MouseEvent para voltar ao menu
+        btVoltar.setOnMouseClicked((MouseEvent e) -> {
+            Deletar.getStage().close();
+            MenuController.TelaMenu();
+        });
     }
+}

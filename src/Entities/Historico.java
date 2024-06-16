@@ -27,41 +27,33 @@ import java.time.format.DateTimeFormatter;
  * @brief Class Arquivos
  */
 
+/** Esse classe vai ser responsavel por armazenar o historico do usuário, ele é instanciado
+ * com o nome e CPF do usuario, a data vai ser definida pelo set*/
+
 public class Historico extends Perfil {
 
-    public Historico() {
+    private String updateData;
+    
+    // So pode ser instanciado com nome e CPF. As variaveis estão na classe Perfil.
+    public Historico(String nome, String cpf) {
+        super(nome, cpf);
     }
     
-    public Historico(String nome, String CPF) {
-        super(nome, CPF);
-    }
-    
-    private String UpdateData;
-    private String UpdateTipo;
-    private Double UpdateValor;
-
-    public String getUpdateTipo() {
-        return UpdateTipo;
-    }
-    
+    /** Esse get vai usar um formato especifico de data e hora, ambas presentes logo abaixo.
+     * A variavel dataHora vai receber a data e hora atual através do metodo dataHoraAtual(). 
+     * A variavel formato vai receber o formato que eu defini através do metodo dataHoraFormato().
+     * Depois apenas retorno uma String formatada de acordo com os requisitos do cliente. */
     public String getUpdateData() {
-        return UpdateData;
-    }
-
-    public void setUpdateData(LocalDateTime hora, DateTimeFormatter formato) {
-        String up = hora.format(formato);
-        this.UpdateData = up;
-    }
-
-    public void setUpdateTipo(String UpdateTipo) {
-        this.UpdateTipo = UpdateTipo;
+        LocalDateTime dataHora = dataHoraAtual();
+        DateTimeFormatter formato = dataHoraFormato();
+        return dataHora.format(formato);
     }
     
-    public DateTimeFormatter DataFormato() {
-        return DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    }
-    
-    public LocalDateTime HoraAtual(){
+    public LocalDateTime dataHoraAtual(){
         return LocalDateTime.now();
+    }
+    
+    public DateTimeFormatter dataHoraFormato() {
+        return DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     }
 }

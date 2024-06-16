@@ -22,13 +22,11 @@ import Entities.Municipio;
 import static Services.Tratamento.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -40,34 +38,45 @@ import java.util.List;
  * @brief Class Arquivos
  */
 
+// Classe responsavel pela importação e exportação do arquivo a ou de uma lista.
 public class Arquivo {
 
+    // Para facilitar para descobrir se o In() ja foi executado.
+    private static boolean dadosCarregados = false;
+
+    public static boolean isDadosCarregados() {
+        return dadosCarregados;
+    }
+    
     // Lista para armazenar os dados das linhas
-    public static List<Municipio> CSVIn = new ArrayList<>();
+    private static List<Municipio> CSVIn = new ArrayList<>();
 
     public static List<Municipio> getCSVIn() {
         return CSVIn;
     }
-   
+    /** Tive muito problemas com a acentuação do arquivo lido e gerado, por isso pesquisei bastante e descobrir
+     * que tenho que ver qual o encoding do arquivo que estou trabalhando e descobri que o arquivo .csv postado no classroom
+     * esta como ANSI e acabei chegando nesse codigo abaixo. Desobri isso abrindo o .csv no documento de texto do windows e
+     * no canto direito inferior esta escrito o tipo do arquivo que nesse caso é ANSI.
+     * Alem disso tem que ir na barrinha escrita <default config> do lado de onde da run. 
+     * Clicar em customize... ir em Sources e depois em Enconding la em baixo e mudar para 
+     * windows-1252 que seria o ANSI que estamos trabalhando. */
+       
+    /** O Charset é usado para definir como o arquivo vai ser lido, na minha interpretação é basicamente definindo o enconding
+     * que vou trabalhar. */
+    public static Charset encoding = Charset.forName("windows-1252");
+    
     // Metodo para ler o arquivo
     public static void In() throws ParseException{
-       /** Tive muito problemas com a acentuação do arquivo lido e gerado, por isso pesquisei bastante e descobrir 
-        * que tenho que ver qual o encoding do arquivo que estou trabalhando e descobri que o arquivo .csv postado no classroom
-        * esta como ANSI e acabei chegando nesse codigo abaixo
-        */
-         Charset encoding = Charset.forName("windows-1252");
          
-       /** FileInputStream vai abrir o arquivo em um determinado endereço e o InputStreamReader
+       /** FileInputStream abre o arquivo em um determinado endereço e o InputStreamReader
         * vai especificar qual o enconding que irei utilizar, sendo o mesmo que o arquivo
-        * original, ANSI, logo após o BufferedReader armazenara essa leitura.
-        */
+        * original, ANSI, logo após o BufferedReader armazenara essa leitura em buffer. */
        try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(
        "C:\\Projeto Integrador\\In\\01.ProjetoIntegrador_BaseMunicipios_In.csv"), encoding))) {
            
-           /** A varivael itemCsv vai ser responsavel por ler a linha e uso 2 vezes
-            * para poder pular a primeira linha, pois a primeira é o titulo
-            */ 
-           
+           /** A varivael itemCsv vai ser responsavel por ler a linha. Uso 2 vezes
+            * para poder pular a primeira linha, pois a primeira é o titulo */ 
            String itemCsv = br.readLine();
            itemCsv = br.readLine();
            
@@ -83,19 +92,21 @@ public class Arquivo {
                String microregiao = fields[2];
                String sigla = fields[3];
                String regiao = fields[4];
+               /** O metodo LimparDouble() e LimparInteger() está presente na classe Tratamento desse mesmo pacote.
+                * Mas basicamente ele vai retorna a String sem virgula e com um ponto separando as casas decimais.
+                * No caso do LimparInteger() vai retorna sem ponto e virgula. */
                double area = Double.parseDouble(LimparDouble(fields[5]));
                int populacao = Integer.parseInt(LimparInteger(fields[6]));
                double domicilios = Double.parseDouble(LimparDouble(fields[7]));
                double PIBTotal = Double.parseDouble(LimparDouble(fields[8]));
                double IDHGeral = Double.parseDouble(LimparDouble(fields[9]));
                double RendaMedia = Double.parseDouble(LimparDouble(fields[10]));
-               BigDecimal RendaN = new BigDecimal(LimparDouble(fields[11]));
-               double RendaNominal = RendaN.doubleValue();
+               double RendaNominal = Double.parseDouble(LimparDouble(fields[11]));
                int PEADia = Integer.parseInt(LimparInteger(fields[12]));
                double IDHEducacao = Double.parseDouble(LimparDouble(fields[13]));
                double IDHLongevidade = Double.parseDouble(LimparDouble(fields[14]));
                
-               // Instanciando a classe para pôr na lista CSVIn
+               // Instanciando a classe para pôr na lista CSVIn.
                Municipio mun = new Municipio(codigoIBGE, nome, microregiao, sigla,
                     regiao, area, populacao, domicilios, PIBTotal, IDHGeral, RendaMedia,
                     RendaNominal, PEADia, IDHEducacao, IDHLongevidade);
@@ -104,21 +115,22 @@ public class Arquivo {
                //Assim passa para a proxima linha até aparecer null
                itemCsv = br.readLine();
             }
-       }
+           dadosCarregados = true;
+       } 
        
        catch(IOException e){
                e.printStackTrace();
                }
        } 
       
-    // Metodo para exportar o arquivo
+    // Metodo para exportar o arquivo.
     public static void Out(){
-        // Da mesma forma que eu defino um enconding para ler, especifico qual vai ser na hora de exportar
-        Charset encoding = Charset.forName("windows-1252");
-        // Segue a mesma logica do In() so que com metodos para out
+        // Segue a mesma logica do In() so que com OutputStreamWriter e FileOutputStream, mas desempenham o mesmo papel.
         try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream
         ("C:\\Projeto Integrador\\Out\\01.ProjetoIntegrador_BaseMunicipios_Out.csv"), encoding))){
-            // Para definir os titulos
+            /** Caso vocês abram o .csv em um documento de texto do windows, perceberão que o ; é responsavel por separar
+             * as celulas no excel, por isso eu ponho dessa forma, alem de ser mais facil de identificar a separação.
+             * Definindo o titulo. */
             bw.write("Código IBGE" + ";" + "Municí­pios" + ";" + "Microregião" + ";" +
                    "Estado" + ";" + "Região Geográfica" + ";" + "Área km²" + ";" +
                    "População" + ";" + "Densidade" + ";" + "Domicílios" + ";" + 
@@ -131,30 +143,24 @@ public class Arquivo {
            
            // Loop que vai escrever cada linha
            for(Municipio out : CSVIn){
-               /** Da mesma forma que eu separei a String usando ";" estarei usando
-                * para pular a celula ou para separar mesmo
-                */
-               bw.write(out.getCodigoIBGE() + ";" + out.getNome() + ";" +
-                       out.getMicroregiao() + ";" + out.getSigla() + ";" +
-                       out.getRegiao() + ";" + String.format("%.2f", out.getArea()) + ";" +
-                       out.getPopulacao() + ";" +
-                       String.format("%.2f", out.getDensidade()) + ";" +
-                       String.format("%.2f", out.getDomicilios()) + ";" +
-                       String.format("%.2f", out.getPIBTotal()) + ";" +
-                       String.format("%.2f", out.getPIBpC()) + ";" +
-                       String.format("%.2f", out.getIDHGeral()) + ";" +
-                       out.getClassIDHG() + ";" +
-                       String.format("%.2f", out.getRendaMedia()) + ";" +
-                       String.format("%.2f", out.getRendaNominal()) + ";" +
-                       out.getPEADia() + ";" +
-                       String.format("%.2f", out.getIDHEducacao()) + ";" +
-                       out.getClassIDHE() + ";" +
-                       String.format("%.2f", out.getIDHLongevidade()) + ";" +
-                       out.getClassIDHL());
+               /** Da mesma forma que eu separei a String usando ";" estarei usando para pular a celula. 
+                * Uso o for-each para varrer a lista. 
+                * Uma explicação de como funcionar o for-each. Primeiro a definição do tipo que no nosso caso é o Municipio,
+                * que por sua vez é a classe que eu criei no pacote Entities. Se vocês reparem o tipo da lista é Municipio. 
+                * Depois um nome para representar, logo após o :, vem a definicição de qual vai ser a base que irar percorrer,
+                * em outras palavras, o que o (nome que você definiu) vai percorrer? Nesse caso quero que ele percora a lista inteira. */
+               bw.write(out.getCodigoIBGE() + ";" + out.getNome() + ";" + out.getMicroregiao() + ";" +
+                       out.getSigla() + ";" + out.getRegiao() + ";" + String.format("%.2f", out.getArea()) + ";" +
+                       out.getPopulacao() + ";" + String.format("%.2f", out.getDensidade()) + ";" + 
+                       String.format("%.2f", out.getDomicilios()) + ";" + String.format("%.2f", out.getPIBTotal()) + ";" +
+                       String.format("%.2f", out.getPIBpC()) + ";" + String.format("%.2f", out.getIDHGeral()) + ";" +
+                       out.getClassIDHG() + ";" + String.format("%.2f", out.getRendaMedia()) + ";" +
+                       String.format("%.2f", out.getRendaNominal()) + ";" + out.getPEADia() + ";" + 
+                       String.format("%.2f", out.getIDHEducacao()) + ";" + out.getClassIDHE() + ";" + 
+                       String.format("%.2f", out.getIDHLongevidade()) + ";" + out.getClassIDHL());
                bw.newLine();
            }
        } catch(IOException e){
-           
        }
    }
 }

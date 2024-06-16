@@ -25,13 +25,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- *
  * @author Willian Junior <willianjunior.c.f@gmail.com>
  * @date 12/06/2024
  * @brief Class Atualizar

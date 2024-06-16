@@ -18,8 +18,6 @@
 
 package Services;
 
-import Entities.Historico;
-import static Services.Arquivo.CSVIn;
 import Entities.Municipio;
 
 /**
@@ -32,36 +30,37 @@ public class CRUD {
 
    // Metodo para inserir as informações calculaveis
    public static void Create(){
-       for (int i = 0; i < CSVIn.size(); i++) {
-           if(Tratamento.CampoNull(Arquivo.CSVIn.get(i))){
-           // Calculando com base no que tem no CSVIn
-           double densidade = Municipio.Densidade(Arquivo.CSVIn.get(i).getPopulacao(), Arquivo.CSVIn.get(i).getArea());
-           double PIBpC = Municipio.PIBpC(Arquivo.CSVIn.get(i).getPIBTotal(), Arquivo.CSVIn.get(i).getPopulacao());
-           String ClassIDH = Municipio.classIDH(Arquivo.CSVIn.get(i).getIDHGeral());
-           String ClassIDHE = Municipio.classIDH(Arquivo.CSVIn.get(i).getIDHEducacao());
-           String ClassIDHL = Municipio.classIDH(Arquivo.CSVIn.get(i).getIDHLongevidade());
+       for (Municipio create : Arquivo.getCSVIn()) {
+           // Uma verificação simples se o campo esta null. O ! é de negação, então tem que retornar false.
+                if(!Tratamento.CampoNull(create)){
+                // Calculando com base no que tem no CSVIn
+                double densidade = Municipio.Densidade(create.getPopulacao(), create.getArea());
+                double PIBpC = Municipio.PIBpC(create.getPIBTotal(), create.getPopulacao());
+                String ClassIDH = Municipio.classIDH(create.getIDHGeral());
+                String ClassIDHE = Municipio.classIDH(create.getIDHEducacao());
+                String ClassIDHL = Municipio.classIDH(create.getIDHLongevidade());
            
-           // Uso os sets para colocar na lista
-           Arquivo.CSVIn.get(i).setDensidade(densidade);
-           Arquivo.CSVIn.get(i).setPIBpC(PIBpC);
-           Arquivo.CSVIn.get(i).setClassIDHG(ClassIDH);
-           Arquivo.CSVIn.get(i).setClassIDHE(ClassIDHE);
-           Arquivo.CSVIn.get(i).setClassIDHL(ClassIDHL);
-       }
+                // Uso os sets para colocar na lista
+                create.setDensidade(densidade);
+                create.setPIBpC(PIBpC);
+                create.setClassIDHG(ClassIDH);
+                create.setClassIDHE(ClassIDHE);
+                create.setClassIDHL(ClassIDHL);
+                }
+        }
    }
-   }
-  
+  /**
    public static StringBuilder Reader(int i){
        StringBuilder Planilha = new StringBuilder(
-                       CSVIn.get(i).getCodigoIBGE() + "; " + CSVIn.get(i).getNome() + "; " +
-                       CSVIn.get(i).getMicroregiao() + "; " + CSVIn.get(i).getSigla() + "; " +
-                       CSVIn.get(i).getRegiao() + "; " + String.format("%.2f", CSVIn.get(i).getArea()) + "; " +
-                       CSVIn.get(i).getPopulacao() + "; " +
-                       String.format("%.2f", CSVIn.get(i).getDensidade()) + "; " +
-                       String.format("%.2f", CSVIn.get(i).getDomicilios()) + "; " +
-                       String.format("%.2f", CSVIn.get(i).getPIBTotal()) + "; " +
-                       String.format("%.2f", CSVIn.get(i).getPIBpC()) + "; " +
-                       String.format("%.2f", CSVIn.get(i).getIDHGeral()) + "; " +
+                       Arquivo.getCSVIn().get(i).getCodigoIBGE() + "; " + Arquivo.getCSVIn().get(i).getNome() + "; " +
+                       Arquivo.getCSVIn().get(i).getMicroregiao() + "; " + Arquivo.getCSVIn().get(i).getSigla() + "; " +
+                       Arquivo.getCSVIn().get(i).getRegiao() + "; " + String.format("%.2f", Arquivo.getCSVIn().get(i).getArea()) + "; " +
+                       Arquivo.getCSVIn().get(i).getPopulacao() + "; " +
+                       String.format("%.2f", Arquivo.getCSVIn().get(i).getDensidade()) + "; " +
+                       String.format("%.2f", Arquivo.getCSVIn().get(i).getDomicilios()) + "; " +
+                       String.format("%.2f", Arquivo.getCSVIn().get(i).getPIBTotal()) + "; " +
+                       String.format("%.2f", Arquivo.getCSVIn().get(i).getPIBpC()) + "; " +
+                       String.format("%.2f", Arquivo.getCSVIn().get(i).getIDHGeral()) + "; " +
                        CSVIn.get(i).getClassIDHG() + "; " +
                        String.format("%.2f", CSVIn.get(i).getRendaMedia()) + "; " +
                        String.format("%.2f", CSVIn.get(i).getRendaNominal()) + "; " + 
@@ -72,90 +71,70 @@ public class CRUD {
                        CSVIn.get(i).getClassIDHL() + "\n");
             return Planilha;
        }
-   
-   /** Todos os Updates seguem a mesma logica. Indicando o codigoIBGE para atualizar
-    * uma informação especifica. Como cada construtor precisa de uma informação especifica
-    * então separei em blocos especificos, tambem para conseguir atualizar um sem precisar dos
-    * outros.
-    */
-   public static void UpdatePopulacao(int index, int pop, Historico hist){
-       // Usando sets para atualizar a lista
-       CSVIn.get(index).setPopulacao(pop);
-       CSVIn.get(index).setDensidade(Municipio.Densidade(pop, CSVIn.get(index).getArea()));
-       // Armazenando as informações da atualização
-       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
-       hist.setUpdateTipo("População e Densidade");
+   */
+   /** Todos os Updates seguem a mesma logica, informe o index , o valor da atualização, dependendo do tipo de mudança
+    * o tipo do valor pode altera, por conta disso coloquei em metodos separados.*/
+   public static void UpdatePopulacao(int index, int pop){
+       Arquivo.getCSVIn().get(index).setPopulacao(pop);
+       Arquivo.getCSVIn().get(index).setDensidade(Municipio.Densidade(pop, Arquivo.getCSVIn().get(index).getArea()));
    }
    
-   public static void UpdateDomicilios(int index, double dom, Historico hist){
-       CSVIn.get(index).setDomicilios(dom);
-       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
-       hist.setUpdateTipo("Domicílios");
+   public static void UpdateDomicilios(int index, double dom){
+       Arquivo.getCSVIn().get(index).setDomicilios(dom);
    }
    
-   public static void UpdatePIBTotal(int index, double pib, Historico hist){
-       CSVIn.get(index).setPIBTotal(pib);
-       CSVIn.get(index).setPIBpC(Municipio.PIBpC(pib, CSVIn.get(index).getPopulacao()));
-       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
-       hist.setUpdateTipo("PIBTotal e PIBpC");
+   public static void UpdatePIBTotal(int index, double pib){
+       Arquivo.getCSVIn().get(index).setPIBTotal(pib);
+       Arquivo.getCSVIn().get(index).setPIBpC(Municipio.PIBpC(pib, Arquivo.getCSVIn().get(index).getPopulacao()));
    }
    
-   public static void UpdateIDHG(int index, double idh, Historico hist){
-       CSVIn.get(index).setIDHGeral(idh);
-       CSVIn.get(index).setClassIDHG(Municipio.classIDH(idh));
-       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
-       hist.setUpdateTipo("IDHG e Classificação");
+   public static void UpdateIDHG(int index, double idh){
+       Arquivo.getCSVIn().get(index).setIDHGeral(idh);
+       Arquivo.getCSVIn().get(index).setClassIDHG(Municipio.classIDH(idh));
    }
    
-   public static void UpdateRendaMedia(int index, double rendM, Historico hist){
-       CSVIn.get(index).setRendaMedia(rendM);
-       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
-       hist.setUpdateTipo("Renda Media");
+   public static void UpdateRendaMedia(int index, double rendM){
+       Arquivo.getCSVIn().get(index).setRendaMedia(rendM);
    }
    
-   public static void UpdateRendaNominal(int index, double rendN, Historico hist){
-       CSVIn.get(index).setRendaNominal(rendN);
-       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
-       hist.setUpdateTipo("Renda Nominal");
+   public static void UpdateRendaNominal(int index, double rendN){
+       Arquivo.getCSVIn().get(index).setRendaNominal(rendN);
    }
    
-   public static void UpdatePEADia(int index, int pe, Historico hist){
-       CSVIn.get(index).setPEADia(pe);
-       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
-       hist.setUpdateTipo("PEA Dia");
+   public static void UpdatePEADia(int index, int pe){
+       Arquivo.getCSVIn().get(index).setPEADia(pe);
    }
    
-   public static void UpdateIDHE(int Index, double idh, Historico hist){
-       CSVIn.get(Index).setIDHEducacao(idh);
-       CSVIn.get(Index).setClassIDHE(Municipio.classIDH(idh));
-       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
-       hist.setUpdateTipo("IDHE e Classificação");
+   public static void UpdateIDHE(int Index, double idh){
+       Arquivo.getCSVIn().get(Index).setIDHEducacao(idh);
    }
    
-   public static void UpdateIDHL(int index, double idh, Historico hist){
-       CSVIn.get(index).setIDHLongevidade(idh);
-       CSVIn.get(index).setClassIDHL(Municipio.classIDH(idh));
-       hist.setUpdateData(hist.HoraAtual(),hist.DataFormato());
-       hist.setUpdateTipo("IDHL e Classificação");
+   public static void UpdateIDHL(int index, double idh){
+       Arquivo.getCSVIn().get(index).setIDHLongevidade(idh);
    }
    
-   // Metodo para deletar uma linha. Obs: O professor quer que não exclua o codigo IBGE e nome municipio
+   // Metodo para deletar uma linha.
    public static void Delete(int index){
-        CSVIn.get(index).setArea(null); 
-        CSVIn.get(index).setPopulacao(null);
-        CSVIn.get(index).setDomicilios(null);
-        CSVIn.get(index).setPIBTotal(null);
-        CSVIn.get(index).setIDHGeral(null);
-        CSVIn.get(index).setRendaMedia(null);
-        CSVIn.get(index).setRendaNominal(null);
-        CSVIn.get(index).setPEADia(null);
-        CSVIn.get(index).setIDHEducacao(null);
-        CSVIn.get(index).setIDHLongevidade(null);
+       /** Basicamente ele vai colocar todas as informações exceto codigo do IBGE, municipio, microregião, estado e região.
+        * Isso foi em uma aula, onde eu ouvi uma conversa entre o professor que falava que não fazia sentido um usuario comum
+        * apagar um municipio inteiro, ja que o municipio continuaria existindo e so alguem de grande autoridade poderia fazer isso
+        * esse programa é apenas para controle de informações então não fazia sentido poder apagar um municipio inteiro assim tão facilmente.
+        * Por isso apaguei apenas os dados numericos desse municipio. */
+        Arquivo.getCSVIn().get(index).setArea(null); 
+        Arquivo.getCSVIn().get(index).setPopulacao(null);
+        Arquivo.getCSVIn().get(index).setDomicilios(null);
+        Arquivo.getCSVIn().get(index).setPIBTotal(null);
+        Arquivo.getCSVIn().get(index).setIDHGeral(null);
+        Arquivo.getCSVIn().get(index).setRendaMedia(null);
+        Arquivo.getCSVIn().get(index).setRendaNominal(null);
+        Arquivo.getCSVIn().get(index).setPEADia(null);
+        Arquivo.getCSVIn().get(index).setIDHEducacao(null);
+        Arquivo.getCSVIn().get(index).setIDHLongevidade(null);
         
-        CSVIn.get(index).setDensidade(null);
-        CSVIn.get(index).setPIBpC(null);
-        CSVIn.get(index).setClassIDHG(null);
-        CSVIn.get(index).setClassIDHE(null);
-        CSVIn.get(index).setClassIDHL(null);
+        Arquivo.getCSVIn().get(index).setDensidade(null);
+        Arquivo.getCSVIn().get(index).setPIBpC(null);
+        Arquivo.getCSVIn().get(index).setClassIDHG(null);
+        Arquivo.getCSVIn().get(index).setClassIDHE(null);
+        Arquivo.getCSVIn().get(index).setClassIDHL(null);
    }  
 }

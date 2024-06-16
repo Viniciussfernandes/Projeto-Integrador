@@ -28,11 +28,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
  * @author Willian Junior <willianjunior.c.f@gmail.com>
  * @date 12/06/2024
  * @brief Class Ler
  */
+
 public class Ler extends Application {
     
     private static Stage stage;

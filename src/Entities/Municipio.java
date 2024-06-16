@@ -18,18 +18,16 @@
 
 package Entities;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * @author Willian Junior <willianjunior.c.f@gmail.com>
  * @date 30/05/2024
  * @brief Class Municipios
  */
 
+// Essa classe vai ser responsavel por armazenar o objeto dentro da lista
 public class Municipio {
     
+    // Variaveis basicas
     private Integer codigoIBGE;
     private String nome;
     private String microregiao;
@@ -46,17 +44,14 @@ public class Municipio {
     private Double IDHEducacao;
     private Double IDHLongevidade;
     
-    // Variaveis calculadas
+    // Variaveis da operação Create
     private Double Densidade;
     private Double PIBpC;
     private String ClassIDHG;
     private String ClassIDHE;
     private String ClassIDHL;
     
-    public Municipio() {
-    }
-    
-    //Construtor com as variaveis fora as calculaveis
+    // Construtor com as variaveis basicas, as outras serão colocadas no objeto através de sets
     public Municipio(Integer codigoIBGE, String nome, String microregiao, String sigla,
             String regiao, Double area, Integer populacao, Double domicilios, Double PIBTotal,
             Double IDHGeral, Double RendaMedia, Double RendaNominal, Integer PEADia,
@@ -77,7 +72,8 @@ public class Municipio {
         this.IDHEducacao = IDHEducacao;
         this.IDHLongevidade = IDHLongevidade;
     }
-
+    
+    // gets
     public Integer getCodigoIBGE() {
         return codigoIBGE;
     }
@@ -158,7 +154,32 @@ public class Municipio {
         return ClassIDHL;
     }
 
-    // Sets para a operação Create
+    // sets 
+    public void setCodigoIBGE(Integer codigoIBGE) {
+        this.codigoIBGE = codigoIBGE;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setMicroregiao(String microregiao) {
+        this.microregiao = microregiao;
+    }
+
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
+    }
+
+    public void setRegiao(String regiao) {
+        this.regiao = regiao;
+    }
+
+    public void setArea(Double area) {
+        this.area = area;
+    }
+    
+    // Sets para a operação Create.
     public void setDensidade(Double Densidade) {
         this.Densidade = Densidade;
     }
@@ -179,7 +200,7 @@ public class Municipio {
         this.ClassIDHL = ClassIDHL;
     }
     
-    // Sets para a Operação Update
+    // Sets para a Operação Update.
     public void setPopulacao(Integer populacao) {
         this.populacao = populacao;
     }
@@ -216,7 +237,7 @@ public class Municipio {
         this.IDHLongevidade = IDHLongevidade;
     }
     
-    // Operações de acordo com o arquivo disponibilizado no classroom
+    // Metodos para a operação Create. As formulas estão presente no classroom.
     public static double Densidade(Integer populacao, Double area){
         return populacao / area;
     }
@@ -236,30 +257,4 @@ public class Municipio {
             return "Baixo";
         } else return "Não foi possivel calcular";
     }
-
-    public void setCodigoIBGE(Integer codigoIBGE) {
-        this.codigoIBGE = codigoIBGE;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setMicroregiao(String microregiao) {
-        this.microregiao = microregiao;
-    }
-
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
-    }
-
-    public void setRegiao(String regiao) {
-        this.regiao = regiao;
-    }
-
-    public void setArea(Double area) {
-        this.area = area;
-    }
-    
-    
 }
